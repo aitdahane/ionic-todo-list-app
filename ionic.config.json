@@ -1,0 +1,7 @@
+{
+  "name": "mo",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
