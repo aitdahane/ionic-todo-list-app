@@ -1,0 +1,23 @@
+<ion-content [fullscreen]="true">
+  <header class="new-project-header">
+    <h1 class="new-project-header-title">Create New project</h1>
+
+    <ion-icon class="new-project-close-icon"
+              name="close"
+              (click)="dismiss()"></ion-icon>
+  </header>
+
+  <main class="new-project-content"
+        [formGroup]="fg">
+    <ion-item>
+      <ion-label position="floating">Project Name</ion-label>           
+      <ion-input formControlName="title"></ion-input>
+    </ion-item>
+  </main>
+
+  <footer class="new-project-footer">
+    <ion-button expand="block"
+                [disabled]="fg.invalid"
+                (click)="save()">Create Project</ion-button>
+  </footer>
+</ion-content>

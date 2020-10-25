@@ -1,0 +1,38 @@
+.new-task-header {
+  margin: 52px 16px 16px;
+}
+
+.new-task-header-title {
+  color: #353535;
+  font-weight: 600;
+  font-size: 2.4rem;
+
+}
+
+.new-task-close-icon {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 28px;
+  cursor: pointer;
+  color: #353535;
+}
+
+.new-task-content {
+  margin: 16px;
+}
+
+.new-task-footer {
+  margin: 24px 16px; 
+}
+
+ion-item {
+  --padding-start: 0;
+  --padding-end: 0;
+  --highlight-background: #e2e2e2;
+
+}
+
+.item-has-focus{
+  --highlight-background: #353535;
+}

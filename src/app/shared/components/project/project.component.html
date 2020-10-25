@@ -1,0 +1,32 @@
+<header class="project-header">
+  <span class="poject-header-subtitle">TASKS LIST</span>
+
+  <div class="project-header-title">
+    <span class="project-title">{{ selectedProject?.title }}</span>
+  
+    <ion-button size="small" (click)="addTask()">
+      <ion-icon slot="icon-only" name="add-outline"></ion-icon> Task
+    </ion-button>
+  </div>
+
+</header>
+
+<main class="project-content">
+  <div *ngFor="let task of tasks$ | async"
+        class="task-item"
+        [ngClass]="{ 'is-completed': true }">
+    <div class="task-item-header">
+      <div class="task-item-title">{{ task.title }}</div>
+      
+      <mo-checkbox [checked]="true"></mo-checkbox>
+    </div>
+    
+    <div class="task-item-footer">
+      <div>July 8</div>
+    </div>
+  </div>
+
+  <ion-button class="project-content-add-task" expand="block">
+    <ion-icon name="add-outline"></ion-icon> Add New Task
+  </ion-button>
+</main>

@@ -2,14 +2,22 @@
 // http://ionicframework.com/docs/theming/
 
 /** Ionic CSS Variables **/
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('../assets/fonts/dm-sans/DMSans-Regular.ttf');
+}
+
+$color-eggplant: #3a117c;
+
 :root {
   /** primary **/
-  --ion-color-primary: #3880ff;
-  --ion-color-primary-rgb: 56, 128, 255;
+  --ion-color-primary: #111010;
+  --ion-color-primary-rgb: 53, 53, 53;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
-  --ion-color-primary-shade: #3171e0;
-  --ion-color-primary-tint: #4c8dff;
+  --ion-color-primary-shade: #1f1d1d;
+  --ion-color-primary-tint: #5f5e5e;
 
   /** secondary **/
   --ion-color-secondary: #3dc2ff;

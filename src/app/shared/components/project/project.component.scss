@@ -1,0 +1,151 @@
+.project-header {
+  margin-top: 20px;
+  margin-left: 16px;
+  margin-right: 16px;
+}
+
+
+.project-list {
+  margin-right: 12px;
+  margin-top: 18px;
+}
+
+.project-content {
+  margin-left: 16px;
+  margin-right: 16px;
+}
+
+.project-header-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+  margin-bottom: 12px;
+}
+
+.poject-header-subtitle {
+  font-size: 0.8rem;
+  color: #aaa;
+  font-weight: 600;
+}
+
+.project-title {
+  display: block;
+  color: #353535;
+  font-weight: 600;
+  font-size: 2.2rem;
+}
+
+.project-add-task {
+  font-size: 1rem;
+}
+
+.task-item {
+  border: 1px solid #eee;
+  border-radius: 8px;
+  min-height: 72px;
+  padding: 12px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  width: 100%;
+
+  &.is-completed {
+    color: #444;
+  }
+
+  &.is-menu-out {
+    margin-right: 20%;
+  }
+
+  &:last-child {
+    margin-bottom: 72px;
+  }
+}
+
+.task-item-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.task-item-title {
+  font-weight: 550;
+}
+
+.task-item-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font-size: 0.8rem;
+}
+
+.task-item- {
+  border: 1px solid #eee;
+  border-radius: 8px;
+  min-height: 100px;
+  padding: 16px;
+}
+
+.home-navbar {
+  position: fixed;
+  background-color: #4ba974;
+  height: 100%;
+  padding: 0 12px;
+  width: 20%;
+}
+
+.home-navbar-toggle {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.home-navbar-toggle-icon {
+  color: #fff;
+  font-size: 40px;
+}
+
+.home-nav-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 60%;
+  margin-top: 84px;
+}
+
+.home-nav-item {
+  &.is-selected {
+    color: #4ba974;
+  }
+}
+
+.project-new-task-btn {
+  margin-top: 40px;
+}
+
+.menu {
+  --width: 240px;
+}
+
+.menu-icon {
+  font-size: 36px;
+  margin-bottom: 16px; 
+}
+
+.menu-header {
+  display: flex;
+  justify-content: flex-end;
+  margin: 16px;
+}
+
+.menu-setting-icon {
+  font-size: 24px;
+}
+
+.menu-item-add-project {
+  margin-top: 8px;
+}
+
+.project-content-add-task {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
