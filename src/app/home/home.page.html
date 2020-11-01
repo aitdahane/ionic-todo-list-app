@@ -22,6 +22,8 @@
     <ion-icon class="menu-icon" name="menu-outline" (click)="openMenu()"></ion-icon>
   </header>
 
-  <app-project id="main"
-               [project]="selectedProject$ | async"></app-project>
+  <div id="main">
+    <app-project *ngIf="(selectedProject$ | async)"
+                 [project]="selectedProject$ | async"></app-project>
+  </div>
 </ion-content>

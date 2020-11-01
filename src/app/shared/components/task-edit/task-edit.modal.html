@@ -1,6 +1,6 @@
 <ion-content [fullscreen]="true">
   <header class="new-task-header">
-    <h1 class="new-task-header-title">Create New Task</h1>
+    <h1 class="new-task-header-title">{{ task ? 'Update Task' : 'New Task' }}</h1>
 
     <ion-icon class="new-task-close-icon"
               name="close" (click)="dismiss()"></ion-icon>
@@ -22,6 +22,8 @@
   <footer class="new-task-footer">
     <ion-button expand="block"
                 [disabled]="fg.invalid"
-                (click)="save()">Create Task</ion-button>
+                (click)="save()">
+      {{ task ? 'Update Task' : 'Create Task' }}
+    </ion-button>
   </footer>
 </ion-content>

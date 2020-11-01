@@ -13,7 +13,8 @@ export class CheckboxComponent implements OnInit {
 
   ngOnInit() {}
 
-  public changeChecked(): void {
+  public changeChecked($event): void {
+    $event.stopPropagation();
     this.checked = !this.checked;
     this.checkedChange.emit(this.checked);
   }

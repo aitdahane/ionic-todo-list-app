@@ -36,6 +36,10 @@ export class StorageService {
   public getObject(key: string): Promise<any> {
     return Storage.get({ key }).then(({ value }) => {
       return JSON.parse(value);
+    }).then((results) => {
+      if (!results) return [];
+      console.log('results', results.sort((x, y) => x.id - y.id));
+      return results.sort((x, y) => x.id - y.id);
     });
   }
 
@@ -43,12 +47,26 @@ export class StorageService {
     let id;
     return Storage.get({ key })
       .then(({ value }) => JSON.parse(value))
+      .then((items) => items || [])
       .then((items) => {
-        const ids = items
-        .map(x => x.id)
-        .sort((x, y) => y - x);
+        const ids = items.map(x => x.id).sort((x, y) => y - x);
         id = (ids[0] || 0) + 1;
         const newItems = [...items, { ...item, id }];
+        return Storage.set({ key, value: JSON.stringify(newItems), });
+      })
+      .then(() => id);
+  }
+
+  public update(key: string, item: any): Promise<any> {
+    const { id, ...itemData } = item;
+    return Storage.get({ key })
+      .then(({ value }) => JSON.parse(value))
+      .then((items) => {
+        const itemToUpdate = items.find(x => x.id == id);
+        const newItems = [
+          ...items.filter(x => x.id !== id),
+          { ...itemToUpdate, ...itemData, id },
+        ];
         return Storage.set({ key, value: JSON.stringify(newItems), });
       })
       .then(() => id);

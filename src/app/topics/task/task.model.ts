@@ -2,6 +2,7 @@ export interface ITask {
   id: number;
   title: string;
   status: TaskStatusEnum;
+  note: string;
   projectId: number;
 }
 

@@ -77,6 +77,21 @@ export class ProjectComponent implements OnInit, OnDestroy {
     modal.onDidDismiss().then(() => {
       this.refresh$.next(true);
     });
-    return await modal.present();
+    await modal.present();
+  }
+
+  public async editTask(task: ITask) {
+    const modal = await this.modalController.create({
+      component: TaskEditModalComponent,
+      componentProps: { task }
+    });
+    modal.onDidDismiss().then(() => {
+      this.refresh$.next(true);
+    });
+    await modal.present();
+  }
+
+  public trackByFn(index, item) {
+    return item.id;
   }
 }

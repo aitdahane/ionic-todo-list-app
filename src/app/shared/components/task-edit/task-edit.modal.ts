@@ -3,6 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { take } from 'rxjs/operators';
 import { TaskService } from 'src/app/topics/task/task.service';
+import { ITask } from 'src/app/topics/task/task.model';
 
 @Component({
   selector: 'app-task-edit',
@@ -11,6 +12,7 @@ import { TaskService } from 'src/app/topics/task/task.service';
 })
 export class TaskEditModalComponent implements OnInit {
   @Input() projectId: number;
+  @Input() task: ITask;
   public fg: FormGroup;
 
   constructor(
@@ -27,6 +29,13 @@ export class TaskEditModalComponent implements OnInit {
       title: new FormControl(null, Validators.required),
       note: new FormControl(null),
     });
+    const formData = this.task ? {
+      title: this.task.title,
+      note: this.task.note,
+    } : null;
+    if (formData) {
+      this.fg.patchValue(formData);
+    }
   }
 
   public dismiss(): void {
@@ -34,6 +43,27 @@ export class TaskEditModalComponent implements OnInit {
   }
 
   public save(): void {
+    if (this.task) {
+      this.update();
+    } else {
+      this.create();
+    }
+  }
+
+  public update(): void {
+    const params = {
+      id: this.task.id,
+      title: this.fg.get('title').value,
+      note: this.fg.get('note').value,
+    }
+    this.taskService.update(params)
+    .pipe(take(1))
+    .subscribe(() => {
+      this.modalController.dismiss();
+    });
+  }
+
+  public create(): void {
     if (!this.projectId) return;
     const params = {
       title: this.fg.get('title').value,

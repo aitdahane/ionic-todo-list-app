@@ -34,6 +34,18 @@ export class TaskService {
     this.tasks$.next(tasks);
   }
 
+  public update(params: { id: number, title: string, note: string }): Observable<ITask> {
+    const { id, title, note } = params;
+    return from(this.storageService.update('tasks', { id, title, note }))
+      .pipe(
+        switchMap(() => this.storageService.getObject('tasks')),
+        map((tasks) => {
+          this.tasks$.next(tasks);
+          return tasks.find(x => x.id === id);
+        }),
+      );
+  }
+
   public delete(params: { taskId: number }): void {
     const { taskId } = params;
     const tasks = this.tasks$.getValue();
@@ -43,6 +55,7 @@ export class TaskService {
   public getByProjectId(params: { projectId: number }): Observable<ITask[]> {
     return from(this.storageService.getObject('tasks'))
       .pipe(
+        tap(x => console.log('tasks', x)),
         map((tasks: ITask[]) => tasks.filter(x => x.projectId === params.projectId)
       ),
     );
