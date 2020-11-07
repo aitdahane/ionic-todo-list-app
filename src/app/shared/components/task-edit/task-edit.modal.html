@@ -1,12 +1,13 @@
 <ion-content [fullscreen]="true">
-  <header class="new-task-header">
-    <h1 class="new-task-header-title">{{ task ? 'Update Task' : 'New Task' }}</h1>
+  <header class="task-edit-header">
+    <h1 class="task-edit-header-title">{{ task ? 'Update Task' : 'New Task' }}</h1>
 
-    <ion-icon class="new-task-close-icon"
-              name="close" (click)="dismiss()"></ion-icon>
+    <ion-icon class="task-edit-close-icon"
+              name="close"
+              (click)="dismiss()"></ion-icon>
   </header>
 
-  <main class="new-task-content"
+  <main class="task-edit-content"
         [formGroup]="fg">
     <ion-item>
       <ion-label position="floating">Task Name</ion-label>           
@@ -19,11 +20,11 @@
     </ion-item>
   </main>
 
-  <footer class="new-task-footer">
+  <footer class="task-edit-footer">
     <ion-button expand="block"
                 [disabled]="fg.invalid"
                 (click)="save()">
-      {{ task ? 'Update Task' : 'Create Task' }}
+      Save
     </ion-button>
   </footer>
 </ion-content>

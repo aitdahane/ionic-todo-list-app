@@ -4,8 +4,11 @@
 }
 
 .home-header {
+  display: flex;
+  flex-direction: row-reverse;
   margin-top: 16px;
   margin-left: 16px;
+  margin-right: 16px;
 }
 
 .home-content {
@@ -15,78 +18,11 @@
   overflow: auto;
 }
 
-.project-header {
-  margin-bottom: 24px;
-  margin-top: 20px;
-}
-
 .home-title {
   display: block;
   color: #88898a;
   font-weight: 600;
   font-size: .8rem;
-}
-
-.project-list {
-  margin-right: 12px;
-  margin-top: 18px;
-}
-
-.task-item {
-  border: 1px solid #eee;
-  border-radius: 8px;
-  min-height: 72px;
-  padding: 12px;
-  margin-top: 8px;
-  margin-bottom: 8px;
-  width: 100%;
-
-  &.is-completed {
-    color: #444;
-  }
-
-  &.is-menu-out {
-    margin-right: 20%;
-  }
-}
-
-.task-item-header {
-  display: flex;
-  justify-content: space-between;
-}
-
-
-.task-item-title {
-  font-weight: 550;
-}
-
-.task-item-footer {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 4px;
-  font-size: 0.8rem;
-}
-
-.task-item- {
-  border: 1px solid #eee;
-  border-radius: 8px;
-  min-height: 100px;
-  padding: 16px;
-}
-
-.project-title {
-  display: block;
-  margin-top: 8px;
-  color: #111;
-  font-weight: 600;
-  font-size: 2.4rem;
-}
-
-.project-title {
-  margin-top: 8px;
-  color: #353535;
-  font-weight: 600;
-  font-size: 2.4rem;
 }
 
 .home-navbar {
@@ -122,16 +58,12 @@
   }
 }
 
-.project-new-task-btn {
-  margin-top: 40px;
-}
-
 .menu {
   --width: 240px;
 }
 
 .menu-icon {
-  font-size: 36px;
+  font-size: 24px;
 }
 
 .menu-header {

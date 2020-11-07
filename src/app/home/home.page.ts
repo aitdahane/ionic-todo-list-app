@@ -73,7 +73,7 @@ export class HomePage implements OnInit, OnDestroy {
     });
 
     modal.onDidDismiss().then((res) => {
-      if (!res) return;
+      if (!res.data) return;
       this.handleSelectedProject(res.data.project);
     });
     return await modal.present();

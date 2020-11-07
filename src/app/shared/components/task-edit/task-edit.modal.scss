@@ -1,15 +1,13 @@
-.new-task-header {
+.task-edit-header {
   margin: 52px 16px 16px;
 }
 
-.new-task-header-title {
+.task-edit-header-title {
   color: #353535;
   font-weight: 600;
-  font-size: 2.4rem;
-
 }
 
-.new-task-close-icon {
+.task-edit-close-icon {
   position: absolute;
   top: 16px;
   right: 16px;
@@ -18,11 +16,11 @@
   color: #353535;
 }
 
-.new-task-content {
+.task-edit-content {
   margin: 16px;
 }
 
-.new-task-footer {
+.task-edit-footer {
   margin: 24px 16px; 
 }
 

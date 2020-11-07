@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ProjectService } from 'src/app/topics/project/project.service';
 import { ModalController } from '@ionic/angular';
@@ -11,6 +11,7 @@ import { IProject } from 'src/app/topics/project/project.model';
   styleUrls: ['./project-edit.modal.scss'],
 })
 export class ProjectEditModalComponent {
+  @Input() project: IProject;
   public fg: FormGroup;
 
   constructor(
@@ -26,6 +27,12 @@ export class ProjectEditModalComponent {
     this.fg = new FormGroup({
       title: new FormControl(null, Validators.required),
     });
+
+    if (this.project) {
+      this.fg.patchValue({
+        title: this.project.title,
+      })
+    }
   }
 
   public dismiss(): void {
@@ -33,10 +40,30 @@ export class ProjectEditModalComponent {
   }
 
   public save(): void {
-    const parmas = {
+    if (this.project) {
+      this.updateProject();
+    } else {
+      this.createProject();
+    }
+  }
+
+  public createProject(): void {
+    const params = {
       title: this.fg.get('title').value,
     }
-    this.projectService.create(parmas)
+    this.projectService.create(params)
+      .pipe(take(1))
+      .subscribe((project: IProject) => {
+        this.modalController.dismiss({ project });
+      });
+  }
+
+  public updateProject(): void {
+    const params = {
+      id: this.project.id,
+      title: this.fg.get('title').value,
+    }
+    this.projectService.update(params)
       .pipe(take(1))
       .subscribe((project: IProject) => {
         this.modalController.dismiss({ project });

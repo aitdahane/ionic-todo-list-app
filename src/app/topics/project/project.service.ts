@@ -28,6 +28,18 @@ export class ProjectService {
     );
   }
 
+  public update(params: { id: number; title: string }): Observable<IProject> {
+    const { id, title } = params;
+    return from(this.storageService.update('projects', { id, title }))
+    .pipe(
+      switchMap(() => this.storageService.getObject('projects')),
+      map((projects) => {
+        this.projects$.next(projects);
+        return projects.find(x => x.id === id);
+      })
+    );
+  }
+
   public delete(params: { projectId: number }): void {
     const { projectId } = params;
     const projects = this.projects$.getValue();

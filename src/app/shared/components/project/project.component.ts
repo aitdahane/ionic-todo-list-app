@@ -8,6 +8,7 @@ import { TaskService } from 'src/app/topics/task/task.service';
 import { IProject } from 'src/app/topics/project/project.model';
 import { ITask } from 'src/app/topics/task/task.model';
 import { TaskEditModalComponent } from 'src/app/shared/components/task-edit/task-edit.modal';
+import { ProjectEditModalComponent } from 'src/app/shared/components/project-edit/project-edit.modal';
 
 @Component({
   selector: 'app-project',
@@ -90,6 +91,18 @@ export class ProjectComponent implements OnInit, OnDestroy {
     });
     await modal.present();
   }
+
+  public async editProject(task: ITask) {
+    const modal = await this.modalController.create({
+      component: ProjectEditModalComponent,
+      componentProps: { project: this.project }
+    });
+    modal.onDidDismiss().then(() => {
+      this.refresh$.next(true);
+    });
+    await modal.present();
+  }
+  
 
   public trackByFn(index, item) {
     return item.id;
