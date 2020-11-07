@@ -1,9 +1,30 @@
-
 <ion-content [fullscreen]="true">
+  <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button autoHide="false"></ion-menu-button>
+      </ion-buttons>
+  
+      <ion-title>{{ (selectedProject$ | async)?.title }}</ion-title>
+  
+      <ion-buttons slot="end">
+        <ion-button (click)="editProject()">
+          <ion-icon slot="icon-only"
+                    name="create-outline"></ion-icon>
+        </ion-button>
+        
+        <ion-button>
+          <ion-icon slot="icon-only"
+                    name="ellipsis-vertical"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+  </ion-toolbar>
+
   <ion-menu side="start" menuId="menu" class="menu" contentId="main">
     <ion-content [fullscreen]="true">
       <header class="menu-header">
-        <ion-icon class="menu-setting-icon" name="settings-sharp"></ion-icon>
+          <ion-icon class="menu-setting-icon"
+                    slot="icon-only"
+                    name="settings-sharp"></ion-icon>
       </header>
       <ion-list>
         <ion-item *ngFor="let project of projects$ | async"
@@ -18,14 +39,14 @@
     </ion-content>
   </ion-menu>
 
-  <header class="home-header">
-    <ion-icon class="menu-icon"
-              name="menu"
-              (click)="openMenu()"></ion-icon>
-  </header>
-
   <div id="main">
     <app-project *ngIf="(selectedProject$ | async)"
                  [project]="selectedProject$ | async"></app-project>
   </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="addTask()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

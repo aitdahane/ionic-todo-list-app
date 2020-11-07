@@ -62,10 +62,6 @@ export class HomePage implements OnInit, OnDestroy {
     this.menu.close();
   }
 
-  public openMenu(): void {
-    this.menu.open('menu');
-  }
-
   public async addProject() {
     const modal = await this.modalController.create({
       component: ProjectEditModalComponent,
@@ -77,5 +73,30 @@ export class HomePage implements OnInit, OnDestroy {
       this.handleSelectedProject(res.data.project);
     });
     return await modal.present();
+  }
+
+  public async editProject(project: IProject) {
+    const modal = await this.modalController.create({
+      component: ProjectEditModalComponent,
+      componentProps: { project: this.selectedProject$.getValue() }
+    });
+    modal.onDidDismiss().then((res) => {
+      if (!res.data) return;
+      this.changeProject$.next(res.data.project);
+    });
+    await modal.present();
+  }
+
+  public async addTask() {
+    const modal = await this.modalController.create({
+      component: TaskEditModalComponent,
+      componentProps: {
+        projectId: this.selectedProject$.getValue().id,
+      }
+    });
+    modal.onDidDismiss().then(() => {
+      this.changeProject$.next(this.selectedProject$.getValue());
+    });
+    await modal.present();
   }
 }

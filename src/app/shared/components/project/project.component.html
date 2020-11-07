@@ -1,31 +1,20 @@
-<header class="project-header">
-  <span class="poject-header-subtitle">TASKS LIST</span>
 
-  <div class="project-header-title">
-    <span class="project-title">{{ selectedProject?.title }}</span>
 
-    <ion-icon class="project-edit-icon"
-              name="pencil-outline"
-              (click)="editProject()"></ion-icon>
-  </div>
+  <header class="project-header">
+    <span class="poject-header-subtitle">TASKS LIST</span>
+  </header>
+  
+  <ion-list lines="none">
+    <ion-item *ngFor="let task of tasks$ | async; trackBy: trackByFn"
+              [ngClass]="{ 'is-completed': true }"
+              (click)="editTask(task)">
+      <div class="task-item">
+        <div class="task-item-header">
+          <mo-checkbox [checked]="true"></mo-checkbox>
+  
+          <div class="task-item-title">{{ task.title }}</div> 
+        </div>
+      </div>
+    </ion-item>
+  </ion-list>
 
-</header>
-
-<main class="project-content">
-  <div *ngFor="let task of tasks$ | async; trackBy: trackByFn"
-        class="task-item"
-        [ngClass]="{ 'is-completed': true }"
-        (click)="editTask(task)">
-    <div class="task-item-header">
-      <div class="task-item-title">{{ task.title }}</div>
-      
-      <mo-checkbox [checked]="true"></mo-checkbox>
-    </div>
-  </div>
-
-  <ion-button class="project-content-add-task"
-              expand="block"
-              (click)="addTask()">
-    <ion-icon name="add-outline"></ion-icon> Add New Task
-  </ion-button>
-</main>

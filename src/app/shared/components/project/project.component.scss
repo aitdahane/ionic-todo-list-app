@@ -1,5 +1,4 @@
 .project-header {
-  margin-bottom: 20px;
   margin-left: 16px;
   margin-right: 16px;
 }
@@ -60,19 +59,15 @@
   &.is-menu-out {
     margin-right: 20%;
   }
-
-  &:last-child {
-    margin-bottom: 72px;
-  }
 }
 
 .task-item-header {
   display: flex;
-  justify-content: space-between;
 }
 
 .task-item-title {
   font-weight: 550;
+  margin-left: 16px;
 }
 
 .task-item-footer {

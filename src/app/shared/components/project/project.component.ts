@@ -92,7 +92,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
     await modal.present();
   }
 
-  public async editProject(task: ITask) {
+  public async editProject() {
     const modal = await this.modalController.create({
       component: ProjectEditModalComponent,
       componentProps: { project: this.project }
