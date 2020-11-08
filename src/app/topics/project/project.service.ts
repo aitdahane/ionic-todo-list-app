@@ -40,9 +40,9 @@ export class ProjectService {
     );
   }
 
-  public delete(params: { projectId: number }): void {
+  public delete(params: { projectId: number }): Observable<any> {
     const { projectId } = params;
-    const projects = this.projects$.getValue();
-    this.projects$.next(projects.filter(x => x.id !== projectId));
+    return from(this.storageService.delete('projects', { id: projectId })
+      .then(() => this.storageService.deleteBy('tasks', task => task.projectId === projectId)));
   }
 }

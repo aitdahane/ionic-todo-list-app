@@ -6,12 +6,14 @@ import { UtilModule } from 'src/app/util/util.module';
 import { ProjectComponent } from './components/project/project.component';
 import { ProjectEditModalComponent } from './components/project-edit/project-edit.modal';
 import { TaskEditModalComponent } from './components/task-edit/task-edit.modal';
+import { PopoverComponent } from './components/popover/popover.component';
 
 @NgModule({
   declarations: [
     ProjectComponent,
     ProjectEditModalComponent,
     TaskEditModalComponent,
+    PopoverComponent,
   ],
   entryComponents: [],
   imports: [
@@ -25,6 +27,7 @@ import { TaskEditModalComponent } from './components/task-edit/task-edit.modal';
     ProjectComponent,
     ProjectEditModalComponent,
     TaskEditModalComponent,
+    PopoverComponent,
   ],
 })
 export class SharedModule {}

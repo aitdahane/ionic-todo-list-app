@@ -103,6 +103,10 @@ export class ProjectComponent implements OnInit, OnDestroy {
     await modal.present();
   }
   
+  public async deleteTask(task: ITask) {
+    this.taskService.delete({ taskId: task.id });
+    this.refresh$.next(true);
+  }
 
   public trackByFn(index, item) {
     return item.id;

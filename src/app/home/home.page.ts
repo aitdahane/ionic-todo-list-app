@@ -1,12 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { ModalController, MenuController } from '@ionic/angular';
-import { map, takeUntil } from 'rxjs/operators';
+import { ModalController, MenuController, PopoverController } from '@ionic/angular';
+import { map, takeUntil, take } from 'rxjs/operators';
 import { Observable, BehaviorSubject, Subject, combineLatest } from 'rxjs';
 import { ProjectService } from 'src/app/topics/project/project.service';
 import { IProject } from 'src/app/topics/project/project.model';
 import { ProjectEditModalComponent } from 'src/app/shared/components/project-edit/project-edit.modal';
 import { TaskEditModalComponent } from 'src/app/shared/components/task-edit/task-edit.modal';
+import { PopoverComponent } from '../shared/components/popover/popover.component';
 
 @Component({
   selector: 'app-home',
@@ -24,6 +25,7 @@ export class HomePage implements OnInit, OnDestroy {
 
   constructor(
     private modalController: ModalController,
+    private popoverController: PopoverController,
     private menu: MenuController,
     private router: Router,
     private projectService: ProjectService,
@@ -98,5 +100,23 @@ export class HomePage implements OnInit, OnDestroy {
       this.changeProject$.next(this.selectedProject$.getValue());
     });
     await modal.present();
+  }
+
+  async presentProjectOptionsPopover(ev: any) {
+    const popover = await this.popoverController.create({
+      component: PopoverComponent,
+      event: ev,
+      showBackdrop: false,
+      componentProps: {
+        actions: [{ label: 'Delete', onClick: () => this.deleteProject() }],
+      }
+    });
+    return await popover.present();
+  }
+
+  public deleteProject(): void {
+    this.projectService.delete({ projectId: this.selectedProject$.getValue().id })
+      .pipe(take(1))
+      .subscribe()
   }
 }

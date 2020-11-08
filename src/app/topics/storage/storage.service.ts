@@ -76,6 +76,26 @@ export class StorageService {
     return Storage.remove({ key });
   }
 
+  public delete(key: string, item: any): Promise<any> {
+    const { id } = item;
+    return Storage.get({ key })
+      .then(({ value }) => JSON.parse(value))
+      .then((items) => {
+        const newItems = items.filter(x => x.id !== id);
+        return Storage.set({ key, value: JSON.stringify(newItems), });
+      })
+      .then(() => id);
+  }
+
+  public deleteBy(key: string, deleteByFn: Function): Promise<any> {
+    return Storage.get({ key })
+      .then(({ value }) => JSON.parse(value))
+      .then((items) => {
+        const newItems = items.filter((x) => !deleteByFn(x));
+        return Storage.set({ key, value: JSON.stringify(newItems), });
+      });
+  }
+
   public clear(): Promise<any> {
     return Storage.clear();
   }

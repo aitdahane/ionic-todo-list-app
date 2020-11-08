@@ -5,16 +5,21 @@
   </header>
   
   <ion-list lines="none">
-    <ion-item *ngFor="let task of tasks$ | async; trackBy: trackByFn"
-              [ngClass]="{ 'is-completed': true }"
-              (click)="editTask(task)">
-      <div class="task-item">
-        <div class="task-item-header">
-          <mo-checkbox [checked]="true"></mo-checkbox>
-  
-          <div class="task-item-title">{{ task.title }}</div> 
+    <ion-item-sliding *ngFor="let task of tasks$ | async; trackBy: trackByFn">
+      <ion-item [ngClass]="{ 'is-completed': true }"
+                (click)="editTask(task)">
+        <div class="task-item">
+          <div class="task-item-header">
+            <mo-checkbox [checked]="true"></mo-checkbox>
+    
+            <div class="task-item-title">{{ task.title }}</div> 
+          </div>
         </div>
-      </div>
-    </ion-item>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option color="secondary"
+                         (click)="deleteTask(task)">Delete</ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
 
