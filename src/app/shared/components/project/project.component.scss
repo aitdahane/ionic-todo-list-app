@@ -1,4 +1,5 @@
 .project-header {
+  margin-top: 20px;
   margin-left: 16px;
   margin-right: 16px;
 }
@@ -82,39 +83,6 @@
   border-radius: 8px;
   min-height: 100px;
   padding: 16px;
-}
-
-.home-navbar {
-  position: fixed;
-  background-color: #4ba974;
-  height: 100%;
-  padding: 0 12px;
-  width: 20%;
-}
-
-.home-navbar-toggle {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.home-navbar-toggle-icon {
-  color: #fff;
-  font-size: 40px;
-}
-
-.home-nav-list {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 60%;
-  margin-top: 84px;
-}
-
-.home-nav-item {
-  &.is-selected {
-    color: #4ba974;
-  }
 }
 
 .project-new-task-btn {

@@ -14,6 +14,11 @@ export class ProjectService {
 
   }
 
+  public refresh(): void {
+    this.storageService.getObject('projects')
+      .then(projects => this.projects$.next(projects));
+  }
+
   public create(params: { title: string }): Observable<IProject> {
     const { title } = params;
     let id;
@@ -42,7 +47,10 @@ export class ProjectService {
 
   public delete(params: { projectId: number }): Observable<any> {
     const { projectId } = params;
-    return from(this.storageService.delete('projects', { id: projectId })
-      .then(() => this.storageService.deleteBy('tasks', task => task.projectId === projectId)));
+    return from(
+      this.storageService.delete('projects', { id: projectId })
+        .then(() => this.storageService.deleteBy('tasks', task => task.projectId === projectId)
+        .then(() => this.refresh())),
+      );
   }
 }

@@ -1,0 +1,32 @@
+.dashboard-project-list {
+  padding: 16px;
+}
+
+.dashboard-project-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 60px;
+  width: 100%;
+  margin: 8px 0;
+}
+
+.dashboard-project-item-icon {
+  font-size: 24px;
+}
+
+.dashboard-project-item-content {
+  margin-left: 16px;
+}
+
+.dashboard-project-item-option-icon {
+  position: absolute;
+  right: 0;
+  font-size: 24px;  
+}
+
+.dashboard-noProject {
+  margin-top: 32px;
+  text-align: center;
+  width: 100%;
+}

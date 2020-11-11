@@ -1,4 +1,4 @@
-<ion-content [fullscreen]="true">
+<ion-header>
   <ion-toolbar>
       <ion-buttons slot="start">
         <ion-menu-button autoHide="false"></ion-menu-button>
@@ -18,27 +18,27 @@
         </ion-button>
       </ion-buttons>
   </ion-toolbar>
+</ion-header>
 
-  <ion-menu side="start" menuId="menu" class="menu" contentId="main">
-    <ion-content [fullscreen]="true">
-      <ion-list>
-        <ion-item *ngFor="let project of projects$ | async"
-                  class="home-nav-item"
-                  [class.is-selected]="(selectedProject$ | async)?.id === project.id"
-                  (click)="handleSelectedProject(project)">{{ project.title }}</ion-item>
-      </ion-list>
+<ion-menu side="start" menuId="menu" class="menu" contentId="main">
+  <ion-content [fullscreen]="true">
+    <ion-list>
+      <ion-item *ngFor="let project of projects$ | async"
+                class="home-nav-item"
+                [class.is-selected]="(selectedProject$ | async)?.id === project.id"
+                (click)="handleSelectedProject(project)">{{ project.title }}</ion-item>
+    </ion-list>
 
-      <ion-button class="menu-add-project-btn"
-                  shape="round"
-                  expand="full"
-                  (click)="addProject()">+ Add Project</ion-button>
-      </ion-content>
-  </ion-menu>
+    <ion-button class="menu-add-project-btn"
+                shape="round"
+                expand="full"
+                (click)="addProject()">+ Add Project</ion-button>
+    </ion-content>
+</ion-menu>
 
-  <div id="main">
-    <app-project *ngIf="(selectedProject$ | async)"
-                 [project]="selectedProject$ | async"></app-project>
-  </div>
+<ion-content id="main">
+  <app-project *ngIf="(selectedProject$ | async)"
+               [project]="selectedProject$ | async"></app-project>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="addTask()">

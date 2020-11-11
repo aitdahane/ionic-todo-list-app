@@ -26,5 +26,13 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 * {
-  font-family: 'DM Sans', Verdana, Geneva, Tahoma, sans-serif;
+  font-family: 'DM Sans', Verdana, Tahoma, sans-serif;
+}
+
+ion-button {
+  text-transform: none;
+}
+
+ion-toolbar {
+  color: #2c2c2c;
 }
