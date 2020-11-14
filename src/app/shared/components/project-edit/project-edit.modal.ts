@@ -13,6 +13,7 @@ import { IProject } from 'src/app/topics/project/project.model';
 export class ProjectEditModalComponent {
   @Input() project: IProject;
   public fg: FormGroup;
+  public iconName: string;
 
   constructor(
     private modalController: ModalController,
@@ -50,7 +51,8 @@ export class ProjectEditModalComponent {
   public createProject(): void {
     const params = {
       title: this.fg.get('title').value,
-    }
+      iconName: this.iconName,
+    };
     this.projectService.create(params)
       .pipe(take(1))
       .subscribe((project: IProject) => {
@@ -62,6 +64,7 @@ export class ProjectEditModalComponent {
     const params = {
       id: this.project.id,
       title: this.fg.get('title').value,
+      iconName: this.iconName,
     }
     this.projectService.update(params)
       .pipe(take(1))

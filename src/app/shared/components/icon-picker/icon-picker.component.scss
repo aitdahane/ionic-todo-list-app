@@ -1,0 +1,23 @@
+.icon-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.icon-item {
+  display: flex;
+  height: 44px;
+  width: 44px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 4px;
+  border-radius: 4px;
+
+  &.is-selected {
+    background-color: #1f1f1f;
+    color: #ffffff;
+  }
+}
+
+.icon {
+  font-size: 24px;
+}

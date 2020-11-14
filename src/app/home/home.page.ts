@@ -8,6 +8,7 @@ import { IProject } from 'src/app/topics/project/project.model';
 import { ProjectEditModalComponent } from 'src/app/shared/components/project-edit/project-edit.modal';
 import { TaskEditModalComponent } from 'src/app/shared/components/task-edit/task-edit.modal';
 import { PopoverComponent } from '../shared/components/popover/popover.component';
+import { createUrlResolverWithoutPackagePrefix } from '@angular/compiler';
 
 @Component({
   selector: 'app-home',
@@ -47,8 +48,12 @@ export class HomePage implements OnInit, OnDestroy {
       this.selectedProject$.next(project)
     });
 
-    const projectId = this.activatedRoute.snapshot.paramMap['projectId'];
-    this.changeProject$.next(projectId);
+    this.activatedRoute.params
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((params) => {
+      console.log('params', params)
+      this.changeProject$.next(+params.projectId);
+    });
   }
 
   public ngOnDestroy(): void {
@@ -114,10 +119,10 @@ export class HomePage implements OnInit, OnDestroy {
   public deleteProject(): void {
     this.projectService.delete({ projectId: this.selectedProject$.getValue().id })
       .pipe(take(1))
-      .subscribe()
+      .subscribe(() => this.goToDashboard());
   }
 
-  public goToDashboard(project: IProject): void {
+  public goToDashboard(): void {
     this.menu.close();
     this.router.navigate(['/dashboard']);
   }

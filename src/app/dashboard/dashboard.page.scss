@@ -2,26 +2,61 @@
   padding: 16px;
 }
 
-.dashboard-project-item {
-  position: relative;
+// .dashboard-projectItem {
+//   position: relative;
+//   display: flex;
+//   align-items: center;
+//   height: 36px;
+//   width: 100%;
+//   margin: 8px 0;
+// }
+
+.dashboard-project-list {
   display: flex;
-  align-items: center;
-  height: 36px;
-  width: 100%;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.dashboard-projectItem {
+  display: block;
+  height: 180px;
+  width: 48%;
   margin: 8px 0;
 }
 
-.dashboard-project-item-icon {
-  font-size: 20px;
+.dashboard-projectItem-card {
+  display: flex;
+  border-radius: 8px;
+  height: 84%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  background-color: #f3f3f3;
 }
 
-.dashboard-project-item-content {
-  border-left: 1px solid black;
-  margin-left: 12px;
-  padding-left: 12px;
+.dashboard-projectItemAdd-card {
+  display: flex;
+  border-radius: 8px;
+  border: 2px dashed #535353;
+  height: 84%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
 }
 
-.dashboard-project-item-option-icon {
+.dashboard-projectItemAdd-card-content {
+  text-align: center;
+}
+
+.dashboard-projectItem-icon {
+  font-size: 32px;
+}
+
+.dashboard-projectItem-title {
+  margin-top: 8px;
+}
+
+.dashboard-projectItem-option-icon {
   position: absolute;
   right: 0;
   font-size: 24px;  

@@ -11,21 +11,29 @@
 </ion-header>
 
 <ion-content>
-  <ion-list *ngIf="(projects$ | async)?.length; else noProject" lines="none">
-    <ion-item *ngFor="let project of projects$ | async"
-              (click)="goToProject(project)">
-      <div class="dashboard-project-item">
-        <ion-icon class="dashboard-project-item-icon"
-                  name="clipboard-outline"></ion-icon>
-  
-        <div class="dashboard-project-item-content">{{ project.title }}</div>
-  
-        <ion-icon class="dashboard-project-item-option-icon"
-                  name="ellipsis-vertical-outline"
-                  (click)="presentProjectOptionsPopover($event, project)"></ion-icon>
+  <div *ngIf="(projects$ | async)?.length; else noProject"
+        class="dashboard-project-list">
+    <div *ngFor="let project of projects$ | async"
+          class="dashboard-projectItem"
+          (click)="goToProject(project)">
+      <div class="dashboard-projectItem-card">
+        <ion-icon class="dashboard-projectItem-icon"
+                  [name]="project.iconName || 'clipboard-outline'"></ion-icon>
       </div>
-    </ion-item>
-  </ion-list>
+
+      <div class="dashboard-projectItem-title">{{ project.title }}</div>
+    </div>
+    <div class="dashboard-projectItem"
+        (click)="addProject()">
+      <div class="dashboard-projectItemAdd-card">
+        <div class="dashboard-projectItemAdd-card-content">
+          <ion-icon class="dashboard-projectItem-icon"
+                    name="add-outline"></ion-icon>
+          <div class="dashboard-projectItemAdd-card-subtitle">Add a project</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <ng-template #noProject>
     <div class="dashboard-noProject">

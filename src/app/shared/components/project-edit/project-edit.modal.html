@@ -15,6 +15,9 @@
       <ion-label position="floating">Project Name</ion-label>           
       <ion-input formControlName="title"></ion-input>
     </ion-item>
+
+    <app-icon-picker class="project-edit-icon-picker"
+                     [(selectedIconName)]="iconName"></app-icon-picker>
   </main>
 
   <footer class="project-edit-footer">

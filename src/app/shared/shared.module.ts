@@ -7,6 +7,7 @@ import { ProjectComponent } from './components/project/project.component';
 import { ProjectEditModalComponent } from './components/project-edit/project-edit.modal';
 import { TaskEditModalComponent } from './components/task-edit/task-edit.modal';
 import { PopoverComponent } from './components/popover/popover.component';
+import { IconPickerComponent } from './components/icon-picker/icon-picker.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { PopoverComponent } from './components/popover/popover.component';
     ProjectEditModalComponent,
     TaskEditModalComponent,
     PopoverComponent,
+    IconPickerComponent,
   ],
   entryComponents: [],
   imports: [
@@ -28,6 +30,7 @@ import { PopoverComponent } from './components/popover/popover.component';
     ProjectEditModalComponent,
     TaskEditModalComponent,
     PopoverComponent,
+    IconPickerComponent,
   ],
 })
 export class SharedModule {}
