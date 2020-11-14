@@ -5,7 +5,7 @@ import { HomePage } from './home.page';
 
 const routes: Routes = [
   {
-    path: '',
+    path: ':projectId',
     component: HomePage
   }
 ];

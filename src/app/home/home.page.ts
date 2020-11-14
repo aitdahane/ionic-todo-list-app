@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, Route, ActivatedRoute } from '@angular/router';
 import { ModalController, MenuController, PopoverController } from '@ionic/angular';
 import { map, takeUntil, take } from 'rxjs/operators';
 import { Observable, BehaviorSubject, Subject, combineLatest } from 'rxjs';
@@ -21,7 +21,7 @@ export class HomePage implements OnInit, OnDestroy {
   public refreshProject$: BehaviorSubject<boolean> = new BehaviorSubject(true);
 
   private destroy$: Subject<boolean> = new Subject();
-  private changeProject$: BehaviorSubject<IProject> = new BehaviorSubject(null);
+  private changeProject$: BehaviorSubject<number> = new BehaviorSubject(null);
 
   constructor(
     private modalController: ModalController,
@@ -29,7 +29,8 @@ export class HomePage implements OnInit, OnDestroy {
     private menu: MenuController,
     private router: Router,
     private projectService: ProjectService,
-  ) { }
+    private activatedRoute: ActivatedRoute,
+  ) {}
 
   ngOnInit() {
     this.projects$ = this.projectService.projects$;
@@ -38,20 +39,16 @@ export class HomePage implements OnInit, OnDestroy {
       this.changeProject$,
     ]).pipe(
       takeUntil(this.destroy$),
-      map(([projects, project]) => {
-        if (!project) return projects[0]; // return null
-        return projects.find(x => x.id === project.id);
+      map(([projects, projectId]) => {
+        if (!projectId) return projects[0]; // return null
+        return projects.find(x => x.id === projectId);
       }),
     ).subscribe(project => {
       this.selectedProject$.next(project)
     });
 
-
-    this.changeProject$.next(null);
-  }
-
-  public handleNoteCategoryClick(noteCategoryId: number): void {
-    this.router.navigate(['note', noteCategoryId]);
+    const projectId = this.activatedRoute.snapshot.paramMap['projectId'];
+    this.changeProject$.next(projectId);
   }
 
   public ngOnDestroy(): void {
@@ -60,7 +57,7 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   public handleSelectedProject(project: IProject): void {
-    this.changeProject$.next(project);
+    this.changeProject$.next(project.id);
     this.menu.close();
   }
 
@@ -84,7 +81,7 @@ export class HomePage implements OnInit, OnDestroy {
     });
     modal.onDidDismiss().then((res) => {
       if (!res.data) return;
-      this.changeProject$.next(res.data.project);
+      this.changeProject$.next(project.id);
     });
     await modal.present();
   }
@@ -97,7 +94,7 @@ export class HomePage implements OnInit, OnDestroy {
       }
     });
     modal.onDidDismiss().then(() => {
-      this.changeProject$.next(this.selectedProject$.getValue());
+      this.changeProject$.next(this.selectedProject$.getValue().id);
     });
     await modal.present();
   }
@@ -118,5 +115,10 @@ export class HomePage implements OnInit, OnDestroy {
     this.projectService.delete({ projectId: this.selectedProject$.getValue().id })
       .pipe(take(1))
       .subscribe()
+  }
+
+  public goToDashboard(project: IProject): void {
+    this.menu.close();
+    this.router.navigate(['/dashboard']);
   }
 }

@@ -23,6 +23,9 @@
 <ion-menu side="start" menuId="menu" class="menu" contentId="main">
   <ion-content [fullscreen]="true">
     <ion-list>
+      <ion-item class="home-nav-item"
+                (click)="goToDashboard()">Dashboard</ion-item>
+
       <ion-item *ngFor="let project of projects$ | async"
                 class="home-nav-item"
                 [class.is-selected]="(selectedProject$ | async)?.id === project.id"

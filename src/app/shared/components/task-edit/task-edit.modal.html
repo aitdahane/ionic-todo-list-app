@@ -1,6 +1,6 @@
 <ion-content [fullscreen]="true">
   <header class="task-edit-header">
-    <h1 class="task-edit-header-title">{{ task ? 'Update Task' : 'New Task' }}</h1>
+    <h1 class="task-edit-header-title">{{ task ? 'Edit Task' : 'New Task' }}</h1>
 
     <ion-icon class="task-edit-close-icon"
               name="close"
@@ -22,6 +22,7 @@
 
   <footer class="task-edit-footer">
     <ion-button expand="block"
+                shape="round"
                 [disabled]="fg.invalid"
                 (click)="save()">
       Save

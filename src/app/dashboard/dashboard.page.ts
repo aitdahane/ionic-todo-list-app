@@ -1,11 +1,12 @@
 import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
-import { PopoverController, ModalController } from '@ionic/angular';
+import { PopoverController, ModalController, NavController } from '@ionic/angular';
+import { Router } from '@angular/router';
 import { ProjectService } from 'src/app/topics/project/project.service';
 import { IProject } from 'src/app/topics/project/project.model';
 import { PopoverComponent } from 'src/app/shared/components/popover/popover.component';
 import { take } from 'rxjs/operators';
-import { ProjectEditModalComponent } from '../shared/components/project-edit/project-edit.modal';
+import { ProjectEditModalComponent } from 'src/app/shared/components/project-edit/project-edit.modal';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,6 +17,7 @@ export class DashboardPage implements OnInit {
   public projects$: Observable<IProject[]>;
 
   constructor(
+    private router: Router,
     private popoverController: PopoverController,
     private modalController: ModalController,
     private projectService: ProjectService,
@@ -26,6 +28,7 @@ export class DashboardPage implements OnInit {
   }
 
   public async presentProjectOptionsPopover(ev: MouseEvent, project: IProject) {
+    ev.stopPropagation();
     const popover = await this.popoverController.create({
       component: PopoverComponent,
       event: ev,
@@ -56,6 +59,6 @@ export class DashboardPage implements OnInit {
   }
 
   public goToProject(project: IProject): void {
-
+    this.router.navigate(['/project', project.id]);
   }
 }
