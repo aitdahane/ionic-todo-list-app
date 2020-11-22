@@ -8,6 +8,7 @@ import { ProjectEditModalComponent } from './components/project-edit/project-edi
 import { TaskEditModalComponent } from './components/task-edit/task-edit.modal';
 import { PopoverComponent } from './components/popover/popover.component';
 import { IconPickerComponent } from './components/icon-picker/icon-picker.component';
+import { TaskIsDonePipe } from './pipes/task.pipe';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { IconPickerComponent } from './components/icon-picker/icon-picker.compon
     TaskEditModalComponent,
     PopoverComponent,
     IconPickerComponent,
+    TaskIsDonePipe,
   ],
   entryComponents: [],
   imports: [
@@ -31,6 +33,7 @@ import { IconPickerComponent } from './components/icon-picker/icon-picker.compon
     TaskEditModalComponent,
     PopoverComponent,
     IconPickerComponent,
+    TaskIsDonePipe,
   ],
 })
 export class SharedModule {}

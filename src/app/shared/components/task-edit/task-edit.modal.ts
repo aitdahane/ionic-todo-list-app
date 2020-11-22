@@ -3,7 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { take } from 'rxjs/operators';
 import { TaskService } from 'src/app/topics/task/task.service';
-import { ITask } from 'src/app/topics/task/task.model';
+import { ITask, TaskStatusEnum } from 'src/app/topics/task/task.model';
 
 @Component({
   selector: 'app-task-edit',
@@ -57,10 +57,10 @@ export class TaskEditModalComponent implements OnInit {
       note: this.fg.get('note').value,
     }
     this.taskService.update(params)
-    .pipe(take(1))
-    .subscribe(() => {
-      this.modalController.dismiss();
-    });
+      .pipe(take(1))
+      .subscribe(() => {
+        this.modalController.dismiss();
+      });
   }
 
   public create(): void {
@@ -71,9 +71,27 @@ export class TaskEditModalComponent implements OnInit {
       projectId: this.projectId,
     }
     this.taskService.create(params)
-    .pipe(take(1))
-    .subscribe(() => {
-      this.modalController.dismiss();
-    });
+      .pipe(take(1))
+      .subscribe(() => {
+        this.modalController.dismiss();
+      });
+  }
+
+  public completeTask(): void {
+    if (!this.task) return;
+    this.taskService.updateStatus({ taskId: this.task.id, status: TaskStatusEnum.DONE })
+      .pipe(take(1))
+      .subscribe(() => {
+        this.modalController.dismiss();
+      });
+  }
+
+  public deleteTask(): void {
+    if (!this.task) return;
+    this.taskService.delete({ taskId: this.task.id })
+      .pipe(take(1))
+      .subscribe(() => {
+        this.modalController.dismiss();
+      });
   }
 }

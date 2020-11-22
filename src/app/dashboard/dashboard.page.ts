@@ -49,7 +49,7 @@ export class DashboardPage implements OnInit {
   public async addProject(): Promise<void> {
     const modal = await this.modalController.create({
       component: ProjectEditModalComponent,
-      componentProps: {},
+      cssClass: 'project-edit-modal'
     });
 
     modal.onDidDismiss().then((res) => {

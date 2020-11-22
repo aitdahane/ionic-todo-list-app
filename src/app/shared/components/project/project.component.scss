@@ -57,8 +57,9 @@
   width: 100%;
   height: 44px;
 
-  &.is-completed {
-    color: #444;
+  &.is-done {
+    color: #b1b1b1;
+    text-decoration-line: line-through;
   }
 
   &:last-child {
@@ -66,13 +67,10 @@
   }
 }
 
-.task-item-header {
-  display: flex;
-}
-
 .task-item-title {
   font-weight: 550;
   margin-left: 16px;
+  width: 100%;
 }
 
 .task-item-footer {

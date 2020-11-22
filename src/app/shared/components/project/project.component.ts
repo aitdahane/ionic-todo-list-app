@@ -6,7 +6,7 @@ import { map, switchMap, takeUntil, skip, tap, filter, take } from 'rxjs/operato
 import { ProjectService } from 'src/app/topics/project/project.service';
 import { TaskService } from 'src/app/topics/task/task.service';
 import { IProject } from 'src/app/topics/project/project.model';
-import { ITask } from 'src/app/topics/task/task.model';
+import { ITask, TaskStatusEnum } from 'src/app/topics/task/task.model';
 import { TaskEditModalComponent } from 'src/app/shared/components/task-edit/task-edit.modal';
 import { ProjectEditModalComponent } from 'src/app/shared/components/project-edit/project-edit.modal';
 
@@ -39,8 +39,6 @@ export class ProjectComponent implements OnInit, OnDestroy {
   constructor(
     private modalController: ModalController,
     private menu: MenuController,
-    private router: Router,
-    private projectService: ProjectService,
     private taskService: TaskService,
   ) { }
 
@@ -74,7 +72,8 @@ export class ProjectComponent implements OnInit, OnDestroy {
       component: TaskEditModalComponent,
       componentProps: {
         projectId: this.project.id,
-      }
+      },
+      cssClass: 'task-edit-modal',
     });
     modal.onDidDismiss().then(() => {
       this.refresh$.next(true);
@@ -85,7 +84,8 @@ export class ProjectComponent implements OnInit, OnDestroy {
   public async editTask(task: ITask) {
     const modal = await this.modalController.create({
       component: TaskEditModalComponent,
-      componentProps: { task }
+      componentProps: { task },
+      cssClass: 'task-edit-modal',
     });
     modal.onDidDismiss().then(() => {
       this.refresh$.next(true);
@@ -96,7 +96,8 @@ export class ProjectComponent implements OnInit, OnDestroy {
   public async editProject() {
     const modal = await this.modalController.create({
       component: ProjectEditModalComponent,
-      componentProps: { project: this.project }
+      componentProps: { project: this.project },
+      cssClass: 'project-edit-modal',
     });
     modal.onDidDismiss().then(() => {
       this.refresh$.next(true);
@@ -125,6 +126,19 @@ export class ProjectComponent implements OnInit, OnDestroy {
         this.refresh$.next(true);
         this.newTaskName = null;
         this.newTaskNameInput.setFocus();
+      });
+  }
+
+  public updateTaskStatus(task: ITask, completed: boolean): string {
+    if (!task) {
+      return;
+    }
+    this.taskService.updateStatus({
+      taskId: task.id,
+      status: completed ? TaskStatusEnum.DONE : TaskStatusEnum.TO_DO,
+    }).pipe(take(1))
+      .subscribe(() => {
+        this.refresh$.next(true);
       });
   }
 }

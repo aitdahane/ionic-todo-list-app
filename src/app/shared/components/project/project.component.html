@@ -3,12 +3,12 @@
             lines="none">
     <ion-item *ngFor="let task of tasks$ | async; trackBy: trackByFn"
               class="task-item"
-              (click)="editTask(task)">
-        <div class="task-item-header">
-          <mo-checkbox [checked]="true"></mo-checkbox>
-  
-          <div class="task-item-title">{{ task.title }}</div> 
-        </div>
+              [class.is-done]="task | taskIsDone">
+        <mo-checkbox [checked]="task | taskIsDone"
+                      (checkedChange)="updateTaskStatus(task, $event)"></mo-checkbox>
+
+        <div class="task-item-title ion-activatable ripple-parent"
+              (click)="editTask(task)">{{ task.title }}</div> 
     </ion-item>
   </ion-list>
 </ng-container>
@@ -26,6 +26,7 @@
              [(ngModel)]="newTaskName"></ion-input>
 
   <ion-button class="task-addItem-btn"
+              color="tertiary"
               shape="round"
               [disabled]="!newTaskName"
               (click)="createTask()">

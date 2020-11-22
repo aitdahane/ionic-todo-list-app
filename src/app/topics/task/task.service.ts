@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, from } from "rxjs";
-import { ITask, TaskStatusEnum } from "./task.model";
+import { BehaviorSubject, Observable, from } from 'rxjs';
+import { ITask, TaskStatusEnum } from './task.model';
 import { map, tap, switchMap } from 'rxjs/operators';
 import { StorageService } from '../storage/storage.service';
 
@@ -26,12 +26,16 @@ export class TaskService {
       );
   }
 
-  public updateStatus(params: { taskId: number, status: TaskStatusEnum }): void {
+  public updateStatus(params: { taskId: number, status: TaskStatusEnum }): Observable<ITask> {
     const { taskId, status } = params;
-    const tasks = this.tasks$.getValue();
-    const task = tasks.find(task => task.id === taskId);
-    task.status = status;
-    this.tasks$.next(tasks);
+    return from(this.storageService.update('tasks', { id: taskId, status }))
+      .pipe(
+        switchMap(() => this.storageService.getObject('tasks')),
+        map((tasks) => {
+          this.tasks$.next(tasks);
+          return tasks.find(x => x.id === taskId);
+        }),
+      );
   }
 
   public update(params: { id: number, title: string, note: string }): Observable<ITask> {
@@ -46,10 +50,16 @@ export class TaskService {
       );
   }
 
-  public delete(params: { taskId: number }): void {
+  public delete(params: { taskId: number }): Observable<number> {
     const { taskId } = params;
-    const tasks = this.tasks$.getValue();
-    this.tasks$.next(tasks.filter(task => task.id !== taskId));
+    return from(this.storageService.delete('tasks', { id: taskId }))
+      .pipe(
+        switchMap(() => this.storageService.getObject('tasks')),
+        map((tasks) => {
+          this.tasks$.next(tasks);
+          return taskId;
+        }),
+      );
   }
 
   public getByProjectId(params: { projectId: number }): Observable<ITask[]> {

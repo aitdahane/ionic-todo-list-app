@@ -1,6 +1,5 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title>Dashboard</ion-title>
     <ion-buttons *ngIf="(projects$ | async)?.length"
                  slot="end">
       <ion-button (click)="addProject()">
@@ -8,6 +7,8 @@
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
+
+  <ion-title class="dashboard-title">Welcome Momo</ion-title>
 </ion-header>
 
 <ion-content>

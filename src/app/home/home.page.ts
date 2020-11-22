@@ -69,7 +69,7 @@ export class HomePage implements OnInit, OnDestroy {
   public async addProject() {
     const modal = await this.modalController.create({
       component: ProjectEditModalComponent,
-      componentProps: {},
+      cssClass: 'project-edit-modal',
     });
 
     modal.onDidDismiss().then((res) => {
@@ -82,7 +82,8 @@ export class HomePage implements OnInit, OnDestroy {
   public async editProject(project: IProject) {
     const modal = await this.modalController.create({
       component: ProjectEditModalComponent,
-      componentProps: { project: this.selectedProject$.getValue() }
+      componentProps: { project: this.selectedProject$.getValue() },
+      cssClass: 'project-edit-modal',
     });
     modal.onDidDismiss().then((res) => {
       if (!res.data) return;

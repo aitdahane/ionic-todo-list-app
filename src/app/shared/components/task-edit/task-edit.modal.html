@@ -1,10 +1,6 @@
 <ion-content [fullscreen]="true">
   <header class="task-edit-header">
     <h1 class="task-edit-header-title">{{ task ? 'Edit Task' : 'New Task' }}</h1>
-
-    <ion-icon class="task-edit-close-icon"
-              name="close"
-              (click)="dismiss()"></ion-icon>
   </header>
 
   <main class="task-edit-content"
@@ -26,6 +22,24 @@
                 [disabled]="fg.invalid"
                 (click)="save()">
       Save
+    </ion-button>
+
+    <ion-button *ngIf="task && !(task | taskIsDone)"
+                class="task-complete-btn"
+                color="tertiary"
+                expand="block"
+                shape="round"
+                (click)="completeTask()">
+      Complete task
+    </ion-button>
+
+    <ion-button *ngIf="task"
+                class="task-delete-btn"
+                color="secondary"
+                expand="block"
+                shape="round"
+                (click)="deleteTask()">
+      Delete task
     </ion-button>
   </footer>
 </ion-content>
