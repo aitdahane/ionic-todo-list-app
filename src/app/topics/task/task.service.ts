@@ -11,7 +11,7 @@ export class TaskService {
   constructor(private storageService: StorageService) {
   }
 
-  public create(params: { title: string, note: string, projectId: number }): Observable<ITask> {
+  public create(params: { title: string, note?: string, projectId: number }): Observable<ITask> {
     const { title, note, projectId } = params;
     const data = { title, note, projectId, status: TaskStatusEnum.TO_DO };
     let id;

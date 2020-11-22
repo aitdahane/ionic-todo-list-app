@@ -2,15 +2,6 @@
   padding: 16px;
 }
 
-// .dashboard-projectItem {
-//   position: relative;
-//   display: flex;
-//   align-items: center;
-//   height: 36px;
-//   width: 100%;
-//   margin: 8px 0;
-// }
-
 .dashboard-project-list {
   display: flex;
   flex-wrap: wrap;
@@ -19,18 +10,18 @@
 
 .dashboard-projectItem {
   display: block;
-  height: 180px;
+  height: 140px;
   width: 48%;
   margin: 8px 0;
 }
 
 .dashboard-projectItem-card {
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   border-radius: 8px;
-  height: 84%;
+  height: 100%;
   width: 100%;
-  align-items: center;
-  justify-content: center;
   background-color: #f3f3f3;
 }
 
@@ -38,7 +29,7 @@
   display: flex;
   border-radius: 8px;
   border: 2px dashed #535353;
-  height: 84%;
+  height: 100%;
   width: 100%;
   align-items: center;
   justify-content: center;
@@ -50,10 +41,12 @@
 
 .dashboard-projectItem-icon {
   font-size: 32px;
+  margin: 20px;
 }
 
 .dashboard-projectItem-title {
-  margin-top: 8px;
+  margin: 20px;
+  font-size: 1.2rem;
 }
 
 .dashboard-projectItem-option-icon {

@@ -32,7 +32,8 @@ export class ProjectEditModalComponent {
     if (this.project) {
       this.fg.patchValue({
         title: this.project.title,
-      })
+      });
+      this.iconName = this.project.iconName;
     }
   }
 

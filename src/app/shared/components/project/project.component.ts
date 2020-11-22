@@ -1,8 +1,8 @@
-import { Component, OnInit, HostBinding, OnDestroy, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, HostBinding, OnDestroy, Input, OnChanges, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { ModalController, MenuController } from '@ionic/angular';
+import { ModalController, MenuController, IonInput } from '@ionic/angular';
 import { Observable, BehaviorSubject, Subject, combineLatest } from 'rxjs';
-import { map, switchMap, takeUntil, skip, tap, filter } from 'rxjs/operators';
+import { map, switchMap, takeUntil, skip, tap, filter, take } from 'rxjs/operators';
 import { ProjectService } from 'src/app/topics/project/project.service';
 import { TaskService } from 'src/app/topics/task/task.service';
 import { IProject } from 'src/app/topics/project/project.model';
@@ -25,8 +25,9 @@ export class ProjectComponent implements OnInit, OnDestroy {
     return this.selectedProject;
   }
 
+  @ViewChild('newTaskNameInput') public newTaskNameInput: IonInput;
   public refresh$: BehaviorSubject<boolean> = new BehaviorSubject(true);
-
+  public newTaskName: string;
   public selectedProject: IProject;
   public tasks$: Observable<ITask[]>;
   public project$: Observable<IProject>;
@@ -110,5 +111,20 @@ export class ProjectComponent implements OnInit, OnDestroy {
 
   public trackByFn(index, item) {
     return item.id;
+  }
+
+  public createTask(): string {
+    if (!this.newTaskName) {
+      return;
+    }
+    this.taskService.create({
+      title: this.newTaskName,
+      projectId: this.project.id,
+    }).pipe(take(1))
+      .subscribe(() => {
+        this.refresh$.next(true);
+        this.newTaskName = null;
+        this.newTaskNameInput.setFocus();
+      });
   }
 }

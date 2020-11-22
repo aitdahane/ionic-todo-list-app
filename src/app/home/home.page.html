@@ -1,10 +1,8 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar>
       <ion-buttons slot="start">
         <ion-menu-button autoHide="false"></ion-menu-button>
       </ion-buttons>
-  
-      <ion-title>{{ (selectedProject$ | async)?.title }}</ion-title>
   
       <ion-buttons slot="end">
         <ion-button (click)="editProject()">
@@ -18,7 +16,15 @@
         </ion-button>
       </ion-buttons>
   </ion-toolbar>
+
+  <ion-title class="project-title">{{ (selectedProject$ | async)?.title }}</ion-title>
 </ion-header>
+
+<ion-content id="main">
+  <app-project *ngIf="(selectedProject$ | async)"
+               [project]="selectedProject$ | async"></app-project>
+</ion-content>
+
 
 <ion-menu side="start" menuId="menu" class="menu" contentId="main">
   <ion-content [fullscreen]="true">
@@ -38,14 +44,3 @@
                 (click)="addProject()">+ Add Project</ion-button>
     </ion-content>
 </ion-menu>
-
-<ion-content id="main">
-  <app-project *ngIf="(selectedProject$ | async)"
-               [project]="selectedProject$ | async"></app-project>
-
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="addTask()">
-      <ion-icon name="add-outline"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
-</ion-content>

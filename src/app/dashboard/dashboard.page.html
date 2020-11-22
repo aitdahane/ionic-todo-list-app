@@ -19,9 +19,10 @@
       <div class="dashboard-projectItem-card">
         <ion-icon class="dashboard-projectItem-icon"
                   [name]="project.iconName || 'clipboard-outline'"></ion-icon>
+
+        <div class="dashboard-projectItem-title">{{ project.title }}</div>
       </div>
 
-      <div class="dashboard-projectItem-title">{{ project.title }}</div>
     </div>
     <div class="dashboard-projectItem"
         (click)="addProject()">

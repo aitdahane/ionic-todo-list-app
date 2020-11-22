@@ -1,30 +1,35 @@
 <ng-container *ngIf="(tasks$ | async)?.length; else noTask">
-  <header class="project-header">
-    <span class="poject-header-subtitle">TASKS LIST</span>
-  </header>
-  
-  <ion-list lines="none">
+  <ion-list class="task-list"
+            lines="none">
     <ion-item *ngFor="let task of tasks$ | async; trackBy: trackByFn"
-              [ngClass]="{ 'is-completed': true }"
+              class="task-item"
               (click)="editTask(task)">
-      <div class="task-item">
         <div class="task-item-header">
           <mo-checkbox [checked]="true"></mo-checkbox>
   
           <div class="task-item-title">{{ task.title }}</div> 
         </div>
-      </div>
     </ion-item>
   </ion-list>
 </ng-container>
 
 <ng-template #noTask>
   <div class="project-noTask">
-    <ion-button shape="round"
-                (click)="addTask()">
-      <ion-icon slot="start"
-                name="add-outline"></ion-icon> Add a task
-    </ion-button>
   </div>
 </ng-template>
 
+<ion-item class="task-addItem"
+          lines="none">
+  <ion-input #newTaskNameInput
+             class="task-addItem-input"
+             placeholder="I want to..."
+             [(ngModel)]="newTaskName"></ion-input>
+
+  <ion-button class="task-addItem-btn"
+              shape="round"
+              [disabled]="!newTaskName"
+              (click)="createTask()">
+    <ion-icon slot="icon-only"
+              name="arrow-up-outline"></ion-icon>
+  </ion-button>
+</ion-item>
