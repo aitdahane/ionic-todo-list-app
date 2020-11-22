@@ -1,27 +1,37 @@
-<ion-content [fullscreen]="true">
-  <header class="project-edit-header">
-    <h1 class="project-edit-header-title">
-      {{ project ? 'Edit Project' : 'New project' }}
-    </h1>
-  </header>
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
 
+    <ion-title>
+      {{ project ? 'Edit Project' : 'New project' }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
   <main class="project-edit-content"
         [formGroup]="fg">
-    <ion-item>
-      <ion-label position="floating">Project Name</ion-label>           
-      <ion-input formControlName="title"></ion-input>
-    </ion-item>
+    <app-project-image class="project-edit-projectImage"
+                       [projectImage]="imageName"
+                       (click)="pickImage()">
+    </app-project-image>
 
-    <app-icon-picker class="project-edit-icon-picker"
-                     [(selectedIconName)]="iconName"></app-icon-picker>
+    <ion-item>
+      <ion-input formControlName="title" 
+                 placeholder="Project Name"></ion-input>
+    </ion-item>
   </main>
 
-  <footer class="project-edit-footer">
-    <ion-button expand="block"
-                shape="round"
-                [disabled]="fg.invalid"
-                (click)="save()">
-      Save
-    </ion-button>
-  </footer>
 </ion-content>
+
+<ion-footer class="ion-no-border project-edit-footer">
+  <ion-button expand="block"
+              [disabled]="fg.invalid"
+              (click)="save()">
+    Save
+  </ion-button>
+</ion-footer>

@@ -1,0 +1,16 @@
+.projectImage {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  border-radius: 8px;
+  justify-content: center;
+  align-items: center;
+  background-color: #f6f6f6;
+}
+
+.projectImage-img {
+  height: 40px;
+  width: 40px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}

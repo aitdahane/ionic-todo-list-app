@@ -19,10 +19,10 @@ export class ProjectService {
       .then(projects => this.projects$.next(projects));
   }
 
-  public create(params: { title: string; iconName: string; }): Observable<IProject> {
-    const { title, iconName } = params;
+  public create(params: { title: string; iconName: string; imageName: string; }): Observable<IProject> {
+    const { title, iconName, imageName } = params;
     let id;
-    return from(this.storageService.append('projects', { title, iconName }))
+    return from(this.storageService.append('projects', { title, iconName, imageName }))
     .pipe(
       tap((x) => { id = x }),
       switchMap(() => this.storageService.getObject('projects')),
@@ -33,9 +33,9 @@ export class ProjectService {
     );
   }
 
-  public update(params: { id: number; title: string; iconName: string; }): Observable<IProject> {
-    const { id, title, iconName } = params;
-    return from(this.storageService.update('projects', { id, title, iconName }))
+  public update(params: { id: number; title: string; iconName: string; imageName: string; }): Observable<IProject> {
+    const { id, title, iconName, imageName } = params;
+    return from(this.storageService.update('projects', { id, title, iconName, imageName }))
     .pipe(
       switchMap(() => this.storageService.getObject('projects')),
       map((projects) => {

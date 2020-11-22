@@ -1,6 +1,7 @@
 .dashboard-title {
   font-size: 1.6rem;
   font-weight: 600;
+  padding-bottom: 8px;
 }
 
 .dashboard-project-list {
@@ -15,9 +16,9 @@
 
 .dashboard-projectItem {
   display: block;
-  height: 140px;
+  height: 156px;
   width: 48%;
-  margin: 8px 0;
+  margin: 20px 0;
 }
 
 .dashboard-projectItem-card {
@@ -25,19 +26,21 @@
   flex-direction: column;
   justify-content: space-between;
   border-radius: 8px;
-  height: 100%;
+  height: 96%;
   width: 100%;
   background-color: #f3f3f3;
+  background-size: 100% 100%;
 }
 
 .dashboard-projectItemAdd-card {
   display: flex;
   border-radius: 8px;
-  border: 2px dashed #535353;
-  height: 100%;
+  border: 1px solid #f3f3f3;
+  height: 92%;
   width: 100%;
   align-items: center;
   justify-content: center;
+  color: #1f1f1f;
 }
 
 .dashboard-projectItemAdd-card-content {
@@ -50,8 +53,7 @@
 }
 
 .dashboard-projectItem-title {
-  margin: 20px;
-  font-size: 1.2rem;
+  margin: 8px;
 }
 
 .dashboard-projectItem-option-icon {

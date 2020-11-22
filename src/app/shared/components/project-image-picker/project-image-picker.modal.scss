@@ -1,0 +1,71 @@
+.projectImagePicker-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.projectImagePicker-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 16px;
+}
+
+.projectImagePicker-item {
+  display: flex;
+  height: 148px;
+  width: 48%;
+  margin: 8px 0;
+}
+
+.projectImagePicker-itemImg {
+  height: 40px;
+  width: 40px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.projectImagePicker-item-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 8px;
+  height: 100%;
+  width: 100%;
+  background-color: #f3f3f3;
+}
+
+.projectImagePicker-projectItemAdd-card {
+  display: flex;
+  border-radius: 8px;
+  border: 2px dashed #535353;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.projectImagePicker-projectItemAdd-card-content {
+  text-align: center;
+}
+
+.projectImagePicker-projectItem-icon {
+  font-size: 32px;
+  margin: 20px;
+}
+
+.projectImagePicker-projectItem-title {
+  margin: 20px;
+  font-size: 1.2rem;
+}
+
+.projectImagePicker-projectItem-option-icon {
+  position: absolute;
+  right: 0;
+  font-size: 24px;  
+}
+
+.projectImagePicker-noProject {
+  margin-top: 32px;
+  text-align: center;
+  width: 100%;
+}

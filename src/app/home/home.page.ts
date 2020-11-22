@@ -7,8 +7,7 @@ import { ProjectService } from 'src/app/topics/project/project.service';
 import { IProject } from 'src/app/topics/project/project.model';
 import { ProjectEditModalComponent } from 'src/app/shared/components/project-edit/project-edit.modal';
 import { TaskEditModalComponent } from 'src/app/shared/components/task-edit/task-edit.modal';
-import { PopoverComponent } from '../shared/components/popover/popover.component';
-import { createUrlResolverWithoutPackagePrefix } from '@angular/compiler';
+import { PopoverComponent } from 'src/app/shared/components/popover/popover.component';
 
 @Component({
   selector: 'app-home',

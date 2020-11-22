@@ -1,0 +1,21 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-button (click)="dismiss()">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+
+      <ion-title>Pick an image</ion-title>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="projectImagePicker-list">
+    <app-project-image *ngFor="let projectImage of projectImages; trackBy: trackByName"
+                       class="projectImagePicker-item"
+                       [projectImage]="projectImage"
+                       (click)="chooseImage(projectImage)">
+    </app-project-image>
+  </div>
+</ion-content>

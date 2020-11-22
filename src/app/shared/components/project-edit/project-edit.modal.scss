@@ -9,35 +9,36 @@
   font-size: 1.2rem;
 }
 
-.project-edit-close-icon {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  font-size: 28px;
-  cursor: pointer;
-  color: #353535;
-}
-
 .project-edit-content {
-  margin: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 52px;
 }
 
 .project-edit-footer {
-  margin: 24px 16px; 
+  padding: 24px 16px; 
 }
 
 ion-item {
   --padding-start: 0;
   --padding-end: 0;
   --highlight-background: #e2e2e2;
-
+  font-size: 1.2rem;
 }
 
-.item-has-focus{
+.item-has-focus {
   --highlight-background: #353535;
 }
 
 .project-edit-icon-picker {
   display: block;
   margin-top: 20px;
+}
+
+.project-edit-projectImage {
+  height: 140px;
+  width: 140px;
+  margin-top: 32px;
+  margin-bottom: 16px;
 }

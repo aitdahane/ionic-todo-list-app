@@ -4,6 +4,7 @@ import { ProjectService } from 'src/app/topics/project/project.service';
 import { ModalController } from '@ionic/angular';
 import { take } from 'rxjs/operators';
 import { IProject } from 'src/app/topics/project/project.model';
+import { ProjectImagePickerModalComponent } from '../project-image-picker/project-image-picker.modal';
 
 @Component({
   selector: 'app-project-edit-modal',
@@ -14,6 +15,7 @@ export class ProjectEditModalComponent {
   @Input() project: IProject;
   public fg: FormGroup;
   public iconName: string;
+  public imageName: string;
 
   constructor(
     private modalController: ModalController,
@@ -34,6 +36,7 @@ export class ProjectEditModalComponent {
         title: this.project.title,
       });
       this.iconName = this.project.iconName;
+      this.imageName = this.project.imageName;
     }
   }
 
@@ -53,6 +56,7 @@ export class ProjectEditModalComponent {
     const params = {
       title: this.fg.get('title').value,
       iconName: this.iconName,
+      imageName: this.imageName,
     };
     this.projectService.create(params)
       .pipe(take(1))
@@ -66,11 +70,23 @@ export class ProjectEditModalComponent {
       id: this.project.id,
       title: this.fg.get('title').value,
       iconName: this.iconName,
+      imageName: this.imageName,
     }
     this.projectService.update(params)
       .pipe(take(1))
       .subscribe((project: IProject) => {
         this.modalController.dismiss({ project });
       });
+  }
+
+  public async pickImage(): Promise<void> {
+    const modal = await this.modalController.create({
+      component: ProjectImagePickerModalComponent,
+    });
+    modal.onDidDismiss().then((result) => {
+      if (!result.data) return;
+      this.imageName = result.data.imageName;
+    });
+    await modal.present();
   }
 }

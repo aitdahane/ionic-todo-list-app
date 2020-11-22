@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
-import { PopoverController, ModalController, NavController } from '@ionic/angular';
+import { PopoverController, ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ProjectService } from 'src/app/topics/project/project.service';
 import { IProject } from 'src/app/topics/project/project.model';

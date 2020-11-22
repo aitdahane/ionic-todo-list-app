@@ -1,8 +1,18 @@
-<ion-content [fullscreen]="true">
-  <header class="task-edit-header">
-    <h1 class="task-edit-header-title">{{ task ? 'Edit Task' : 'New Task' }}</h1>
-  </header>
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
 
+    <ion-title>
+      {{ task ? 'Edit Task' : 'New Task' }}
+    </ion-title>
+  </ion-toolbar>  
+</ion-header>
+
+<ion-content>
   <main class="task-edit-content"
         [formGroup]="fg">
     <ion-item>
@@ -16,30 +26,28 @@
     </ion-item>
   </main>
 
-  <footer class="task-edit-footer">
-    <ion-button expand="block"
-                shape="round"
-                [disabled]="fg.invalid"
-                (click)="save()">
-      Save
-    </ion-button>
-
-    <ion-button *ngIf="task && !(task | taskIsDone)"
-                class="task-complete-btn"
-                color="tertiary"
-                expand="block"
-                shape="round"
-                (click)="completeTask()">
-      Complete task
-    </ion-button>
-
-    <ion-button *ngIf="task"
-                class="task-delete-btn"
-                color="secondary"
-                expand="block"
-                shape="round"
-                (click)="deleteTask()">
-      Delete task
-    </ion-button>
-  </footer>
 </ion-content>
+
+<ion-footer class="ion-no-border task-edit-footer">
+  <ion-button expand="block"
+              [disabled]="fg.invalid"
+              (click)="save()">
+    Save
+  </ion-button>
+
+  <ion-button *ngIf="task && !(task | taskIsDone)"
+              class="task-complete-btn"
+              color="tertiary"
+              expand="block"
+              (click)="completeTask()">
+    Complete task
+  </ion-button>
+
+  <ion-button *ngIf="task"
+              class="task-delete-btn"
+              color="secondary"
+              expand="block"
+              (click)="deleteTask()">
+    Delete task
+  </ion-button>
+</ion-footer>
