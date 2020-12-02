@@ -3,12 +3,13 @@
     <ion-buttons *ngIf="(projects$ | async)?.length"
                  slot="end">
       <ion-button (click)="addProject()">
-        <ion-icon slot="start" name="add-outline"></ion-icon> Project
+        <ion-icon slot="start" name="add-outline"></ion-icon> List
       </ion-button>
     </ion-buttons>
+
+    <ion-title>Munjaz</ion-title>
   </ion-toolbar>
 
-  <ion-title class="dashboard-title">Welcome Momo</ion-title>
 </ion-header>
 
 <ion-content>
@@ -32,7 +33,7 @@
                     name="add-outline"></ion-icon>
         </div>
       </div>
-      <div class="dashboard-projectItem-title">Add a project</div>
+      <div class="dashboard-projectItem-title">Add a new list</div>
     </div>
   </div>
 

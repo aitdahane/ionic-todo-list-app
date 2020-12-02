@@ -7,7 +7,7 @@
     </ion-buttons>
 
     <ion-title>
-      {{ project ? 'Edit Project' : 'New project' }}
+      {{ project ? 'Edit list' : 'New list' }}
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -18,12 +18,17 @@
     <app-project-image class="project-edit-projectImage"
                        [projectImage]="imageName"
                        (click)="pickImage()">
+      <div class="project-edit-projectImage-btn">
+        <ion-icon name="pencil"></ion-icon>
+      </div>
     </app-project-image>
 
-    <ion-item>
+    <ion-item class="project-edit-name-item">
       <ion-input formControlName="title" 
                  placeholder="Project Name"></ion-input>
     </ion-item>
+
+    <div class="project-edit-name-label">What would you like to name your list ?</div>
   </main>
 
 </ion-content>

@@ -19,16 +19,17 @@ export class ProjectImagePickerModalComponent implements OnInit {
     this.projectImages = [
       'plane',
       'book',
-      'tshirt',
+      'shirt',
       'laptop',
       'list',
       'clapperboard',
-      'shop',
+      'shopping-cart',
       'wallet',
       'suitcase',
-      'diet',
       'game-controller',
       'pin',
+      'giftbox',
+      'film',
     ];
   }
   

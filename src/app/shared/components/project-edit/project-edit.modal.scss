@@ -37,8 +37,32 @@ ion-item {
 }
 
 .project-edit-projectImage {
+  position: relative;
   height: 140px;
   width: 140px;
   margin-top: 32px;
   margin-bottom: 16px;
+}
+
+.project-edit-projectImage-btn {
+  position: absolute;
+  bottom: -12px;
+  right: -8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background-color: #1f1f1f;
+  border-radius: 50%;
+  color: #ffffff;
+}
+
+.project-edit-name-label {
+  margin-top: 12px;
+  font-size: 0.8rem;
+}
+
+.project-edit-name-item {
+  margin: 0 68px;
 }
