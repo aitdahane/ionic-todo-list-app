@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { UtilModule } from 'src/app/util/util.module';
-import { ProjectComponent } from './components/project/project.component';
+import { TaskListComponent } from './components/task-list/task-list.component';
 import { ProjectEditModalComponent } from './components/project-edit/project-edit.modal';
 import { ProjectImagePickerModalComponent } from './components/project-image-picker/project-image-picker.modal';
 import { TaskEditModalComponent } from './components/task-edit/task-edit.modal';
@@ -14,7 +14,7 @@ import { TaskIsDonePipe } from './pipes/task.pipe';
 import { ProjectImageUrlPipe } from './pipes/project.pipe';
 @NgModule({
   declarations: [
-    ProjectComponent,
+    TaskListComponent,
     ProjectEditModalComponent,
     TaskEditModalComponent,
     PopoverComponent,
@@ -33,7 +33,7 @@ import { ProjectImageUrlPipe } from './pipes/project.pipe';
     UtilModule,
   ],
   exports: [
-    ProjectComponent,
+    TaskListComponent,
     ProjectEditModalComponent,
     TaskEditModalComponent,
     PopoverComponent,

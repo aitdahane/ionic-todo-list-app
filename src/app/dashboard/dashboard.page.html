@@ -9,18 +9,16 @@
 
     <ion-title>Munjaz</ion-title>
   </ion-toolbar>
-
 </ion-header>
 
 <ion-content>
   <div *ngIf="(projects$ | async)?.length; else noProject"
-        class="dashboard-project-list">
+        class="dashboard-projectList">
     <div *ngFor="let project of projects$ | async"
           class="dashboard-projectItem"
           (click)="goToProject(project)">
       <app-project-image class="dashboard-projectItem-card"
-                         [projectImage]="project.imageName">
-      </app-project-image>
+                         [projectImage]="project.imageName"></app-project-image>
 
       <div class="dashboard-projectItem-title">{{ project.title }}</div>
     </div>
@@ -33,6 +31,7 @@
                     name="add-outline"></ion-icon>
         </div>
       </div>
+
       <div class="dashboard-projectItem-title">Add a new list</div>
     </div>
   </div>

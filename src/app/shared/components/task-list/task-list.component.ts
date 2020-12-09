@@ -1,9 +1,7 @@
-import { Component, OnInit, HostBinding, OnDestroy, Input, OnChanges, ViewChild, ElementRef } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, OnDestroy, Input, ViewChild, } from '@angular/core';
 import { ModalController, MenuController, IonInput } from '@ionic/angular';
 import { Observable, BehaviorSubject, Subject, combineLatest } from 'rxjs';
-import { map, switchMap, takeUntil, skip, tap, filter, take } from 'rxjs/operators';
-import { ProjectService } from 'src/app/topics/project/project.service';
+import { switchMap, filter, take } from 'rxjs/operators';
 import { TaskService } from 'src/app/topics/task/task.service';
 import { IProject } from 'src/app/topics/project/project.model';
 import { ITask, TaskStatusEnum } from 'src/app/topics/task/task.model';
@@ -11,11 +9,11 @@ import { TaskEditModalComponent } from 'src/app/shared/components/task-edit/task
 import { ProjectEditModalComponent } from 'src/app/shared/components/project-edit/project-edit.modal';
 
 @Component({
-  selector: 'app-project',
-  templateUrl: './project.component.html',
-  styleUrls: ['./project.component.scss'],
+  selector: 'app-task-list',
+  templateUrl: './task-list.component.html',
+  styleUrls: ['./task-list.component.scss'],
 })
-export class ProjectComponent implements OnInit, OnDestroy {
+export class TaskListComponent implements OnInit, OnDestroy {
   @Input() set project(project: IProject) {
     this.selectedProject = project;
     this.changeProject$.next(project);
@@ -73,7 +71,6 @@ export class ProjectComponent implements OnInit, OnDestroy {
       componentProps: {
         projectId: this.project.id,
       },
-      cssClass: 'task-edit-modal',
     });
     modal.onDidDismiss().then(() => {
       this.refresh$.next(true);
@@ -85,7 +82,6 @@ export class ProjectComponent implements OnInit, OnDestroy {
     const modal = await this.modalController.create({
       component: TaskEditModalComponent,
       componentProps: { task },
-      cssClass: 'task-edit-modal',
     });
     modal.onDidDismiss().then(() => {
       this.refresh$.next(true);
@@ -97,7 +93,6 @@ export class ProjectComponent implements OnInit, OnDestroy {
     const modal = await this.modalController.create({
       component: ProjectEditModalComponent,
       componentProps: { project: this.project },
-      cssClass: 'project-edit-modal',
     });
     modal.onDidDismiss().then(() => {
       this.refresh$.next(true);

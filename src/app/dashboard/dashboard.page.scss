@@ -1,17 +1,8 @@
-.dashboard-title {
-  font-size: 1.6rem;
-  font-weight: 600;
-  padding-bottom: 8px;
-}
-
-.dashboard-project-list {
-  padding: 0 16px;
-}
-
-.dashboard-project-list {
+.dashboard-projectList {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  padding: 0 16px;
 }
 
 .dashboard-projectItem {

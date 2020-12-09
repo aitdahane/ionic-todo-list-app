@@ -10,11 +10,11 @@ import { TaskEditModalComponent } from 'src/app/shared/components/task-edit/task
 import { PopoverComponent } from 'src/app/shared/components/popover/popover.component';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.page.html',
-  styleUrls: ['./home.page.scss'],
+  selector: 'app-project',
+  templateUrl: './project.page.html',
+  styleUrls: ['./project.page.scss'],
 })
-export class HomePage implements OnInit, OnDestroy {
+export class ProjectPage implements OnInit, OnDestroy {
   public project$: Observable<IProject>;
   public projects$: Observable<IProject[]>;
   public selectedProject$: BehaviorSubject<IProject> = new BehaviorSubject(null);
@@ -68,7 +68,6 @@ export class HomePage implements OnInit, OnDestroy {
   public async addProject() {
     const modal = await this.modalController.create({
       component: ProjectEditModalComponent,
-      cssClass: 'project-edit-modal',
     });
 
     modal.onDidDismiss().then((res) => {
@@ -82,7 +81,6 @@ export class HomePage implements OnInit, OnDestroy {
     const modal = await this.modalController.create({
       component: ProjectEditModalComponent,
       componentProps: { project: this.selectedProject$.getValue() },
-      cssClass: 'project-edit-modal',
     });
     modal.onDidDismiss().then((res) => {
       if (!res.data) return;

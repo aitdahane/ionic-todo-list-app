@@ -1,11 +1,11 @@
-import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
-import { PopoverController, ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { PopoverController, ModalController } from '@ionic/angular';
+import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { ProjectService } from 'src/app/topics/project/project.service';
 import { IProject } from 'src/app/topics/project/project.model';
 import { PopoverComponent } from 'src/app/shared/components/popover/popover.component';
-import { take } from 'rxjs/operators';
 import { ProjectEditModalComponent } from 'src/app/shared/components/project-edit/project-edit.modal';
 
 @Component({
@@ -49,7 +49,6 @@ export class DashboardPage implements OnInit {
   public async addProject(): Promise<void> {
     const modal = await this.modalController.create({
       component: ProjectEditModalComponent,
-      cssClass: 'project-edit-modal'
     });
 
     modal.onDidDismiss().then((res) => {

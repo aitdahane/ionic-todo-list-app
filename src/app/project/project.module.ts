@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { UtilModule } from 'src/app/util/util.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { HomePageRoutingModule } from './home-routing.module';
-import { HomePage } from './home.page';
+import { ProjectPageRoutingModule } from './project-routing.module';
+import { ProjectPage } from './project.page';
 
 @NgModule({
   imports: [
@@ -12,10 +12,10 @@ import { HomePage } from './home.page';
     IonicModule,
     UtilModule,
     SharedModule,
-    HomePageRoutingModule,
+    ProjectPageRoutingModule,
   ],
   declarations: [
-    HomePage,
+    ProjectPage,
   ]
 })
-export class HomePageModule {}
+export class ProjectPageModule {}

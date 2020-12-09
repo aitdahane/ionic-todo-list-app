@@ -21,8 +21,8 @@
 </ion-header>
 
 <ion-content id="main">
-  <app-project *ngIf="(selectedProject$ | async)"
-               [project]="selectedProject$ | async"></app-project>
+  <app-task-list *ngIf="(selectedProject$ | async)"
+                 [project]="selectedProject$ | async"></app-task-list>
 </ion-content>
 
 
