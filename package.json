@@ -1,7 +1,7 @@
 {
-  "name": "mo",
+  "name": "hive",
   "version": "0.0.1",
-  "author": "Ionic Framework",
+  "author": "Ait Dahane",
   "homepage": "https://ionicframework.com/",
   "scripts": {
     "ng": "ng",
@@ -55,5 +55,5 @@
     "tslint": "~6.1.0",
     "typescript": "~3.8.3"
   },
-  "description": "An Ionic project"
+  "description": "A Todo List Project"
 }
