@@ -44,18 +44,14 @@
   font-size: 1rem;
 }
 
-.task-list {
-  padding-left: 16px;
-  padding-right: 16px;
-}
-
 .task-item {
   display: flex;
   border: 1px solid #dddddd;
   border-radius: 8px;
   margin-bottom: 8px;
-  width: 100%;
   min-height: 44px;
+  margin-right: 16px;
+  margin-left: 16px;
 
   &.is-done {
     color: #b1b1b1;

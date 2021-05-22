@@ -3,6 +3,7 @@ export interface ITask {
   title: string;
   status: TaskStatusEnum;
   note: string;
+  position: number;
   projectId: number;
 }
 

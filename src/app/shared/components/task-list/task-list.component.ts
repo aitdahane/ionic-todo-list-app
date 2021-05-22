@@ -1,7 +1,8 @@
+import _ from "lodash";
 import { Component, OnInit, OnDestroy, Input, ViewChild, } from '@angular/core';
 import { ModalController, MenuController, IonInput } from '@ionic/angular';
 import { Observable, BehaviorSubject, Subject, combineLatest } from 'rxjs';
-import { switchMap, filter, take } from 'rxjs/operators';
+import { switchMap, filter, take, map } from 'rxjs/operators';
 import { TaskService } from 'src/app/topics/task/task.service';
 import { IProject } from 'src/app/topics/project/project.model';
 import { ITask, TaskStatusEnum } from 'src/app/topics/task/task.model';
@@ -46,7 +47,8 @@ export class TaskListComponent implements OnInit, OnDestroy {
       this.changeProject$
     ]).pipe(
       filter(([,x]) => !!x),
-      switchMap(([,x]) => this.taskService.getByProjectId({ projectId: x.id }))
+      switchMap(([,x]) => this.taskService.getByProjectId({ projectId: x.id })),
+      map((tasks) => _.sortBy(tasks, 'position')),
     );
     this.refresh$.next(true);
   }
@@ -135,5 +137,17 @@ export class TaskListComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.refresh$.next(true);
       });
+  }
+
+  public reorderItems(ev): void {
+    this.taskService.reorderTasks({
+      fromPosition: ev.detail.from,
+      toPosition: ev.detail.to,
+      projectId: this.project.id,
+    }).pipe(take(1))
+      .subscribe(() => {
+        this.refresh$.next(true);
+      });
+    ev.detail.complete(true);
   }
 }

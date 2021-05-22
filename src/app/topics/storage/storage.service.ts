@@ -38,9 +38,22 @@ export class StorageService {
       return JSON.parse(value);
     }).then((results) => {
       if (!results) return [];
-      console.log('results', results.sort((x, y) => x.id - y.id));
       return results.sort((x, y) => x.id - y.id);
     });
+  }
+
+  public bulkUpdateWere(key: string, items: any[], filterFn: Function): Promise<any> {
+    return Storage.get({ key })
+      .then(({ value }) => JSON.parse(value))
+      .then((_items) => _items || [])
+      .then((_items) => {
+        const newItems = [
+          ..._items.filter(x => !filterFn(x)),
+          ...items,
+        ];
+        console.log('newItems', newItems);
+        return Storage.set({ key, value: JSON.stringify(newItems) });
+      });
   }
 
   public append(key: string, item: any): Promise<any> {

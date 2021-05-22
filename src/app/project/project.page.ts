@@ -50,7 +50,6 @@ export class ProjectPage implements OnInit, OnDestroy {
     this.activatedRoute.params
     .pipe(takeUntil(this.destroy$))
     .subscribe((params) => {
-      console.log('params', params)
       this.changeProject$.next(+params.projectId);
     });
   }

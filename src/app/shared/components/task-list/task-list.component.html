@@ -1,15 +1,19 @@
 <ng-container *ngIf="(tasks$ | async)?.length; else noTask">
-  <ion-list class="task-list"
-            lines="none">
-    <ion-item *ngFor="let task of tasks$ | async; trackBy: trackByFn"
-              class="task-item"
-              [class.is-done]="task | taskIsDone">
-        <mo-checkbox [checked]="task | taskIsDone"
-                      (checkedChange)="updateTaskStatus(task, $event)"></mo-checkbox>
+  <ion-list lines="none">
+    <ion-reorder-group disabled="false"
+                       (ionItemReorder)="reorderItems($event)">      
+      <ion-item *ngFor="let task of tasks$ | async; trackBy: trackByFn"
+                class="task-item"
+                [class.is-done]="task | taskIsDone">
+          <mo-checkbox [checked]="task | taskIsDone"
+                        (checkedChange)="updateTaskStatus(task, $event)"></mo-checkbox>
 
-        <div class="task-item-title ion-activatable ripple-parent"
-              (click)="editTask(task)">{{ task.title }}</div> 
-    </ion-item>
+          <div class="task-item-title ion-activatable ripple-parent"
+                (click)="editTask(task)">{{ task.title }}</div> 
+
+          <ion-reorder slot="end"></ion-reorder>
+      </ion-item>
+    </ion-reorder-group>
   </ion-list>
 </ng-container>
 

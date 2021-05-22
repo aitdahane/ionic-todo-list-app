@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, from } from 'rxjs';
+import { BehaviorSubject, Observable, from, of } from 'rxjs';
 import { ITask, TaskStatusEnum } from './task.model';
 import { map, tap, switchMap } from 'rxjs/operators';
 import { StorageService } from '../storage/storage.service';
@@ -15,8 +15,11 @@ export class TaskService {
     const { title, note, projectId } = params;
     const data = { title, note, projectId, status: TaskStatusEnum.TO_DO };
     let id;
-    return from(this.storageService.append('tasks', data))
+    return from(this.getByProjectId({ projectId }))
       .pipe(
+        switchMap((tasks) => this.storageService.append('tasks', {
+          ...data, position: tasks ? tasks.length : 0,
+        })),        
         tap((x) => { id = x }),
         switchMap(() => this.storageService.getObject('tasks')),
         map((tasks) => {
@@ -65,9 +68,38 @@ export class TaskService {
   public getByProjectId(params: { projectId: number }): Observable<ITask[]> {
     return from(this.storageService.getObject('tasks'))
       .pipe(
-        tap(x => console.log('tasks', x)),
         map((tasks: ITask[]) => tasks.filter(x => x.projectId === params.projectId)
       ),
     );
+  }
+
+  public reorderTasks(params: { projectId: number; fromPosition?: number; toPosition?: number }): Observable<ITask[]> {
+    const { projectId, fromPosition = 0, toPosition = 0 } = params;
+    return from(this.getByProjectId({ projectId }))
+      .pipe(
+        map(tasks => tasks
+          .sort((x, y) => x.position - y.position)
+          .map((task, index) => ({
+            ...task,
+            position: index,
+          })
+        )),
+        map(tasks => {
+          const _from = Math.max(fromPosition, 0);
+          const _to = Math.min(toPosition, tasks.length - 1);
+          const newTasks = [
+            ...tasks.filter(({}, index) => index < _to && index !== _from),
+            tasks[Math.max(_from, _to)],
+            tasks[Math.min(_from, _to)],
+            ...tasks.filter(({}, index) => index > _to && index !== _from),
+          ]
+          for(let i = 0; i < newTasks.length; i++) {
+            newTasks[i].position = i;
+          }
+          return newTasks;
+        }),
+        switchMap(tasks => from(this.storageService.bulkUpdateWere('tasks', tasks, (task) => task.projectId === projectId))),
+        switchMap(() => this.getByProjectId({ projectId })),
+      );
   }
 }
