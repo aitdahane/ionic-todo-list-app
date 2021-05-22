@@ -52,6 +52,7 @@
   min-height: 44px;
   margin-right: 16px;
   margin-left: 16px;
+  --background: #ffffff;
 
   &.is-done {
     color: #b1b1b1;
@@ -116,7 +117,7 @@
 
 .task-addItem {
   position: fixed;
-  bottom: 8px;
+  bottom: 0;
   display: flex;
   width: 100%;
   --padding-start: 8px;
@@ -127,13 +128,44 @@ ion-input.task-addItem-input {
   border: 1px solid #dddddd;;
   border-radius: 20px;
   margin-right: 8px;
+  margin-bottom: 8px;
   --padding-start: 16px;
   --padding-top: 12px;
   --padding-bottom: 12px;
+  --background: #ffffff;
 }
 
 .task-addItem-btn {
   height: 40px;
   width: 40px;
+  margin-bottom: 12px;
   --border-radius: 50%;
+}
+
+.taskList-noTask {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+}
+
+.taskList-noTask-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 132px; 
+}
+
+.taskList-noTask-message {
+  font-size: 18px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.taskList-noTask-img {
+  height: 120px;
+  width: 120px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }

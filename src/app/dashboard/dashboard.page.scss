@@ -54,7 +54,29 @@
 }
 
 .dashboard-noProject {
-  margin-top: 32px;
+  display: flex;
+  height: 100%;
+  justify-content: center;
   text-align: center;
   width: 100%;
+}
+
+.dashboard-noProject-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 132px; 
+}
+
+.dashboard-noProject-message {
+  font-size: 18px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.dashboard-noProject-img {
+  height: 120px;
+  width: 120px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }

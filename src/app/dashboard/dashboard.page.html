@@ -38,11 +38,17 @@
 
   <ng-template #noProject>
     <div class="dashboard-noProject">
-      <ion-button shape="round"
-                  (click)="addProject()">
-        <ion-icon slot="start"
-                  name="add-outline"></ion-icon> Add a project
-      </ion-button>
+      <div class="dashboard-noProject-content">
+        <div class="dashboard-noProject-img"
+              [ngStyle]="{backgroundImage: 'url(../../assets/img/empty-box.png)'}"></div>
+        
+        <div class="dashboard-noProject-message">Oops.. There are no lists</div>
+        
+        <ion-button (click)="addProject()">
+          <ion-icon slot="start"
+                    name="add-outline"></ion-icon> Add a List
+        </ion-button>
+      </div>
     </div>
   </ng-template>
 </ion-content>
