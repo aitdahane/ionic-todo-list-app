@@ -85,6 +85,7 @@ export class TaskService {
           })
         )),
         map(tasks => {
+          if (fromPosition === toPosition) return tasks;
           const _from = Math.max(fromPosition, 0);
           const _to = Math.min(toPosition, tasks.length - 1);
           const newTasks = [

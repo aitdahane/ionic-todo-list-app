@@ -3,6 +3,7 @@
   flex-wrap: wrap;
   justify-content: space-between;
   padding: 0 16px;
+  margin-bottom: 12px;
 }
 
 .dashboard-projectItem {
@@ -26,20 +27,16 @@
 .dashboard-projectItemAdd-card {
   display: flex;
   border-radius: 8px;
-  border: 1px solid #b8b8b8;
-  height: 92%;
+  background-color: #fafafa;
+  height: 96%;
   width: 100%;
   align-items: center;
   justify-content: center;
   color: #1f1f1f;
 }
 
-.dashboard-projectItemAdd-card-content {
-  text-align: center;
-}
-
 .dashboard-projectItem-icon {
-  font-size: 32px;
+  font-size: 52px;
   margin: 20px;
 }
 

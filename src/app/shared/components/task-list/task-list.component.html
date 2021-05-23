@@ -6,7 +6,7 @@
                 class="task-item"
                 [class.is-done]="task | taskIsDone">
           <mo-checkbox [checked]="task | taskIsDone"
-                        (checkedChange)="updateTaskStatus(task, $event)"></mo-checkbox>
+                       (checkedChange)="updateTaskStatus(task, $event)"></mo-checkbox>
 
           <div class="task-item-title ion-activatable ripple-parent"
                 (click)="editTask(task)">{{ task.title }}</div> 
@@ -21,7 +21,7 @@
   <div class="taskList-noTask">
     <div class="taskList-noTask-content">
         <div class="taskList-noTask-img"
-              [ngStyle]="{backgroundImage: 'url(assets/img/empty-box.png)'}"></div>
+              [ngStyle]="{backgroundImage: 'url(assets/img/empty-list.png)'}"></div>
         
         <div class="taskList-noTask-message">Your list is empty</div>
     </div>

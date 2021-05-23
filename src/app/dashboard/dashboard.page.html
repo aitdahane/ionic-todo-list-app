@@ -1,13 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-buttons *ngIf="(projects$ | async)?.length"
-                 slot="end">
-      <ion-button (click)="addProject()">
-        <ion-icon slot="start" name="add-outline"></ion-icon> List
-      </ion-button>
-    </ion-buttons>
-
-    <ion-title>Hive</ion-title>
+    <ion-title>Lists</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -26,10 +19,8 @@
     <div class="dashboard-projectItem"
         (click)="addProject()">
       <div class="dashboard-projectItemAdd-card">
-        <div class="dashboard-projectItemAdd-card-content">
-          <ion-icon class="dashboard-projectItem-icon"
-                    name="add-outline"></ion-icon>
-        </div>
+        <ion-icon class="dashboard-projectItem-icon"
+                  name="add-outline"></ion-icon>
       </div>
 
       <div class="dashboard-projectItem-title">Add a new list</div>

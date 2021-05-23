@@ -1,6 +1,6 @@
 {
   "appId": "io.ionic.starter",
-  "appName": "Hive",
+  "appName": "Lists",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",

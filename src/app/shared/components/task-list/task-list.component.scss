@@ -46,10 +46,10 @@
 
 .task-item {
   display: flex;
-  border: 1px solid #dddddd;
-  border-radius: 8px;
+  box-shadow: #ddddddff 0px 0px 0px 1px, #ddddddff 0px 2px 4px;
+  border-radius: 4px;
   margin-bottom: 8px;
-  min-height: 44px;
+  min-height: 60px;
   margin-right: 16px;
   margin-left: 16px;
   --background: #ffffff;
@@ -125,7 +125,7 @@
 }
 
 ion-input.task-addItem-input {
-  border: 1px solid #dddddd;;
+  box-shadow: #ddddddff 0px 0px 0px 1px, #ddddddff 0px 2px 4px;
   border-radius: 20px;
   margin-right: 8px;
   margin-bottom: 8px;

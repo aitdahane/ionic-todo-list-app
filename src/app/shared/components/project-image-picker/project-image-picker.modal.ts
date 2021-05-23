@@ -23,6 +23,7 @@ export class ProjectImagePickerModalComponent implements OnInit {
       'laptop',
       'list',
       'clapperboard',
+      'home',
       'shopping-cart',
       'wallet',
       'suitcase',
@@ -30,6 +31,10 @@ export class ProjectImagePickerModalComponent implements OnInit {
       'pin',
       'giftbox',
       'film',
+      'heart',
+      'coin-stack',
+      'user',
+      'car',
     ];
   }
   
