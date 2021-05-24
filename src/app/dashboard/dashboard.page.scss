@@ -7,21 +7,24 @@
 }
 
 .dashboard-projectItem {
-  display: block;
-  height: 156px;
-  width: 48%;
-  margin: 20px 0;
+  display: flex;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  --min-height: 80px;
+  width: 100%;
+  --background: #fafafa;
 }
 
-.dashboard-projectItem-card {
+.dashboard-projectItem-img {
+  height: 28px;
+  width: 28px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   border-radius: 8px;
-  height: 96%;
-  width: 100%;
-  background-color: #f3f3f3;
-  background-size: 100% 100%;
+  margin-right: 16px;
 }
 
 .dashboard-projectItemAdd-card {

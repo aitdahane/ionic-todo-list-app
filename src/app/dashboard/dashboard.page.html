@@ -1,31 +1,29 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-title>Lists</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="addProject()">
+        <ion-icon slot="icon-only"
+                  name="add-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div *ngIf="(projects$ | async)?.length; else noProject"
-        class="dashboard-projectList">
-    <div *ngFor="let project of projects$ | async"
+  <ion-list *ngIf="(projects$ | async)?.length; else noProject"
+            lines="none"
+            class="dashboard-projectList">
+    <ion-item *ngFor="let project of projects$ | async"
           class="dashboard-projectItem"
           (click)="goToProject(project)">
-      <app-project-image class="dashboard-projectItem-card"
-                         [projectImage]="project.imageName"></app-project-image>
+      <div class="dashboard-projectItem-img"
+           [ngStyle]="{backgroundImage: project.imageName | projectImageUrl}"></div>
 
       <div class="dashboard-projectItem-title">{{ project.title }}</div>
-    </div>
-    
-    <div class="dashboard-projectItem"
-        (click)="addProject()">
-      <div class="dashboard-projectItemAdd-card">
-        <ion-icon class="dashboard-projectItem-icon"
-                  name="add-outline"></ion-icon>
-      </div>
-
-      <div class="dashboard-projectItem-title">Add a new list</div>
-    </div>
-  </div>
+    </ion-item>
+  </ion-list>
 
   <ng-template #noProject>
     <div class="dashboard-noProject">
@@ -33,7 +31,7 @@
         <div class="dashboard-noProject-img"
               [ngStyle]="{backgroundImage: 'url(../../assets/img/empty-box.png)'}"></div>
         
-        <div class="dashboard-noProject-message">Oops.. There are no lists</div>
+        <div class="dashboard-noProject-message">No Lists here, yet</div>
         
         <ion-button (click)="addProject()">
           <ion-icon slot="start"
