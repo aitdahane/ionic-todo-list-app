@@ -18,62 +18,12 @@
   overflow: auto;
 }
 
-.home-title {
-  display: block;
-  color: #88898a;
-  font-weight: 600;
-  font-size: .8rem;
-}
-
 .home-navbar {
   position: fixed;
   background-color: #111010;
   height: 100%;
   padding: 0 12px;
   width: 20%;
-}
-
-.home-navbar-toggle {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.home-navbar-toggle-icon {
-  color: #fff;
-  font-size: 40px;
-}
-
-.home-nav-list {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 60%;
-  margin-top: 84px;
-}
-
-.home-nav-item {
-  &.is-selected {
-    --background: #f6f6f6;
-  }
-}
-
-.menu {
-  --width: 240px;
-}
-
-.menu-icon {
-  font-size: 24px;
-}
-
-.menu-header {
-  display: flex;
-  justify-content: flex-end;
-  margin: 16px;
-}
-
-.menu-setting-icon {
-  font-size: 24px;
 }
 
 .menu-add-project-btn {
@@ -84,5 +34,4 @@
 .project-title {
   margin-bottom: 8px;
   font-size: 1.6rem;
-  font-weight: 600;
 }
