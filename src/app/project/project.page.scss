@@ -26,6 +26,12 @@
   width: 20%;
 }
 
+.home-nav-item {
+  &.is-selected {
+    --background: #f4f4f4;
+  }
+}
+
 .menu-add-project-btn {
   margin-top: 16px;
   margin: 16px 20px;
