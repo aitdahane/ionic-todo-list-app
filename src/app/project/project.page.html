@@ -36,10 +36,5 @@
                 [class.is-selected]="(selectedProject$ | async)?.id === project.id"
                 (click)="handleSelectedProject(project)">{{ project.title }}</ion-item>
     </ion-list>
-
-    <ion-button class="menu-add-project-btn"
-                shape="round"
-                expand="full"
-                (click)="addProject()">+ Add Project</ion-button>
     </ion-content>
 </ion-menu>
