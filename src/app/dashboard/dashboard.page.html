@@ -1,13 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-title>Lists</ion-title>
-
-    <ion-buttons slot="end">
-      <ion-button (click)="addProject()">
-        <ion-icon slot="icon-only"
-                  name="add-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -30,8 +23,14 @@
       <div class="dashboard-noProject-content">
         <div class="dashboard-noProject-title">No lists</div>
         
-        <div class="dashboard-noProject-message">Tap the Add button to create a list</div>
+        <div class="dashboard-noProject-message">Tap the Add button to create a list.</div>
       </div>
     </div>
   </ng-template>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="addProject()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

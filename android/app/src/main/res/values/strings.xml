@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">mo</string>
-    <string name="title_activity_main">mo</string>
-    <string name="package_name">io.ionic.starter</string>
-    <string name="custom_url_scheme">io.ionic.starter</string>
+    <string name="app_name">Lists</string>
+    <string name="title_activity_main">Lists</string>
+    <string name="package_name">com.aitdahane.lists</string>
+    <string name="custom_url_scheme">com.aitdahane.lists</string>
 </resources>

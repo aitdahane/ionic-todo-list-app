@@ -47,13 +47,7 @@ export class DashboardPage implements OnInit {
   }
 
   public async addProject(): Promise<void> {
-    const modal = await this.modalController.create({
-      component: ProjectEditModalComponent,
-    });
-
-    modal.onDidDismiss().then((res) => {
-      if (!res.data) return;
-    });
+    const modal = await this.modalController.create({ component: ProjectEditModalComponent });
     await modal.present();
   }
 

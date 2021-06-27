@@ -66,22 +66,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 152px; 
+  justify-content: center; 
+  margin-bottom: 80px;
 }
 
 .dashboard-noProject-title {
-  font-size: 18px;
+  font-size: 1rem;
 }
 
 .dashboard-noProject-message {
-  font-size: 14px;
+  font-size: 0.8rem;
   margin-top: 20px;
   margin-bottom: 20px;
-}
-
-.dashboard-noProject-img {
-  height: 120px;
-  width: 120px;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
 }

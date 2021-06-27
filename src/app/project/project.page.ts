@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, Route, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ModalController, MenuController, PopoverController } from '@ionic/angular';
 import { map, takeUntil, take } from 'rxjs/operators';
 import { Observable, BehaviorSubject, Subject, combineLatest } from 'rxjs';
@@ -15,10 +15,8 @@ import { PopoverComponent } from 'src/app/shared/components/popover/popover.comp
   styleUrls: ['./project.page.scss'],
 })
 export class ProjectPage implements OnInit, OnDestroy {
-  public project$: Observable<IProject>;
   public projects$: Observable<IProject[]>;
   public selectedProject$: BehaviorSubject<IProject> = new BehaviorSubject(null);
-  public refreshProject$: BehaviorSubject<boolean> = new BehaviorSubject(true);
 
   private destroy$: Subject<boolean> = new Subject();
   private changeProject$: BehaviorSubject<number> = new BehaviorSubject(null);
@@ -40,7 +38,7 @@ export class ProjectPage implements OnInit, OnDestroy {
     ]).pipe(
       takeUntil(this.destroy$),
       map(([projects, projectId]) => {
-        if (!projectId) return projects[0]; // return null
+        if (!projectId) return projects[0];
         return projects.find(x => x.id === projectId);
       }),
     ).subscribe(project => {
@@ -76,10 +74,11 @@ export class ProjectPage implements OnInit, OnDestroy {
     return await modal.present();
   }
 
-  public async editProject(project: IProject) {
+  public async editProject() {
+    const project = this.selectedProject$.getValue();
     const modal = await this.modalController.create({
       component: ProjectEditModalComponent,
-      componentProps: { project: this.selectedProject$.getValue() },
+      componentProps: { project },
     });
     modal.onDidDismiss().then((res) => {
       if (!res.data) return;
@@ -89,14 +88,13 @@ export class ProjectPage implements OnInit, OnDestroy {
   }
 
   public async addTask() {
+    const projectId = this.selectedProject$.getValue()?.id;
     const modal = await this.modalController.create({
       component: TaskEditModalComponent,
-      componentProps: {
-        projectId: this.selectedProject$.getValue().id,
-      }
+      componentProps: { projectId }
     });
     modal.onDidDismiss().then(() => {
-      this.changeProject$.next(this.selectedProject$.getValue().id);
+      this.changeProject$.next(projectId);
     });
     await modal.present();
   }
