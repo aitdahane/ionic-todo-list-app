@@ -4,7 +4,7 @@ import { PopoverController, ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { ProjectService } from 'src/app/shared/services/project.service';
-import { IProject } from 'src/app/shared/models/project.model';
+import { Project } from 'src/app/shared/models/project.model';
 import { PopoverComponent } from 'src/app/shared/components/popover/popover.component';
 import { ProjectEditModalComponent } from 'src/app/shared/components/project-edit/project-edit.modal';
 import { sortByPosition } from '../shared/utils/collection.utils';
@@ -15,7 +15,7 @@ import { sortByPosition } from '../shared/utils/collection.utils';
   styleUrls: ['./dashboard.page.scss'],
 })
 export class DashboardPage implements OnInit {
-  public projects$: Observable<IProject[]>;
+  public projects$: Observable<Project[]>;
 
   constructor(
     private router: Router,
@@ -30,7 +30,7 @@ export class DashboardPage implements OnInit {
     );
   }
 
-  public async presentProjectOptionsPopover(ev: MouseEvent, project: IProject) {
+  public async presentProjectOptionsPopover(ev: MouseEvent, project: Project) {
     ev.stopPropagation();
     const popover = await this.popoverController.create({
       component: PopoverComponent,
@@ -45,7 +45,7 @@ export class DashboardPage implements OnInit {
     await popover.present();
   }
 
-  public deleteProject(project: IProject): void {
+  public deleteProject(project: Project): void {
     this.projectService
       .delete({ projectId: project.id })
       .pipe(take(1))
@@ -59,7 +59,7 @@ export class DashboardPage implements OnInit {
     await modal.present();
   }
 
-  public goToProject(project: IProject): void {
+  public goToProject(project: Project): void {
     this.router.navigate(['/project', project.id]);
   }
 

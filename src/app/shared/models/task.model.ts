@@ -1,4 +1,4 @@
-export interface ITask {
+export interface Task {
   id: number;
   title: string;
   status: TaskStatusEnum;
@@ -10,4 +10,10 @@ export interface ITask {
 export enum TaskStatusEnum {
   TO_DO = 'to_do',
   DONE = 'complete',
+}
+
+export enum TaskStatusFilterEnum {
+  ALL = 'ALL',
+  COMPLETED = 'COMPLETED',
+  UNCOMPLETED = 'UNCOMPLETED',
 }

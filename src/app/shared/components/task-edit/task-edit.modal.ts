@@ -3,7 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { take } from 'rxjs/operators';
 import { TaskService } from 'src/app/shared/services/task.service';
-import { ITask, TaskStatusEnum } from 'src/app/shared/models/task.model';
+import { Task, TaskStatusEnum } from 'src/app/shared/models/task.model';
 
 @Component({
   selector: 'app-task-edit',
@@ -12,7 +12,7 @@ import { ITask, TaskStatusEnum } from 'src/app/shared/models/task.model';
 })
 export class TaskEditModalComponent implements OnInit {
   @Input() projectId: number;
-  @Input() task: ITask;
+  @Input() task: Task;
   public fg: FormGroup;
 
   constructor(

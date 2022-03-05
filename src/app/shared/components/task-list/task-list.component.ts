@@ -4,10 +4,15 @@ import { ModalController, MenuController, IonInput } from '@ionic/angular';
 import { Observable, BehaviorSubject, Subject, combineLatest } from 'rxjs';
 import { switchMap, filter, take, map } from 'rxjs/operators';
 import { TaskService } from 'src/app/shared/services/task.service';
-import { IProject } from 'src/app/shared/models/project.model';
-import { ITask, TaskStatusEnum } from 'src/app/shared/models/task.model';
+import { Project } from 'src/app/shared/models/project.model';
+import {
+  Task,
+  TaskStatusEnum,
+  TaskStatusFilterEnum,
+} from 'src/app/shared/models/task.model';
 import { TaskEditModalComponent } from 'src/app/shared/components/task-edit/task-edit.modal';
 import { ProjectEditModalComponent } from 'src/app/shared/components/project-edit/project-edit.modal';
+import { filterTasksByStatus } from '../../utils/task.utils';
 
 @Component({
   selector: 'app-task-list',
@@ -15,7 +20,11 @@ import { ProjectEditModalComponent } from 'src/app/shared/components/project-edi
   styleUrls: ['./task-list.component.scss'],
 })
 export class TaskListComponent implements OnInit, OnDestroy {
-  @Input() set project(project: IProject) {
+  public StatusFilter: typeof TaskStatusFilterEnum = TaskStatusFilterEnum;
+  public currentStatusFilter$: BehaviorSubject<TaskStatusFilterEnum> =
+    new BehaviorSubject<TaskStatusFilterEnum>(TaskStatusFilterEnum.ALL);
+
+  @Input() set project(project: Project) {
     this.selectedProject = project;
     this.changeProject$.next(project);
   }
@@ -27,11 +36,11 @@ export class TaskListComponent implements OnInit, OnDestroy {
   @ViewChild('newTaskNameInput') public newTaskNameInput: IonInput;
   public refresh$: BehaviorSubject<boolean> = new BehaviorSubject(true);
   public newTaskName: string;
-  public selectedProject: IProject;
-  public tasks$: Observable<ITask[]>;
+  public selectedProject: Project;
+  public tasks$: Observable<Task[]>;
 
   private destroy$: Subject<boolean> = new Subject();
-  private changeProject$: BehaviorSubject<IProject> = new BehaviorSubject(null);
+  private changeProject$: BehaviorSubject<Project> = new BehaviorSubject(null);
 
   constructor(
     private modalController: ModalController,
@@ -40,12 +49,17 @@ export class TaskListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.tasks$ = combineLatest([this.refresh$, this.changeProject$]).pipe(
+    this.tasks$ = combineLatest([
+      this.refresh$,
+      this.changeProject$,
+      this.currentStatusFilter$,
+    ]).pipe(
       filter(([, project]) => !!project),
       switchMap(([, project]) =>
         this.taskService.getByProjectId({ projectId: project.id })
       ),
-      map((tasks) => _.sortBy(tasks, 'position'))
+      map((tasks) => _.sortBy(tasks, 'position')),
+      map((tasks) => filterTasksByStatus(tasks, this.currentStatusFilter$.getValue()))
     );
     this.refresh$.next(true);
   }
@@ -55,7 +69,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  public handleSelectedProject(project: IProject): void {
+  public handleSelectedProject(project: Project): void {
     this.changeProject$.next(project);
     this.menu.close();
   }
@@ -77,7 +91,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
     await modal.present();
   }
 
-  public async editTask(task: ITask) {
+  public async editTask(task: Task) {
     const modal = await this.modalController.create({
       component: TaskEditModalComponent,
       componentProps: { task },
@@ -99,7 +113,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
     await modal.present();
   }
 
-  public async deleteTask(task: ITask) {
+  public async deleteTask(task: Task) {
     this.taskService.delete({ taskId: task.id });
     this.refresh$.next(true);
   }
@@ -125,7 +139,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
       });
   }
 
-  public updateTaskStatus(task: ITask, completed: boolean): string {
+  public updateTaskStatus(task: Task, completed: boolean): string {
     if (!task) {
       return;
     }
@@ -152,5 +166,9 @@ export class TaskListComponent implements OnInit, OnDestroy {
         this.refresh$.next(true);
       });
     ev.detail.complete(true);
+  }
+
+  public filterByStatus(status: TaskStatusFilterEnum): void {
+    this.currentStatusFilter$.next(status);
   }
 }

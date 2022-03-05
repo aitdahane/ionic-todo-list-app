@@ -1,11 +1,11 @@
-import { ITask } from 'src/app/shared/models/task.model';
+import { Task } from 'src/app/shared/models/task.model';
 
-export interface IProject {
+export interface Project {
   id: number;
   title: string;
   iconName?: string;
   imageName?: string;
   color?: string;
-  tasks: ITask[];
+  tasks: Task[];
   position?: number;
 }

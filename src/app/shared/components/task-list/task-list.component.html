@@ -1,3 +1,21 @@
+<header class="pl-4">
+  <ion-chip
+    [outline]="(currentStatusFilter$ | async) !== StatusFilter.ALL"
+    (click)="filterByStatus(StatusFilter.ALL)"
+    ><ion-label>All</ion-label></ion-chip
+  >
+  <ion-chip
+    [outline]="(currentStatusFilter$ | async) !== StatusFilter.COMPLETED"
+    (click)="filterByStatus(StatusFilter.COMPLETED)"
+    ><ion-label>Completed</ion-label></ion-chip
+  >
+  <ion-chip
+    [outline]="(currentStatusFilter$ | async) !== StatusFilter.UNCOMPLETED"
+    (click)="filterByStatus(StatusFilter.UNCOMPLETED)"
+    ><ion-label>Uncompleted</ion-label></ion-chip
+  >
+</header>
+
 <ng-container *ngIf="(tasks$ | async)?.length; else noTask">
   <ion-list lines="none">
     <ion-reorder-group disabled="false" (ionItemReorder)="reorderItems($event)">

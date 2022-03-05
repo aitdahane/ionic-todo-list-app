@@ -25,6 +25,8 @@
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
 
+$unit: 4px;
+
 * {
   font-family: 'DM Sans', Verdana, Tahoma, sans-serif;
 }
@@ -47,4 +49,8 @@ ion-title {
 
 .h-100 {
   height: 100%;
+}
+
+.pl-4 {
+  padding-left: $unit * 4;
 }

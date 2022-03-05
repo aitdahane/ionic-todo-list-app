@@ -8,7 +8,7 @@ import {
 import { map, takeUntil, take } from 'rxjs/operators';
 import { Observable, BehaviorSubject, Subject, combineLatest } from 'rxjs';
 import { ProjectService } from 'src/app/shared/services/project.service';
-import { IProject } from 'src/app/shared/models/project.model';
+import { Project } from 'src/app/shared/models/project.model';
 import { ProjectEditModalComponent } from 'src/app/shared/components/project-edit/project-edit.modal';
 import { TaskEditModalComponent } from 'src/app/shared/components/task-edit/task-edit.modal';
 import { PopoverComponent } from 'src/app/shared/components/popover/popover.component';
@@ -19,8 +19,8 @@ import { PopoverComponent } from 'src/app/shared/components/popover/popover.comp
   styleUrls: ['./project.page.scss'],
 })
 export class ProjectPage implements OnInit, OnDestroy {
-  public projects$: Observable<IProject[]>;
-  public selectedProject$: BehaviorSubject<IProject> = new BehaviorSubject(
+  public projects$: Observable<Project[]>;
+  public selectedProject$: BehaviorSubject<Project> = new BehaviorSubject(
     null
   );
 
@@ -64,7 +64,7 @@ export class ProjectPage implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  public handleSelectedProject(project: IProject): void {
+  public handleSelectedProject(project: Project): void {
     this.changeProject$.next(project.id);
     this.menu.close();
   }

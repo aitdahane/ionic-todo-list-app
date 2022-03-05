@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ProjectService } from 'src/app/shared/services/project.service';
 import { ModalController } from '@ionic/angular';
 import { take } from 'rxjs/operators';
-import { IProject } from 'src/app/shared/models/project.model';
+import { Project } from 'src/app/shared/models/project.model';
 import { ProjectImagePickerModalComponent } from '../project-image-picker/project-image-picker.modal';
 
 @Component({
@@ -12,7 +12,7 @@ import { ProjectImagePickerModalComponent } from '../project-image-picker/projec
   styleUrls: ['./project-edit.modal.scss'],
 })
 export class ProjectEditModalComponent {
-  @Input() project: IProject;
+  @Input() project: Project;
   public fg: FormGroup;
   public iconName: string;
   public imageName: string;
@@ -61,7 +61,7 @@ export class ProjectEditModalComponent {
     this.projectService
       .create(params)
       .pipe(take(1))
-      .subscribe((project: IProject) => {
+      .subscribe((project: Project) => {
         this.modalController.dismiss({ project });
       });
   }
@@ -76,7 +76,7 @@ export class ProjectEditModalComponent {
     this.projectService
       .update(params)
       .pipe(take(1))
-      .subscribe((project: IProject) => {
+      .subscribe((project: Project) => {
         this.modalController.dismiss({ project });
       });
   }

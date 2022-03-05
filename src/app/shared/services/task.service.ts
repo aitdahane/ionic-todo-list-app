@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, from, of } from 'rxjs';
-import { ITask, TaskStatusEnum } from '../models/task.model';
+import { Task, TaskStatusEnum } from '../models/task.model';
 import { map, tap, switchMap } from 'rxjs/operators';
 import { StorageService } from './storage.service';
 import { reorderItems, sortByPosition } from '../utils/collection.utils';
 
 @Injectable()
 export class TaskService {
-  public tasks$: BehaviorSubject<ITask[]> = new BehaviorSubject([]);
+  public tasks$: BehaviorSubject<Task[]> = new BehaviorSubject([]);
 
   constructor(private storageService: StorageService) {}
 
@@ -15,7 +15,7 @@ export class TaskService {
     title: string;
     note?: string;
     projectId: number;
-  }): Observable<ITask> {
+  }): Observable<Task> {
     const { title, note, projectId } = params;
     const data = { title, note, projectId, status: TaskStatusEnum.TO_DO };
     let id;
@@ -40,7 +40,7 @@ export class TaskService {
   public updateStatus(params: {
     taskId: number;
     status: TaskStatusEnum;
-  }): Observable<ITask> {
+  }): Observable<Task> {
     const { taskId, status } = params;
     return from(
       this.storageService.update('tasks', { id: taskId, status })
@@ -57,7 +57,7 @@ export class TaskService {
     id: number;
     title: string;
     note: string;
-  }): Observable<ITask> {
+  }): Observable<Task> {
     const { id, title, note } = params;
     return from(this.storageService.update('tasks', { id, title, note })).pipe(
       switchMap(() => this.storageService.getObject('tasks')),
@@ -79,12 +79,12 @@ export class TaskService {
     );
   }
 
-  public getByProjectId(params: { projectId: number }): Observable<ITask[]> {
+  public getByProjectId(params: { projectId: number }): Observable<Task[]> {
     return from(this.storageService.getObject('tasks')).pipe(
-      map((tasks: ITask[]) =>
+      map((tasks: Task[]) =>
         tasks.filter((x) => x.projectId === params.projectId)
       ),
-      map((tasks: ITask[]) => sortByPosition(tasks))
+      map((tasks: Task[]) => sortByPosition(tasks))
     );
   }
 
@@ -92,17 +92,17 @@ export class TaskService {
     projectId: number;
     fromPosition?: number;
     toPosition?: number;
-  }): Observable<ITask[]> {
+  }): Observable<Task[]> {
     const { projectId, fromPosition = 0, toPosition = 0 } = params;
     return this.getByProjectId({ projectId }).pipe(
-      map((tasks: ITask[]) =>
+      map((tasks: Task[]) =>
         tasks
           .map((task, index) => ({ ...task, position: task.position ?? index }))
           .sort((x, y) => x.position - y.position)
           .map((project, index) => ({ ...project, position: index }))
       ),
-      map((tasks: ITask[]) => {
-        const newTasks = reorderItems<ITask>(tasks, fromPosition, toPosition);
+      map((tasks: Task[]) => {
+        const newTasks = reorderItems<Task>(tasks, fromPosition, toPosition);
         for (let i = 0; i < newTasks.length; i++) {
           newTasks[i].position = i;
         }

@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, of, Observable, from } from 'rxjs';
-import { IProject } from '../models/project.model';
+import { Project } from '../models/project.model';
 import { StorageService } from 'src/app/shared/services/storage.service';
 import { switchMap, map, tap } from 'rxjs/operators';
-import { ITask, TaskStatusEnum } from '../models/task.model';
+import { Task, TaskStatusEnum } from '../models/task.model';
 import { reorderItems } from '../utils/collection.utils';
 
 @Injectable()
 export class ProjectService {
-  public projects$: BehaviorSubject<IProject[]> = new BehaviorSubject([]);
+  public projects$: BehaviorSubject<Project[]> = new BehaviorSubject([]);
 
   constructor(private storageService: StorageService) {
     this.storageService
@@ -22,7 +22,7 @@ export class ProjectService {
       .then((projects) => this.projects$.next(projects));
   }
 
-  public getAll(): Observable<IProject[]> {
+  public getAll(): Observable<Project[]> {
     return from(this.storageService.getObject('projects')).pipe(
       map((projects) => projects.sort((x, y) => x?.position - y?.position))
     );
@@ -32,7 +32,7 @@ export class ProjectService {
     title: string;
     iconName: string;
     imageName: string;
-  }): Observable<IProject> {
+  }): Observable<Project> {
     const { title, iconName, imageName } = params;
     let id;
     return from(
@@ -54,7 +54,7 @@ export class ProjectService {
     title: string;
     iconName: string;
     imageName: string;
-  }): Observable<IProject> {
+  }): Observable<Project> {
     const { id, title, iconName, imageName } = params;
     return from(
       this.storageService.update('projects', { id, title, iconName, imageName })
@@ -84,7 +84,7 @@ export class ProjectService {
     title: string;
     note?: string;
     projectId: number;
-  }): Observable<ITask> {
+  }): Observable<Task> {
     const { title, note, projectId } = params;
     const data = { title, note, projectId, status: TaskStatusEnum.TO_DO };
     let id;
@@ -102,7 +102,7 @@ export class ProjectService {
     );
   }
 
-  public getProjectById(projectId: number): Observable<IProject> {
+  public getProjectById(projectId: number): Observable<Project> {
     return from(this.storageService.getObject('projects')).pipe(
       map((projects) => projects.find((x) => x.id === projectId))
     );
@@ -111,7 +111,7 @@ export class ProjectService {
   public reorderProjects(orderDetails: {
     fromPosition?: number;
     toPosition?: number;
-  }): Observable<IProject[]> {
+  }): Observable<Project[]> {
     const projects = this.projects$
       .getValue()
       .map((project, index) => ({
@@ -121,7 +121,7 @@ export class ProjectService {
       .sort((x, y) => x.position - y.position)
       .map((project, index) => ({ ...project, position: index }));
     const { fromPosition, toPosition } = orderDetails;
-    const orderedProjects = reorderItems<IProject>(
+    const orderedProjects = reorderItems<Project>(
       projects,
       fromPosition,
       toPosition
