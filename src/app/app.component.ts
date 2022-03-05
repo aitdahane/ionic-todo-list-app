@@ -9,7 +9,6 @@ const { App } = Plugins;
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
-  styleUrls: ['app.component.scss']
 })
 export class AppComponent {
   @ViewChild(IonRouterOutlet, { static : true }) routerOutlet: IonRouterOutlet;

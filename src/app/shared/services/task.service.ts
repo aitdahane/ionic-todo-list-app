@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, from, of } from 'rxjs';
-import { ITask, TaskStatusEnum } from './task.model';
+import { ITask, TaskStatusEnum } from '../models/task.model';
 import { map, tap, switchMap } from 'rxjs/operators';
-import { StorageService } from '../storage/storage.service';
+import { StorageService } from './storage.service';
+import { reorderItems, sortByPosition } from '../utils/collection.utils';
 
 @Injectable()
 export class TaskService {
@@ -68,33 +69,23 @@ export class TaskService {
   public getByProjectId(params: { projectId: number }): Observable<ITask[]> {
     return from(this.storageService.getObject('tasks'))
       .pipe(
-        map((tasks: ITask[]) => tasks.filter(x => x.projectId === params.projectId)
-      ),
-    );
+        map((tasks: ITask[]) => tasks.filter(x => x.projectId === params.projectId)),
+        map((tasks: ITask[]) => sortByPosition(tasks)),
+      );
   }
 
   public reorderTasks(params: { projectId: number; fromPosition?: number; toPosition?: number }): Observable<ITask[]> {
     const { projectId, fromPosition = 0, toPosition = 0 } = params;
-    return from(this.getByProjectId({ projectId }))
+    return this.getByProjectId({ projectId })
       .pipe(
-        map(tasks => tasks
+        map((tasks: ITask[]) => tasks
+          .map((task, index) => ({ ...task, position: task.position ?? index }))
           .sort((x, y) => x.position - y.position)
-          .map((task, index) => ({
-            ...task,
-            position: index,
-          })
-        )),
-        map(tasks => {
-          if (fromPosition === toPosition) return tasks;
-          const _from = Math.max(fromPosition, 0);
-          const _to = Math.min(toPosition, tasks.length - 1);
-          const newTasks = [
-            ...tasks.filter(({}, index) => index < _to && index !== _from),
-            tasks[Math.max(_from, _to)],
-            tasks[Math.min(_from, _to)],
-            ...tasks.filter(({}, index) => index > _to && index !== _from),
-          ]
-          for(let i = 0; i < newTasks.length; i++) {
+            .map((project, index) => ({ ...project, position: index }))
+        ),
+        map((tasks: ITask[]) => {
+          const newTasks = reorderItems<ITask>(tasks, fromPosition, toPosition);
+          for (let i = 0; i < newTasks.length; i++) {
             newTasks[i].position = i;
           }
           return newTasks;

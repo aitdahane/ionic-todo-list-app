@@ -37,12 +37,14 @@ export class StorageService {
     return Storage.get({ key }).then(({ value }) => {
       return JSON.parse(value);
     }).then((results) => {
-      if (!results) return [];
+      if (!results) {
+          return [];
+      }
       return results.sort((x, y) => x.id - y.id);
     });
   }
 
-  public bulkUpdateWere(key: string, items: any[], filterFn: Function): Promise<any> {
+  public bulkUpdateWere(key: string, items: any[], filterFn: Function = () => true): Promise<any> {
     return Storage.get({ key })
       .then(({ value }) => JSON.parse(value))
       .then((_items) => _items || [])
@@ -51,7 +53,6 @@ export class StorageService {
           ..._items.filter(x => !filterFn(x)),
           ...items,
         ];
-        console.log('newItems', newItems);
         return Storage.set({ key, value: JSON.stringify(newItems) });
       });
   }

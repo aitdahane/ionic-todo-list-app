@@ -8,11 +8,10 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { TaskService } from './topics/task/task.service';
-import { ProjectService } from "./topics/project/project.service";
-import { StorageService } from "./topics/storage/storage.service";
+import { TaskService } from './shared/services/task.service';
+import { ProjectService } from "./shared/services/project.service";
+import { StorageService } from "./shared/services/storage.service";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { UtilModule } from './util/util.module';
 
 @NgModule({
   declarations: [
@@ -27,7 +26,6 @@ import { UtilModule } from './util/util.module';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    UtilModule,
   ],
   providers: [
     StatusBar,

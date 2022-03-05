@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { UtilModule } from 'src/app/util/util.module';
 import { TaskListComponent } from './components/task-list/task-list.component';
 import { ProjectEditModalComponent } from './components/project-edit/project-edit.modal';
 import { ProjectImagePickerModalComponent } from './components/project-image-picker/project-image-picker.modal';
@@ -12,8 +11,10 @@ import { IconPickerComponent } from './components/icon-picker/icon-picker.compon
 import { ProjectImageComponent } from './components/project-image/project-image.component';
 import { TaskIsDonePipe } from './pipes/task.pipe';
 import { ProjectImageUrlPipe } from './pipes/project.pipe';
+import { CheckboxComponent } from './components/checkbox/checkbox.component';
 @NgModule({
   declarations: [
+    CheckboxComponent,
     TaskListComponent,
     ProjectEditModalComponent,
     TaskEditModalComponent,
@@ -30,7 +31,6 @@ import { ProjectImageUrlPipe } from './pipes/project.pipe';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    UtilModule,
   ],
   exports: [
     TaskListComponent,

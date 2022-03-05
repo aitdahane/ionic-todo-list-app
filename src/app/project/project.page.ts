@@ -3,8 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ModalController, MenuController, PopoverController } from '@ionic/angular';
 import { map, takeUntil, take } from 'rxjs/operators';
 import { Observable, BehaviorSubject, Subject, combineLatest } from 'rxjs';
-import { ProjectService } from 'src/app/topics/project/project.service';
-import { IProject } from 'src/app/topics/project/project.model';
+import { ProjectService } from 'src/app/shared/services/project.service';
+import { IProject } from 'src/app/shared/models/project.model';
 import { ProjectEditModalComponent } from 'src/app/shared/components/project-edit/project-edit.modal';
 import { TaskEditModalComponent } from 'src/app/shared/components/task-edit/task-edit.modal';
 import { PopoverComponent } from 'src/app/shared/components/popover/popover.component';
@@ -38,11 +38,13 @@ export class ProjectPage implements OnInit, OnDestroy {
     ]).pipe(
       takeUntil(this.destroy$),
       map(([projects, projectId]) => {
-        if (!projectId) return projects[0];
+        if (!projectId) {
+          return projects[0];
+        }
         return projects.find(x => x.id === projectId);
       }),
     ).subscribe(project => {
-      this.selectedProject$.next(project)
+      this.selectedProject$.next(project);
     });
 
     this.activatedRoute.params

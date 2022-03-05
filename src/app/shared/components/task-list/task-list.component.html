@@ -5,8 +5,8 @@
       <ion-item *ngFor="let task of tasks$ | async; trackBy: trackByFn"
                 class="task-item"
                 [class.is-done]="task | taskIsDone">
-          <mo-checkbox [checked]="task | taskIsDone"
-                       (checkedChange)="updateTaskStatus(task, $event)"></mo-checkbox>
+          <app-checkbox [checked]="task | taskIsDone"
+                        (checkedChange)="updateTaskStatus(task, $event)"></app-checkbox>
 
           <div class="task-item-title ion-activatable ripple-parent"
                 (click)="editTask(task)">{{ task.title }}</div> 

@@ -3,9 +3,9 @@ import { Component, OnInit, OnDestroy, Input, ViewChild, } from '@angular/core';
 import { ModalController, MenuController, IonInput } from '@ionic/angular';
 import { Observable, BehaviorSubject, Subject, combineLatest } from 'rxjs';
 import { switchMap, filter, take, map } from 'rxjs/operators';
-import { TaskService } from 'src/app/topics/task/task.service';
-import { IProject } from 'src/app/topics/project/project.model';
-import { ITask, TaskStatusEnum } from 'src/app/topics/task/task.model';
+import { TaskService } from 'src/app/shared/services/task.service';
+import { IProject } from 'src/app/shared/models/project.model';
+import { ITask, TaskStatusEnum } from 'src/app/shared/models/task.model';
 import { TaskEditModalComponent } from 'src/app/shared/components/task-edit/task-edit.modal';
 import { ProjectEditModalComponent } from 'src/app/shared/components/project-edit/project-edit.modal';
 
@@ -29,8 +29,6 @@ export class TaskListComponent implements OnInit, OnDestroy {
   public newTaskName: string;
   public selectedProject: IProject;
   public tasks$: Observable<ITask[]>;
-  public project$: Observable<IProject>;
-  public selectedProject$: BehaviorSubject<IProject> = new BehaviorSubject(null);
 
   private destroy$: Subject<boolean> = new Subject();
   private changeProject$: BehaviorSubject<IProject> = new BehaviorSubject(null);
@@ -46,8 +44,8 @@ export class TaskListComponent implements OnInit, OnDestroy {
       this.refresh$,
       this.changeProject$
     ]).pipe(
-      filter(([,x]) => !!x),
-      switchMap(([,x]) => this.taskService.getByProjectId({ projectId: x.id })),
+      filter(([, project]) => !!project),
+      switchMap(([, project]) => this.taskService.getByProjectId({ projectId: project.id })),
       map((tasks) => _.sortBy(tasks, 'position')),
     );
     this.refresh$.next(true);

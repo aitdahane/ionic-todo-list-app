@@ -2,8 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { take } from 'rxjs/operators';
-import { TaskService } from 'src/app/topics/task/task.service';
-import { ITask, TaskStatusEnum } from 'src/app/topics/task/task.model';
+import { TaskService } from 'src/app/shared/services/task.service';
+import { ITask, TaskStatusEnum } from 'src/app/shared/models/task.model';
 
 @Component({
   selector: 'app-project-image-picker',

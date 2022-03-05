@@ -7,15 +7,21 @@
 <ion-content>
   <ion-list *ngIf="(projects$ | async)?.length; else noProject"
             lines="none"
-            class="dashboard-projectList">
-    <ion-item *ngFor="let project of projects$ | async"
-          class="dashboard-projectItem"
-          (click)="goToProject(project)">
-      <div class="dashboard-projectItem-img"
-           [ngStyle]="{backgroundImage: project.imageName | projectImageUrl}"></div>
+            class="dashboard-projectList h-100">
+    <ion-reorder-group class="w-100"
+                       [disabled]="false"
+                       (ionItemReorder)="reorderProjects($event)">
+      <ion-item *ngFor="let project of projects$ | async"
+                class="dashboard-projectItem"
+                (click)="goToProject(project)">
+        <div class="dashboard-projectItem-img"
+             [ngStyle]="{backgroundImage: project.imageName | projectImageUrl}"></div>
 
-      <div class="dashboard-projectItem-title">{{ project.title }}</div>
-    </ion-item>
+        <div class="dashboard-projectItem-title">{{ project.title }}</div>
+
+        <ion-reorder slot="end"></ion-reorder>
+      </ion-item>
+    </ion-reorder-group>
   </ion-list>
 
   <ng-template #noProject>

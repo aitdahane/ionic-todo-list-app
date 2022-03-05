@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PopoverController, ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
-import { ProjectService } from 'src/app/topics/project/project.service';
-import { IProject } from 'src/app/topics/project/project.model';
+import { map, take } from 'rxjs/operators';
+import { ProjectService } from 'src/app/shared/services/project.service';
+import { IProject } from 'src/app/shared/models/project.model';
 import { PopoverComponent } from 'src/app/shared/components/popover/popover.component';
 import { ProjectEditModalComponent } from 'src/app/shared/components/project-edit/project-edit.modal';
+import { sortByPosition } from '../shared/utils/collection.utils';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,7 +25,7 @@ export class DashboardPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.projects$ = this.projectService.projects$;
+    this.projects$ = this.projectService.projects$.pipe(map((projects) => sortByPosition(projects)));
   }
 
   public async presentProjectOptionsPopover(ev: MouseEvent, project: IProject) {
@@ -37,13 +38,13 @@ export class DashboardPage implements OnInit {
         actions: [{ label: 'Delete', onClick: () => this.deleteProject(project) }],
       }
     });
-    return await popover.present();
+    await popover.present();
   }
 
   public deleteProject(project: IProject): void {
     this.projectService.delete({ projectId: project.id })
       .pipe(take(1))
-      .subscribe()
+      .subscribe();
   }
 
   public async addProject(): Promise<void> {
@@ -53,5 +54,14 @@ export class DashboardPage implements OnInit {
 
   public goToProject(project: IProject): void {
     this.router.navigate(['/project', project.id]);
+  }
+
+  public reorderProjects(ev): void {
+    console.log('mo3', 'ev', ev);
+    this.projectService.reorderProjects({
+      fromPosition: ev.detail.from,
+      toPosition: ev.detail.to,
+    }).pipe(take(1)).subscribe();
+    ev.detail.complete();
   }
 }

@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ProjectService } from 'src/app/topics/project/project.service';
+import { ProjectService } from 'src/app/shared/services/project.service';
 import { ModalController } from '@ionic/angular';
 import { take } from 'rxjs/operators';
-import { IProject } from 'src/app/topics/project/project.model';
+import { IProject } from 'src/app/shared/models/project.model';
 import { ProjectImagePickerModalComponent } from '../project-image-picker/project-image-picker.modal';
 
 @Component({

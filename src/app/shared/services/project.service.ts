@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, of, Observable, from } from "rxjs";
-import { IProject } from './project.model';
-import { StorageService } from 'src/app/topics/storage/storage.service';
+import { IProject } from '../models/project.model';
+import { StorageService } from 'src/app/shared/services/storage.service';
 import { switchMap, map, tap } from 'rxjs/operators';
-import { ITask, TaskStatusEnum } from '../task/task.model';
+import { ITask, TaskStatusEnum } from '../models/task.model';
+import { reorderItems } from '../utils/collection.utils';
 
 @Injectable()
 export class ProjectService {
@@ -18,6 +19,12 @@ export class ProjectService {
   public refresh(): void {
     this.storageService.getObject('projects')
       .then(projects => this.projects$.next(projects));
+  }
+
+  public getAll(): Observable<IProject[]> {
+    return from(this.storageService.getObject('projects')).pipe(
+        map((projects) => projects.sort((x, y) => x?.position - y?.position))
+    );
   }
 
   public create(params: { title: string; iconName: string; imageName: string; }): Observable<IProject> {
@@ -77,5 +84,20 @@ export class ProjectService {
       .pipe(
         map(projects => projects.find((x) => x.id === projectId))
       );
+  }
+
+  public reorderProjects(orderDetails: { fromPosition?: number; toPosition?: number }): Observable<IProject[]> {
+    const projects = this.projects$.getValue()
+      .map((project, index) => ({ ...project, position: project.position ?? index }))
+      .sort((x, y) => x.position - y.position)
+      .map((project, index) => ({ ...project, position: index }));
+    const { fromPosition, toPosition } = orderDetails;
+    const orderedProjects = reorderItems<IProject>(projects, fromPosition, toPosition);
+    for (let i = 0; i < orderedProjects.length; i++) {
+      orderedProjects[i].position = i;
+    }
+    console.log('mo3', 'orderedProjects', orderedProjects);
+    return from(this.storageService.bulkUpdateWere('projects', orderedProjects))
+        .pipe(tap(() => this.refresh()));
   }
 }
