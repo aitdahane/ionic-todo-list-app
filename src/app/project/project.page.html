@@ -1,40 +1,44 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-menu-button autoHide="false"></ion-menu-button>
-      </ion-buttons>
-  
-      <ion-buttons slot="end">
-        <ion-button (click)="editProject()">
-          <ion-icon slot="icon-only"
-                    name="create-outline"></ion-icon>
-        </ion-button>
-        
-        <ion-button (click)="presentProjectOptionsPopover($event)">
-          <ion-icon slot="icon-only"
-                    name="ellipsis-vertical"></ion-icon>
-        </ion-button>
-      </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="editProject()">
+        <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+      </ion-button>
+
+      <ion-button (click)="presentProjectOptionsPopover($event)">
+        <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 
-  <ion-title class="project-title">{{ (selectedProject$ | async)?.title }}</ion-title>
+  <ion-title class="project-title"
+    >{{ (selectedProject$ | async)?.title }}</ion-title
+  >
 </ion-header>
 
 <ion-content id="main">
-  <app-task-list *ngIf="(selectedProject$ | async)"
-                 [project]="selectedProject$ | async"></app-task-list>
+  <app-task-list
+    *ngIf="(selectedProject$ | async)"
+    [project]="selectedProject$ | async"
+  ></app-task-list>
 </ion-content>
-
 
 <ion-menu side="start" menuId="menu" class="menu" contentId="main">
   <ion-content [fullscreen]="true">
     <ion-list>
       <ion-item (click)="goToDashboard()">Dashboard</ion-item>
 
-      <ion-item *ngFor="let project of projects$ | async"
-                class="home-nav-item"
-                [class.is-selected]="(selectedProject$ | async)?.id === project.id"
-                (click)="handleSelectedProject(project)">{{ project.title }}</ion-item>
+      <ion-item
+        *ngFor="let project of projects$ | async"
+        class="home-nav-item"
+        [class.is-selected]="(selectedProject$ | async)?.id === project.id"
+        (click)="handleSelectedProject(project)"
+        >{{ project.title }}</ion-item
+      >
     </ion-list>
-    </ion-content>
+  </ion-content>
 </ion-menu>

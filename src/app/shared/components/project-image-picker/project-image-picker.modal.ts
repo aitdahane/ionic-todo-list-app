@@ -37,7 +37,7 @@ export class ProjectImagePickerModalComponent implements OnInit {
       'car',
     ];
   }
-  
+
   public chooseImage(imageName: string): void {
     this.modalController.dismiss({ imageName });
   }

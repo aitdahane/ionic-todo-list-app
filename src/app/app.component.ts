@@ -11,12 +11,12 @@ const { App } = Plugins;
   templateUrl: 'app.component.html',
 })
 export class AppComponent {
-  @ViewChild(IonRouterOutlet, { static : true }) routerOutlet: IonRouterOutlet;
+  @ViewChild(IonRouterOutlet, { static: true }) routerOutlet: IonRouterOutlet;
 
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar,
+    private statusBar: StatusBar
   ) {
     this.initializeApp();
   }

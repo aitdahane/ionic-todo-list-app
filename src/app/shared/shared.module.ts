@@ -26,12 +26,7 @@ import { CheckboxComponent } from './components/checkbox/checkbox.component';
     ProjectImageComponent,
   ],
   entryComponents: [],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    IonicModule,
-  ],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, IonicModule],
   exports: [
     TaskListComponent,
     ProjectEditModalComponent,

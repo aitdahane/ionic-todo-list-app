@@ -1,17 +1,24 @@
 <ng-container *ngIf="(tasks$ | async)?.length; else noTask">
   <ion-list lines="none">
-    <ion-reorder-group disabled="false"
-                       (ionItemReorder)="reorderItems($event)">      
-      <ion-item *ngFor="let task of tasks$ | async; trackBy: trackByFn"
-                class="task-item"
-                [class.is-done]="task | taskIsDone">
-          <app-checkbox [checked]="task | taskIsDone"
-                        (checkedChange)="updateTaskStatus(task, $event)"></app-checkbox>
+    <ion-reorder-group disabled="false" (ionItemReorder)="reorderItems($event)">
+      <ion-item
+        *ngFor="let task of tasks$ | async; trackBy: trackByFn"
+        class="task-item"
+        [class.is-done]="task | taskIsDone"
+      >
+        <app-checkbox
+          [checked]="task | taskIsDone"
+          (checkedChange)="updateTaskStatus(task, $event)"
+        ></app-checkbox>
 
-          <div class="task-item-title ion-activatable ripple-parent"
-                (click)="editTask(task)">{{ task.title }}</div> 
+        <div
+          class="task-item-title ion-activatable ripple-parent"
+          (click)="editTask(task)"
+        >
+          {{ task.title }}
+        </div>
 
-          <ion-reorder slot="end"></ion-reorder>
+        <ion-reorder slot="end"></ion-reorder>
       </ion-item>
     </ion-reorder-group>
   </ion-list>
@@ -23,18 +30,20 @@
   </div>
 </ng-template>
 
-<ion-item class="task-addItem"
-          lines="none">
-  <ion-input #newTaskNameInput
-             class="task-addItem-input"
-             placeholder="I want to..."
-             [(ngModel)]="newTaskName"></ion-input>
+<ion-item class="task-addItem" lines="none">
+  <ion-input
+    #newTaskNameInput
+    class="task-addItem-input"
+    placeholder="I want to..."
+    [(ngModel)]="newTaskName"
+  ></ion-input>
 
-  <ion-button class="task-addItem-btn"
-              shape="round"
-              [disabled]="!newTaskName"
-              (click)="createTask()">
-    <ion-icon slot="icon-only"
-              name="arrow-up-outline"></ion-icon>
+  <ion-button
+    class="task-addItem-btn"
+    shape="round"
+    [disabled]="!newTaskName"
+    (click)="createTask()"
+  >
+    <ion-icon slot="icon-only" name="arrow-up-outline"></ion-icon>
   </ion-button>
 </ion-item>

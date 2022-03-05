@@ -5,8 +5,8 @@ import { ProjectPage } from './project.page';
 const routes: Routes = [
   {
     path: ':projectId',
-    component: ProjectPage
-  }
+    component: ProjectPage,
+  },
 ];
 
 @NgModule({

@@ -6,49 +6,46 @@
       </ion-button>
     </ion-buttons>
 
-    <ion-title>
-      {{ task ? 'Edit task' : 'New task' }}
-    </ion-title>
-  </ion-toolbar>  
+    <ion-title> {{ task ? 'Edit task' : 'New task' }} </ion-title>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <main class="task-edit-content"
-        [formGroup]="fg">
+  <main class="task-edit-content" [formGroup]="fg">
     <ion-item>
-      <ion-label position="floating">Task Name</ion-label>           
+      <ion-label position="floating">Task Name</ion-label>
       <ion-input formControlName="title"></ion-input>
     </ion-item>
 
-    <ion-item>          
+    <ion-item>
       <ion-label position="floating">Notes</ion-label>
-      <ion-textarea formControlName="note"
-                    [autoGrow]="true"></ion-textarea>
+      <ion-textarea formControlName="note" [autoGrow]="true"></ion-textarea>
     </ion-item>
   </main>
-
 </ion-content>
 
 <ion-footer class="ion-no-border task-edit-footer">
-  <ion-button expand="block"
-              [disabled]="fg.invalid"
-              (click)="save()">
+  <ion-button expand="block" [disabled]="fg.invalid" (click)="save()">
     Save
   </ion-button>
 
-  <ion-button *ngIf="task && !(task | taskIsDone)"
-              class="task-complete-btn"
-              color="tertiary"
-              expand="block"
-              (click)="completeTask()">
+  <ion-button
+    *ngIf="task && !(task | taskIsDone)"
+    class="task-complete-btn"
+    color="tertiary"
+    expand="block"
+    (click)="completeTask()"
+  >
     Complete task
   </ion-button>
 
-  <ion-button *ngIf="task"
-              class="task-delete-btn"
-              color="secondary"
-              expand="block"
-              (click)="deleteTask()">
+  <ion-button
+    *ngIf="task"
+    class="task-delete-btn"
+    color="secondary"
+    expand="block"
+    (click)="deleteTask()"
+  >
     Delete task
   </ion-button>
 </ion-footer>

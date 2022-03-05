@@ -17,8 +17,8 @@ export class TaskEditModalComponent implements OnInit {
 
   constructor(
     private modalController: ModalController,
-    private taskService: TaskService,  
-  ) { }
+    private taskService: TaskService
+  ) {}
 
   ngOnInit() {
     this.initForm();
@@ -29,10 +29,12 @@ export class TaskEditModalComponent implements OnInit {
       title: new FormControl(null, Validators.required),
       note: new FormControl(null),
     });
-    const formData = this.task ? {
-      title: this.task.title,
-      note: this.task.note,
-    } : null;
+    const formData = this.task
+      ? {
+          title: this.task.title,
+          note: this.task.note,
+        }
+      : null;
     if (formData) {
       this.fg.patchValue(formData);
     }
@@ -55,8 +57,9 @@ export class TaskEditModalComponent implements OnInit {
       id: this.task.id,
       title: this.fg.get('title').value,
       note: this.fg.get('note').value,
-    }
-    this.taskService.update(params)
+    };
+    this.taskService
+      .update(params)
       .pipe(take(1))
       .subscribe(() => {
         this.modalController.dismiss();
@@ -69,8 +72,9 @@ export class TaskEditModalComponent implements OnInit {
       title: this.fg.get('title').value,
       note: this.fg.get('note').value,
       projectId: this.projectId,
-    }
-    this.taskService.create(params)
+    };
+    this.taskService
+      .create(params)
       .pipe(take(1))
       .subscribe(() => {
         this.modalController.dismiss();
@@ -79,7 +83,8 @@ export class TaskEditModalComponent implements OnInit {
 
   public completeTask(): void {
     if (!this.task) return;
-    this.taskService.updateStatus({ taskId: this.task.id, status: TaskStatusEnum.DONE })
+    this.taskService
+      .updateStatus({ taskId: this.task.id, status: TaskStatusEnum.DONE })
       .pipe(take(1))
       .subscribe(() => {
         this.modalController.dismiss();
@@ -88,7 +93,8 @@ export class TaskEditModalComponent implements OnInit {
 
   public deleteTask(): void {
     if (!this.task) return;
-    this.taskService.delete({ taskId: this.task.id })
+    this.taskService
+      .delete({ taskId: this.task.id })
       .pipe(take(1))
       .subscribe(() => {
         this.modalController.dismiss();

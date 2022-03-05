@@ -7,10 +7,11 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class IconPickerComponent implements OnInit {
   @Input() public selectedIconName: string;
-  @Output() public selectedIconNameChange: EventEmitter<string> = new EventEmitter<string>();
+  @Output() public selectedIconNameChange: EventEmitter<string> =
+    new EventEmitter<string>();
   public iconNames: string[];
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
     this.iconNames = [
@@ -30,8 +31,8 @@ export class IconPickerComponent implements OnInit {
       'briefcase-outline',
       'trending-up-outline',
       'clipboard-outline',
-      'checkbox-outline'
-    ]; 
+      'checkbox-outline',
+    ];
   }
 
   public onSelectIcon(iconName: string) {

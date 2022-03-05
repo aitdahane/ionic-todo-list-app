@@ -1,5 +1,8 @@
-  <ion-list class="ion-no-padding" lines="none">
-    <ion-item *ngFor="let action of actions"
-              button
-              (click)="handleSelectedAction(action)">{{ action.label }}</ion-item>
-  </ion-list>
+<ion-list class="ion-no-padding" lines="none">
+  <ion-item
+    *ngFor="let action of actions"
+    button
+    (click)="handleSelectedAction(action)"
+    >{{ action.label }}</ion-item
+  >
+</ion-list>

@@ -8,9 +8,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class ProjectImageComponent implements OnInit {
   @Input() public projectImage: string;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 }

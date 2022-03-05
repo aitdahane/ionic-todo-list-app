@@ -1,6 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ModalController, MenuController, PopoverController } from '@ionic/angular';
+import {
+  ModalController,
+  MenuController,
+  PopoverController,
+} from '@ionic/angular';
 import { map, takeUntil, take } from 'rxjs/operators';
 import { Observable, BehaviorSubject, Subject, combineLatest } from 'rxjs';
 import { ProjectService } from 'src/app/shared/services/project.service';
@@ -16,7 +20,9 @@ import { PopoverComponent } from 'src/app/shared/components/popover/popover.comp
 })
 export class ProjectPage implements OnInit, OnDestroy {
   public projects$: Observable<IProject[]>;
-  public selectedProject$: BehaviorSubject<IProject> = new BehaviorSubject(null);
+  public selectedProject$: BehaviorSubject<IProject> = new BehaviorSubject(
+    null
+  );
 
   private destroy$: Subject<boolean> = new Subject();
   private changeProject$: BehaviorSubject<number> = new BehaviorSubject(null);
@@ -27,31 +33,30 @@ export class ProjectPage implements OnInit, OnDestroy {
     private menu: MenuController,
     private router: Router,
     private projectService: ProjectService,
-    private activatedRoute: ActivatedRoute,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit() {
     this.projects$ = this.projectService.projects$;
-    combineLatest([
-      this.projectService.projects$,
-      this.changeProject$,
-    ]).pipe(
-      takeUntil(this.destroy$),
-      map(([projects, projectId]) => {
-        if (!projectId) {
-          return projects[0];
-        }
-        return projects.find(x => x.id === projectId);
-      }),
-    ).subscribe(project => {
-      this.selectedProject$.next(project);
-    });
+    combineLatest([this.projectService.projects$, this.changeProject$])
+      .pipe(
+        takeUntil(this.destroy$),
+        map(([projects, projectId]) => {
+          if (!projectId) {
+            return projects[0];
+          }
+          return projects.find((x) => x.id === projectId);
+        })
+      )
+      .subscribe((project) => {
+        this.selectedProject$.next(project);
+      });
 
     this.activatedRoute.params
-    .pipe(takeUntil(this.destroy$))
-    .subscribe((params) => {
-      this.changeProject$.next(+params.projectId);
-    });
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((params) => {
+        this.changeProject$.next(+params.projectId);
+      });
   }
 
   public ngOnDestroy(): void {
@@ -93,7 +98,7 @@ export class ProjectPage implements OnInit, OnDestroy {
     const projectId = this.selectedProject$.getValue()?.id;
     const modal = await this.modalController.create({
       component: TaskEditModalComponent,
-      componentProps: { projectId }
+      componentProps: { projectId },
     });
     modal.onDidDismiss().then(() => {
       this.changeProject$.next(projectId);
@@ -108,13 +113,14 @@ export class ProjectPage implements OnInit, OnDestroy {
       showBackdrop: false,
       componentProps: {
         actions: [{ label: 'Delete', onClick: () => this.deleteProject() }],
-      }
+      },
     });
     return await popover.present();
   }
 
   public deleteProject(): void {
-    this.projectService.delete({ projectId: this.selectedProject$.getValue().id })
+    this.projectService
+      .delete({ projectId: this.selectedProject$.getValue().id })
       .pipe(take(1))
       .subscribe(() => this.goToDashboard());
   }

@@ -9,14 +9,12 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { TaskService } from './shared/services/task.service';
-import { ProjectService } from "./shared/services/project.service";
-import { StorageService } from "./shared/services/storage.service";
+import { ProjectService } from './shared/services/project.service';
+import { StorageService } from './shared/services/storage.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   entryComponents: [],
   imports: [
     BrowserModule,
@@ -35,6 +33,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ProjectService,
     TaskService,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

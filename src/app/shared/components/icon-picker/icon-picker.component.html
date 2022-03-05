@@ -1,9 +1,10 @@
 <div class="icon-list">
-  <div *ngFor="let iconName of iconNames"
-       class="icon-item"
-       [class.is-selected]="iconName === selectedIconName"
-       (click)="onSelectIcon(iconName)">
-    <ion-icon class="icon"
-              [name]="iconName"></ion-icon>
+  <div
+    *ngFor="let iconName of iconNames"
+    class="icon-item"
+    [class.is-selected]="iconName === selectedIconName"
+    (click)="onSelectIcon(iconName)"
+  >
+    <ion-icon class="icon" [name]="iconName"></ion-icon>
   </div>
 </div>

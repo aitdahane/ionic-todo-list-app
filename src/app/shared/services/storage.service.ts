@@ -5,20 +5,18 @@ const { Storage } = Plugins;
 
 @Injectable()
 export class StorageService {
-  constructor() { 
-    this.getObject('projects')
-      .then((x) => {
-        if (!x) {
-          return this.setObject('projects', []);
-        }
-      });
+  constructor() {
+    this.getObject('projects').then((x) => {
+      if (!x) {
+        return this.setObject('projects', []);
+      }
+    });
 
-    this.getObject('tasks')
-      .then((x) => {
-        if (!x) {
-          return this.setObject('tasks', []);
-        }
-      });
+    this.getObject('tasks').then((x) => {
+      if (!x) {
+        return this.setObject('tasks', []);
+      }
+    });
   }
 
   public setString(key: string, value: string): Promise<any> {
@@ -34,25 +32,28 @@ export class StorageService {
   }
 
   public getObject(key: string): Promise<any> {
-    return Storage.get({ key }).then(({ value }) => {
-      return JSON.parse(value);
-    }).then((results) => {
-      if (!results) {
+    return Storage.get({ key })
+      .then(({ value }) => {
+        return JSON.parse(value);
+      })
+      .then((results) => {
+        if (!results) {
           return [];
-      }
-      return results.sort((x, y) => x.id - y.id);
-    });
+        }
+        return results.sort((x, y) => x.id - y.id);
+      });
   }
 
-  public bulkUpdateWere(key: string, items: any[], filterFn: Function = () => true): Promise<any> {
+  public bulkUpdateWere(
+    key: string,
+    items: any[],
+    filterFn: Function = () => true
+  ): Promise<any> {
     return Storage.get({ key })
       .then(({ value }) => JSON.parse(value))
       .then((_items) => _items || [])
       .then((_items) => {
-        const newItems = [
-          ..._items.filter(x => !filterFn(x)),
-          ...items,
-        ];
+        const newItems = [..._items.filter((x) => !filterFn(x)), ...items];
         return Storage.set({ key, value: JSON.stringify(newItems) });
       });
   }
@@ -63,10 +64,10 @@ export class StorageService {
       .then(({ value }) => JSON.parse(value))
       .then((items) => items || [])
       .then((items) => {
-        const ids = items.map(x => x.id).sort((x, y) => y - x);
+        const ids = items.map((x) => x.id).sort((x, y) => y - x);
         id = (ids[0] || 0) + 1;
         const newItems = [...items, { ...item, id }];
-        return Storage.set({ key, value: JSON.stringify(newItems), });
+        return Storage.set({ key, value: JSON.stringify(newItems) });
       })
       .then(() => id);
   }
@@ -76,12 +77,12 @@ export class StorageService {
     return Storage.get({ key })
       .then(({ value }) => JSON.parse(value))
       .then((items) => {
-        const itemToUpdate = items.find(x => x.id == id);
+        const itemToUpdate = items.find((x) => x.id == id);
         const newItems = [
-          ...items.filter(x => x.id !== id),
+          ...items.filter((x) => x.id !== id),
           { ...itemToUpdate, ...itemData, id },
         ];
-        return Storage.set({ key, value: JSON.stringify(newItems), });
+        return Storage.set({ key, value: JSON.stringify(newItems) });
       })
       .then(() => id);
   }
@@ -95,8 +96,8 @@ export class StorageService {
     return Storage.get({ key })
       .then(({ value }) => JSON.parse(value))
       .then((items) => {
-        const newItems = items.filter(x => x.id !== id);
-        return Storage.set({ key, value: JSON.stringify(newItems), });
+        const newItems = items.filter((x) => x.id !== id);
+        return Storage.set({ key, value: JSON.stringify(newItems) });
       })
       .then(() => id);
   }
@@ -106,7 +107,7 @@ export class StorageService {
       .then(({ value }) => JSON.parse(value))
       .then((items) => {
         const newItems = items.filter((x) => !deleteByFn(x));
-        return Storage.set({ key, value: JSON.stringify(newItems), });
+        return Storage.set({ key, value: JSON.stringify(newItems) });
       });
   }
 

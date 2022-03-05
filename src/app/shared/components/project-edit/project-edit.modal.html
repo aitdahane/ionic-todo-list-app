@@ -6,37 +6,34 @@
       </ion-button>
     </ion-buttons>
 
-    <ion-title>
-      {{ project ? 'Edit list' : 'New list' }}
-    </ion-title>
+    <ion-title> {{ project ? 'Edit list' : 'New list' }} </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <main class="project-edit-content"
-        [formGroup]="fg">
-    <app-project-image class="project-edit-projectImage"
-                       [projectImage]="imageName"
-                       (click)="pickImage()">
+  <main class="project-edit-content" [formGroup]="fg">
+    <app-project-image
+      class="project-edit-projectImage"
+      [projectImage]="imageName"
+      (click)="pickImage()"
+    >
       <div class="project-edit-projectImage-btn">
         <ion-icon name="pencil"></ion-icon>
       </div>
     </app-project-image>
 
     <ion-item class="project-edit-name-item">
-      <ion-input formControlName="title" 
-                 placeholder="List Name"></ion-input>
+      <ion-input formControlName="title" placeholder="List Name"></ion-input>
     </ion-item>
 
-    <div class="project-edit-name-label">What would you like to name your list ?</div>
+    <div class="project-edit-name-label">
+      What would you like to name your list ?
+    </div>
   </main>
-
 </ion-content>
 
 <ion-footer class="ion-no-border project-edit-footer">
-  <ion-button expand="block"
-              [disabled]="fg.invalid"
-              (click)="save()">
+  <ion-button expand="block" [disabled]="fg.invalid" (click)="save()">
     Save
   </ion-button>
 </ion-footer>

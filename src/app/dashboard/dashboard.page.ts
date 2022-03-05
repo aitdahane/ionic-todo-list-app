@@ -21,11 +21,13 @@ export class DashboardPage implements OnInit {
     private router: Router,
     private popoverController: PopoverController,
     private modalController: ModalController,
-    private projectService: ProjectService,
-  ) { }
+    private projectService: ProjectService
+  ) {}
 
   ngOnInit() {
-    this.projects$ = this.projectService.projects$.pipe(map((projects) => sortByPosition(projects)));
+    this.projects$ = this.projectService.projects$.pipe(
+      map((projects) => sortByPosition(projects))
+    );
   }
 
   public async presentProjectOptionsPopover(ev: MouseEvent, project: IProject) {
@@ -35,20 +37,25 @@ export class DashboardPage implements OnInit {
       event: ev,
       showBackdrop: false,
       componentProps: {
-        actions: [{ label: 'Delete', onClick: () => this.deleteProject(project) }],
-      }
+        actions: [
+          { label: 'Delete', onClick: () => this.deleteProject(project) },
+        ],
+      },
     });
     await popover.present();
   }
 
   public deleteProject(project: IProject): void {
-    this.projectService.delete({ projectId: project.id })
+    this.projectService
+      .delete({ projectId: project.id })
       .pipe(take(1))
       .subscribe();
   }
 
   public async addProject(): Promise<void> {
-    const modal = await this.modalController.create({ component: ProjectEditModalComponent });
+    const modal = await this.modalController.create({
+      component: ProjectEditModalComponent,
+    });
     await modal.present();
   }
 
@@ -58,10 +65,13 @@ export class DashboardPage implements OnInit {
 
   public reorderProjects(ev): void {
     console.log('mo3', 'ev', ev);
-    this.projectService.reorderProjects({
-      fromPosition: ev.detail.from,
-      toPosition: ev.detail.to,
-    }).pipe(take(1)).subscribe();
+    this.projectService
+      .reorderProjects({
+        fromPosition: ev.detail.from,
+        toPosition: ev.detail.to,
+      })
+      .pipe(take(1))
+      .subscribe();
     ev.detail.complete();
   }
 }

@@ -1,5 +1,5 @@
-import _ from "lodash";
-import { Component, OnInit, OnDestroy, Input, ViewChild, } from '@angular/core';
+import _ from 'lodash';
+import { Component, OnInit, OnDestroy, Input, ViewChild } from '@angular/core';
 import { ModalController, MenuController, IonInput } from '@ionic/angular';
 import { Observable, BehaviorSubject, Subject, combineLatest } from 'rxjs';
 import { switchMap, filter, take, map } from 'rxjs/operators';
@@ -36,17 +36,16 @@ export class TaskListComponent implements OnInit, OnDestroy {
   constructor(
     private modalController: ModalController,
     private menu: MenuController,
-    private taskService: TaskService,
-  ) { }
+    private taskService: TaskService
+  ) {}
 
   ngOnInit() {
-    this.tasks$ = combineLatest([
-      this.refresh$,
-      this.changeProject$
-    ]).pipe(
+    this.tasks$ = combineLatest([this.refresh$, this.changeProject$]).pipe(
       filter(([, project]) => !!project),
-      switchMap(([, project]) => this.taskService.getByProjectId({ projectId: project.id })),
-      map((tasks) => _.sortBy(tasks, 'position')),
+      switchMap(([, project]) =>
+        this.taskService.getByProjectId({ projectId: project.id })
+      ),
+      map((tasks) => _.sortBy(tasks, 'position'))
     );
     this.refresh$.next(true);
   }
@@ -99,7 +98,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
     });
     await modal.present();
   }
-  
+
   public async deleteTask(task: ITask) {
     this.taskService.delete({ taskId: task.id });
     this.refresh$.next(true);
@@ -113,10 +112,12 @@ export class TaskListComponent implements OnInit, OnDestroy {
     if (!this.newTaskName) {
       return;
     }
-    this.taskService.create({
-      title: this.newTaskName,
-      projectId: this.project.id,
-    }).pipe(take(1))
+    this.taskService
+      .create({
+        title: this.newTaskName,
+        projectId: this.project.id,
+      })
+      .pipe(take(1))
       .subscribe(() => {
         this.refresh$.next(true);
         this.newTaskName = null;
@@ -128,21 +129,25 @@ export class TaskListComponent implements OnInit, OnDestroy {
     if (!task) {
       return;
     }
-    this.taskService.updateStatus({
-      taskId: task.id,
-      status: completed ? TaskStatusEnum.DONE : TaskStatusEnum.TO_DO,
-    }).pipe(take(1))
+    this.taskService
+      .updateStatus({
+        taskId: task.id,
+        status: completed ? TaskStatusEnum.DONE : TaskStatusEnum.TO_DO,
+      })
+      .pipe(take(1))
       .subscribe(() => {
         this.refresh$.next(true);
       });
   }
 
   public reorderItems(ev): void {
-    this.taskService.reorderTasks({
-      fromPosition: ev.detail.from,
-      toPosition: ev.detail.to,
-      projectId: this.project.id,
-    }).pipe(take(1))
+    this.taskService
+      .reorderTasks({
+        fromPosition: ev.detail.from,
+        toPosition: ev.detail.to,
+        projectId: this.project.id,
+      })
+      .pipe(take(1))
       .subscribe(() => {
         this.refresh$.next(true);
       });

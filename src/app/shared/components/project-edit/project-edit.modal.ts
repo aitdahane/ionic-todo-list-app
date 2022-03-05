@@ -19,8 +19,8 @@ export class ProjectEditModalComponent {
 
   constructor(
     private modalController: ModalController,
-    private projectService: ProjectService,  
-  ) { }
+    private projectService: ProjectService
+  ) {}
 
   ngOnInit() {
     this.initForm();
@@ -58,7 +58,8 @@ export class ProjectEditModalComponent {
       iconName: this.iconName,
       imageName: this.imageName,
     };
-    this.projectService.create(params)
+    this.projectService
+      .create(params)
       .pipe(take(1))
       .subscribe((project: IProject) => {
         this.modalController.dismiss({ project });
@@ -71,8 +72,9 @@ export class ProjectEditModalComponent {
       title: this.fg.get('title').value,
       iconName: this.iconName,
       imageName: this.imageName,
-    }
-    this.projectService.update(params)
+    };
+    this.projectService
+      .update(params)
       .pipe(take(1))
       .subscribe((project: IProject) => {
         this.modalController.dismiss({ project });
