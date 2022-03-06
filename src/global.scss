@@ -26,6 +26,7 @@
 @import '~@ionic/angular/css/flex-utils.css';
 
 $unit: 4px;
+$font-unit: 4pt;
 
 * {
   font-family: 'DM Sans', Verdana, Tahoma, sans-serif;
@@ -43,6 +44,10 @@ ion-title {
   color: #1b1c1e;
 }
 
+.font-size-4 {
+  font-size: $font-unit * 4;
+}
+
 .w-100 {
   width: 100%;
 }
@@ -53,4 +58,25 @@ ion-title {
 
 .pl-4 {
   padding-left: $unit * 4;
+}
+
+.mt-2 {
+  margin-top: $unit * 2;
+}
+
+.mr-2 {
+  margin-right: $unit * 2;
+}
+
+.mr-3 {
+  margin-right: $unit * 3;
+}
+
+.mt-4 {
+  margin-top: $unit * 4;
+}
+
+.flex-spaceBetween {
+  display: flex;
+  justify-content: space-between;
 }

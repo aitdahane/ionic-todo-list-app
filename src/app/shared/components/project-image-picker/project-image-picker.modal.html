@@ -16,8 +16,7 @@
       *ngFor="let projectImage of projectImages; trackBy: trackByName"
       class="projectImagePicker-item"
       [projectImage]="projectImage"
-      (click)="chooseImage(projectImage)"
-    >
+      (click)="chooseImage(projectImage)">
     </app-project-image>
   </div>
 </ion-content>

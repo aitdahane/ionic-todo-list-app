@@ -2,9 +2,11 @@ export interface Task {
   id: number;
   title: string;
   status: TaskStatusEnum;
-  note: string;
-  position: number;
+  note?: string;
+  position?: number;
   projectId: number;
+  startDate?: string;
+  endDate?: string;
 }
 
 export enum TaskStatusEnum {

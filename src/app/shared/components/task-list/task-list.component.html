@@ -22,17 +22,14 @@
       <ion-item
         *ngFor="let task of tasks$ | async; trackBy: trackByFn"
         class="task-item"
-        [class.is-done]="task | taskIsDone"
-      >
+        [class.is-done]="task | taskIsDone">
         <app-checkbox
           [checked]="task | taskIsDone"
-          (checkedChange)="updateTaskStatus(task, $event)"
-        ></app-checkbox>
+          (checkedChange)="updateTaskStatus(task, $event)"></app-checkbox>
 
         <div
           class="task-item-title ion-activatable ripple-parent"
-          (click)="editTask(task)"
-        >
+          (click)="editTask(task)">
           {{ task.title }}
         </div>
 
@@ -53,15 +50,13 @@
     #newTaskNameInput
     class="task-addItem-input"
     placeholder="I want to..."
-    [(ngModel)]="newTaskName"
-  ></ion-input>
+    [(ngModel)]="newTaskName"></ion-input>
 
   <ion-button
     class="task-addItem-btn"
     shape="round"
     [disabled]="!newTaskName"
-    (click)="createTask()"
-  >
+    (click)="createTask()">
     <ion-icon slot="icon-only" name="arrow-up-outline"></ion-icon>
   </ion-button>
 </ion-item>

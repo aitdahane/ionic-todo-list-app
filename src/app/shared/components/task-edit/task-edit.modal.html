@@ -12,15 +12,28 @@
 
 <ion-content>
   <main class="task-edit-content" [formGroup]="fg">
-    <ion-item>
-      <ion-label position="floating">Task Name</ion-label>
-      <ion-input formControlName="title"></ion-input>
+    <ion-item lines="none">
+      <app-checkbox
+        class="mr-2"
+        [checked]="task | taskIsDone"
+        (checkedChange)="updateStatus($event)"></app-checkbox>
+      <ion-input class="font-size-4" formControlName="title"></ion-input>
     </ion-item>
 
-    <ion-item>
-      <ion-label position="floating">Notes</ion-label>
-      <ion-textarea formControlName="note" [autoGrow]="true"></ion-textarea>
+    <ion-item class="flex-spaceBetween mt-4 no-inner-padding-end" lines="none">
+      <ion-label>Time</ion-label>
+      <ion-toggle formControlName="hasDate"></ion-toggle>
     </ion-item>
+
+    <ng-container *ngIf="fg.get('hasDate')?.value">
+      <ion-item>
+        <ion-icon name="calendar" class="mr-3"></ion-icon>
+        <ion-datetime
+          formControlName="startDate"
+          pickerFormat="MMM DD, YYYY HH:mm"
+          displayFormat="MMM DD, YYYY HH:mm"></ion-datetime>
+      </ion-item>
+    </ng-container>
   </main>
 </ion-content>
 
@@ -34,8 +47,7 @@
     class="task-complete-btn"
     color="tertiary"
     expand="block"
-    (click)="completeTask()"
-  >
+    (click)="updateStatus(true, true)">
     Complete task
   </ion-button>
 
@@ -44,8 +56,7 @@
     class="task-delete-btn"
     color="secondary"
     expand="block"
-    (click)="deleteTask()"
-  >
+    (click)="deleteTask()">
     Delete task
   </ion-button>
 </ion-footer>

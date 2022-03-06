@@ -20,9 +20,7 @@ import { PopoverComponent } from 'src/app/shared/components/popover/popover.comp
 })
 export class ProjectPage implements OnInit, OnDestroy {
   public projects$: Observable<Project[]>;
-  public selectedProject$: BehaviorSubject<Project> = new BehaviorSubject(
-    null
-  );
+  public selectedProject$: BehaviorSubject<Project> = new BehaviorSubject(null);
 
   private destroy$: Subject<boolean> = new Subject();
   private changeProject$: BehaviorSubject<number> = new BehaviorSubject(null);

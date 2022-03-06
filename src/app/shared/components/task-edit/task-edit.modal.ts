@@ -4,6 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { take } from 'rxjs/operators';
 import { TaskService } from 'src/app/shared/services/task.service';
 import { Task, TaskStatusEnum } from 'src/app/shared/models/task.model';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-task-edit',
@@ -27,12 +28,15 @@ export class TaskEditModalComponent implements OnInit {
   public initForm(): void {
     this.fg = new FormGroup({
       title: new FormControl(null, Validators.required),
-      note: new FormControl(null),
+      hasDate: new FormControl(false),
+      startDate: new FormControl(moment()),
     });
+    const hasDate = !!this.task?.startDate;
     const formData = this.task
       ? {
           title: this.task.title,
-          note: this.task.note,
+          hasDate,
+          startDate: this.task.startDate,
         }
       : null;
     if (formData) {
@@ -54,9 +58,8 @@ export class TaskEditModalComponent implements OnInit {
 
   public update(): void {
     const params = {
+      ...this.buildPayload(),
       id: this.task.id,
-      title: this.fg.get('title').value,
-      note: this.fg.get('note').value,
     };
     this.taskService
       .update(params)
@@ -69,8 +72,7 @@ export class TaskEditModalComponent implements OnInit {
   public create(): void {
     if (!this.projectId) return;
     const params = {
-      title: this.fg.get('title').value,
-      note: this.fg.get('note').value,
+      ...this.buildPayload(),
       projectId: this.projectId,
     };
     this.taskService
@@ -81,13 +83,25 @@ export class TaskEditModalComponent implements OnInit {
       });
   }
 
-  public completeTask(): void {
+  private buildPayload(): Omit<Task, 'id' | 'projectId' | 'status'> {
+    const hasDate = this.fg.get('hasDate').value;
+    const startDate = this.fg.get('startDate').value;
+    const shouldAddDate = hasDate && startDate;
+    return {
+      title: this.fg.get('title').value,
+      ...shouldAddDate ? { startDate } : { startDate: null },
+    };
+  }
+
+  public updateStatus(completed: true, close?: boolean): void {
     if (!this.task) return;
     this.taskService
-      .updateStatus({ taskId: this.task.id, status: TaskStatusEnum.DONE })
+      .updateStatus({ taskId: this.task.id, status: completed ? TaskStatusEnum.DONE : TaskStatusEnum.TO_DO })
       .pipe(take(1))
       .subscribe(() => {
-        this.modalController.dismiss();
+        if (close) {
+          this.modalController.dismiss();
+        }
       });
   }
 

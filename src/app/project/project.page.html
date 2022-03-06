@@ -23,8 +23,7 @@
 <ion-content id="main">
   <app-task-list
     *ngIf="(selectedProject$ | async)"
-    [project]="selectedProject$ | async"
-  ></app-task-list>
+    [project]="selectedProject$ | async"></app-task-list>
 </ion-content>
 
 <ion-menu side="start" menuId="menu" class="menu" contentId="main">

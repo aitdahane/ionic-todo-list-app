@@ -43,3 +43,7 @@ ion-item {
 .task-delete-btn {
   margin-top: 12px;
 }
+
+.no-inner-padding-end {
+  --inner-padding-end: 0;
+}

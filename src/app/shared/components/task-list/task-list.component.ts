@@ -59,7 +59,9 @@ export class TaskListComponent implements OnInit, OnDestroy {
         this.taskService.getByProjectId({ projectId: project.id })
       ),
       map((tasks) => _.sortBy(tasks, 'position')),
-      map((tasks) => filterTasksByStatus(tasks, this.currentStatusFilter$.getValue()))
+      map((tasks) =>
+        filterTasksByStatus(tasks, this.currentStatusFilter$.getValue())
+      )
     );
     this.refresh$.next(true);
   }

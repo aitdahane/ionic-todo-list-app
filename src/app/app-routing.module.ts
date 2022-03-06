@@ -17,6 +17,11 @@ const routes: Routes = [
     redirectTo: 'dashboard',
     pathMatch: 'full',
   },
+  {
+    path: 'calendar',
+    loadChildren: () =>
+      import('./calendar/calendar.module').then((m) => m.CalendarPageModule),
+  },
 ];
 
 @NgModule({

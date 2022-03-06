@@ -1,11 +1,9 @@
 <span
   class="checkbox"
   (click)="changeChecked($event)"
-  [ngClass]="{ 'is-checked': checked }"
->
+  [ngClass]="{ 'is-checked': checked }">
   <ion-icon
     *ngIf="checked"
     name="checkmark-outline"
-    class="checkbox-icon"
-  ></ion-icon>
+    class="checkbox-icon"></ion-icon>
 </span>

@@ -32,6 +32,18 @@ export class IconPickerComponent implements OnInit {
       'trending-up-outline',
       'clipboard-outline',
       'checkbox-outline',
+      'alert',
+      'american-football',
+      'aperture',
+      'archive',
+      'bicycle',
+      'bookmark',
+      'bug',
+      'cafe',
+      'call',
+      'clock',
+      'cloud',
+      'flash',
     ];
   }
 

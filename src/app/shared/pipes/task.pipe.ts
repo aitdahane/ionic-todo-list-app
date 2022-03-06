@@ -6,6 +6,6 @@ import { Task, TaskStatusEnum } from 'src/app/shared/models/task.model';
 })
 export class TaskIsDonePipe implements PipeTransform {
   public transform(task: Task): boolean {
-    return task && task.status === TaskStatusEnum.DONE;
+    return task?.status === TaskStatusEnum.DONE;
   }
 }

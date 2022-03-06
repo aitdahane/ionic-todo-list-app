@@ -15,15 +15,19 @@ export class TaskService {
     title: string;
     note?: string;
     projectId: number;
+    startDate?: string;
+    endDate?: string;
   }): Observable<Task> {
-    const { title, note, projectId } = params;
-    const data = { title, note, projectId, status: TaskStatusEnum.TO_DO };
+    const { title, note, projectId, startDate, endDate } = params;
+    const data = { title, note, projectId, status: TaskStatusEnum.TO_DO, startDate, endDate };
     let id;
     return from(this.getByProjectId({ projectId })).pipe(
       switchMap((tasks) =>
         this.storageService.append('tasks', {
           ...data,
           position: tasks ? tasks.length : 0,
+          startDate,
+          endDate,
         })
       ),
       tap((x) => {
@@ -56,10 +60,12 @@ export class TaskService {
   public update(params: {
     id: number;
     title: string;
-    note: string;
+    note?: string;
+    startDate?: string;
+    endDate?: string;
   }): Observable<Task> {
-    const { id, title, note } = params;
-    return from(this.storageService.update('tasks', { id, title, note })).pipe(
+    const { id, title, note, startDate, endDate } = params;
+    return from(this.storageService.update('tasks', { id, title, note, startDate, endDate })).pipe(
       switchMap(() => this.storageService.getObject('tasks')),
       map((tasks) => {
         this.tasks$.next(tasks);
