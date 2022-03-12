@@ -9,9 +9,11 @@ import { TaskEditModalComponent } from './components/task-edit/task-edit.modal';
 import { PopoverComponent } from './components/popover/popover.component';
 import { IconPickerComponent } from './components/icon-picker/icon-picker.component';
 import { ProjectImageComponent } from './components/project-image/project-image.component';
-import { TaskIsDonePipe } from './pipes/task.pipe';
+import { TaskHeightSizePipe, TaskIsDonePipe, TaskTopPositionPipe } from './pipes/task.pipe';
 import { ProjectImageUrlPipe } from './pipes/project.pipe';
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
+import { DateFormatPipe } from './pipes/date.pipe';
+import { CalendarTaskComponent } from './components/calendar-task/calendar-task.component';
 @NgModule({
   declarations: [
     CheckboxComponent,
@@ -22,8 +24,12 @@ import { CheckboxComponent } from './components/checkbox/checkbox.component';
     IconPickerComponent,
     TaskIsDonePipe,
     ProjectImageUrlPipe,
+    DateFormatPipe,
+    TaskTopPositionPipe,
+    TaskHeightSizePipe,
     ProjectImagePickerModalComponent,
     ProjectImageComponent,
+    CalendarTaskComponent,
   ],
   entryComponents: [],
   imports: [CommonModule, FormsModule, ReactiveFormsModule, IonicModule],
@@ -35,8 +41,12 @@ import { CheckboxComponent } from './components/checkbox/checkbox.component';
     IconPickerComponent,
     ProjectImagePickerModalComponent,
     TaskIsDonePipe,
+    TaskTopPositionPipe,
+    DateFormatPipe,
+    TaskHeightSizePipe,
     ProjectImageUrlPipe,
     ProjectImageComponent,
+    CalendarTaskComponent,
   ],
 })
 export class SharedModule {}

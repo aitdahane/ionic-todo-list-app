@@ -1,3 +1,4 @@
+import * as moment from 'moment';
 import {
   Task,
   TaskStatusEnum,
@@ -19,3 +20,19 @@ export const filterTasksByStatus = (
     return !isCompleted;
   });
 };
+
+export const computeTopPosition = (task: Task): number => {
+  const { startDate } = task;
+  if (!startDate) {
+    return 0;
+  }
+  return moment(startDate).minutes() / 60 * 100; 
+}
+
+export const computeHeightSize = (task: Task): number => {
+  const { startDate, endDate } = task;
+  if (!startDate) {
+    return 0;
+  }
+  return moment(endDate).diff(startDate, 'minutes') / 60 * 100; 
+}

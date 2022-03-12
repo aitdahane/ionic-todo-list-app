@@ -1,0 +1,33 @@
+$slot-height: 120px;
+
+.calendar-content {
+  display: flex;
+  padding-top: 16px;
+  margin-bottom: 12px;
+}
+
+.calendar-hour-list {
+  width: 20%; 
+  padding-left: 12px;
+  border-right: 1px solid #eeeeee;
+}
+
+.calendar-hour {
+  height: $slot-height;
+  font-size: 8pt;
+}
+
+.calendar-task-list {
+  height: $slot-height;
+  width: 80%; 
+}
+
+.calendar-task-slot {
+  position: relative;
+  height: 120px;
+  border-top: 1px solid #eeeeee;
+
+  &:last-child {
+    border-bottom: 1px solid #eeeeee;
+  }
+}

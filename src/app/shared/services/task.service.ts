@@ -4,6 +4,7 @@ import { Task, TaskStatusEnum } from '../models/task.model';
 import { map, tap, switchMap } from 'rxjs/operators';
 import { StorageService } from './storage.service';
 import { reorderItems, sortByPosition } from '../utils/collection.utils';
+import * as moment from 'moment';
 
 @Injectable()
 export class TaskService {
@@ -19,7 +20,14 @@ export class TaskService {
     endDate?: string;
   }): Observable<Task> {
     const { title, note, projectId, startDate, endDate } = params;
-    const data = { title, note, projectId, status: TaskStatusEnum.TO_DO, startDate, endDate };
+    const data = {
+      title,
+      note,
+      projectId,
+      status: TaskStatusEnum.TO_DO,
+      startDate,
+      endDate,
+    };
     let id;
     return from(this.getByProjectId({ projectId })).pipe(
       switchMap((tasks) =>
@@ -65,7 +73,15 @@ export class TaskService {
     endDate?: string;
   }): Observable<Task> {
     const { id, title, note, startDate, endDate } = params;
-    return from(this.storageService.update('tasks', { id, title, note, startDate, endDate })).pipe(
+    return from(
+      this.storageService.update('tasks', {
+        id,
+        title,
+        note,
+        startDate,
+        endDate,
+      })
+    ).pipe(
       switchMap(() => this.storageService.getObject('tasks')),
       map((tasks) => {
         this.tasks$.next(tasks);
@@ -124,6 +140,24 @@ export class TaskService {
         )
       ),
       switchMap(() => this.getByProjectId({ projectId }))
+    );
+  }
+
+  public getByDate(date: string): Observable<Task[]> {
+    return from(this.storageService.getObject('tasks')).pipe(
+      map((tasks) =>
+        tasks.filter(({ startDate }) => {
+          if (!startDate) {
+            return false;
+          }
+          return moment(startDate).isBetween(
+            moment(date).startOf('day').toISOString(),
+            moment(date).endOf('day').toISOString(),
+            'minutes',
+            '[)'
+          );
+        })
+      )
     );
   }
 }

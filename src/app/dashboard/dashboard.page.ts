@@ -63,6 +63,10 @@ export class DashboardPage implements OnInit {
     this.router.navigate(['/project', project.id]);
   }
 
+  public goToCalendar(project: Project): void {
+    this.router.navigate(['/calendar']);
+  }
+
   public reorderProjects(ev): void {
     console.log('mo3', 'ev', ev);
     this.projectService

@@ -7,9 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { CalendarPageRoutingModule } from './calendar-routing.module';
 
 import { CalendarPage } from './calendar.page';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, CalendarPageRoutingModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    CalendarPageRoutingModule,
+    SharedModule,
+  ],
   declarations: [CalendarPage],
 })
 export class CalendarPageModule {}

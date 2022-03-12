@@ -84,6 +84,18 @@ ion-title {
   margin-right: $unit * 3;
 }
 
+.mr-4 {
+  margin-right: $unit * 4;
+}
+
+.z-index-2 {
+  z-index: 2;
+}
+
+.absolute {
+  position: absolute;
+}
+
 .flex-spaceBetween {
   display: flex;
   justify-content: space-between;

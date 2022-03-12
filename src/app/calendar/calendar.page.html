@@ -1,7 +1,37 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title>calendar</ion-title>
+    <ion-title>
+      {{ date$ | async | dateFormat:'ddd MMM DD' | titlecase }}
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="goToPreviousDay()">
+        <ion-icon slot="icon-only" name="chevron-back"></ion-icon>
+      </ion-button>
+
+      <ion-button (click)="goToNextDay()">
+        <ion-icon slot="icon-only" name="chevron-forward"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content> </ion-content>
+<ion-content>
+  <main class="calendar-content">
+    <section class="calendar-hour-list">
+      <div *ngFor="let hour of hours" class="calendar-hour">{{ hour }}</div>
+    </section>
+
+    <section class="calendar-task-list">
+      <div *ngFor="let hour of hours; let i = index" class="calendar-task-slot mr-4">
+        <app-calendar-task *ngFor="let task of tasksByHour[i]"
+          class="z-index-2 absolute w-100"
+          [task]="task"
+          [ngStyle]="{
+            'top': (task | taskTopPosition) + '%',
+            'height': (task | taskHeightSize) + '%'
+          }"></app-calendar-task>
+      </div>
+    </section>
+  </main>
+</ion-content>
