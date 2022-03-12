@@ -18,8 +18,17 @@
   color: #353535;
 }
 
+.task-edit-note {
+  --background: #efefee;
+  border-radius: 8px;
+
+  ion-textarea {
+    --padding-top: 4px;
+  }
+}
+
 .task-edit-content {
-  margin: 16px;
+  margin: 0 16px;
 }
 
 .task-edit-footer {
@@ -32,18 +41,10 @@ ion-item {
   --highlight-background: #e2e2e2;
 }
 
-.item-has-focus {
-  --highlight-background: #353535;
-}
-
 .task-complete-btn {
   margin-top: 28px;
 }
 
 .task-delete-btn {
   margin-top: 12px;
-}
-
-.no-inner-padding-end {
-  --inner-padding-end: 0;
 }

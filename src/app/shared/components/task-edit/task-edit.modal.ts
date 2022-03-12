@@ -29,14 +29,18 @@ export class TaskEditModalComponent implements OnInit {
     this.fg = new FormGroup({
       title: new FormControl(null, Validators.required),
       hasDate: new FormControl(false),
+      note: new FormControl(false),
       startDate: new FormControl(moment()),
+      endDate: new FormControl(moment().add({ minutes: 20 })),
     });
     const hasDate = !!this.task?.startDate;
     const formData = this.task
       ? {
-          title: this.task.title,
           hasDate,
+          title: this.task.title,
           startDate: this.task.startDate,
+          endDate: this.task.endDate,
+          note: this.task.note,
         }
       : null;
     if (formData) {
@@ -86,10 +90,12 @@ export class TaskEditModalComponent implements OnInit {
   private buildPayload(): Omit<Task, 'id' | 'projectId' | 'status'> {
     const hasDate = this.fg.get('hasDate').value;
     const startDate = this.fg.get('startDate').value;
-    const shouldAddDate = hasDate && startDate;
+    const endDate = this.fg.get('endDate').value;
+    const shouldAddDate = hasDate && startDate && endDate;
     return {
       title: this.fg.get('title').value,
-      ...shouldAddDate ? { startDate } : { startDate: null },
+      note: this.fg.get('note').value,
+      ...shouldAddDate ? { startDate, endDate } : { startDate: null, endDate: null },
     };
   }
 

@@ -44,6 +44,10 @@ ion-title {
   color: #1b1c1e;
 }
 
+.no-inner-padding-end {
+  --inner-padding-end: 0;
+}
+
 .font-size-4 {
   font-size: $font-unit * 4;
 }
@@ -56,6 +60,10 @@ ion-title {
   height: 100%;
 }
 
+.pl-2 {
+  padding-left: $unit * 2;
+}
+
 .pl-4 {
   padding-left: $unit * 4;
 }
@@ -64,16 +72,16 @@ ion-title {
   margin-top: $unit * 2;
 }
 
+.mt-4 {
+  margin-top: $unit * 4;
+}
+
 .mr-2 {
   margin-right: $unit * 2;
 }
 
 .mr-3 {
   margin-right: $unit * 3;
-}
-
-.mt-4 {
-  margin-top: $unit * 4;
 }
 
 .flex-spaceBetween {
