@@ -20,24 +20,10 @@
   >
 </ion-header>
 
-<ion-content id="main">
+<ion-content>
   <app-task-list
     *ngIf="(selectedProject$ | async)"
     [project]="selectedProject$ | async"></app-task-list>
 </ion-content>
 
-<ion-menu side="start" menuId="menu" class="menu" contentId="main">
-  <ion-content [fullscreen]="true">
-    <ion-list>
-      <ion-item (click)="goToDashboard()">Dashboard</ion-item>
 
-      <ion-item
-        *ngFor="let project of projects$ | async"
-        class="home-nav-item"
-        [class.is-selected]="(selectedProject$ | async)?.id === project.id"
-        (click)="handleSelectedProject(project)"
-        >{{ project.title }}</ion-item
-      >
-    </ion-list>
-  </ion-content>
-</ion-menu>

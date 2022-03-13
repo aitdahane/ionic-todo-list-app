@@ -28,7 +28,7 @@ export class ProjectPage implements OnInit, OnDestroy {
   constructor(
     private modalController: ModalController,
     private popoverController: PopoverController,
-    private menu: MenuController,
+    public menu: MenuController,
     private router: Router,
     private projectService: ProjectService,
     private activatedRoute: ActivatedRoute
@@ -60,23 +60,6 @@ export class ProjectPage implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.complete();
-  }
-
-  public handleSelectedProject(project: Project): void {
-    this.changeProject$.next(project.id);
-    this.menu.close();
-  }
-
-  public async addProject() {
-    const modal = await this.modalController.create({
-      component: ProjectEditModalComponent,
-    });
-
-    modal.onDidDismiss().then((res) => {
-      if (!res.data) return;
-      this.handleSelectedProject(res.data.project);
-    });
-    return await modal.present();
   }
 
   public async editProject() {

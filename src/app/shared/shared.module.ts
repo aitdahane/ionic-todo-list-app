@@ -14,8 +14,10 @@ import { ProjectImageUrlPipe } from './pipes/project.pipe';
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { DateFormatPipe } from './pipes/date.pipe';
 import { CalendarTaskComponent } from './components/calendar-task/calendar-task.component';
+import { MenuComponent } from './components/menu/menu.component';
 @NgModule({
   declarations: [
+    MenuComponent,
     CheckboxComponent,
     TaskListComponent,
     ProjectEditModalComponent,
@@ -34,6 +36,7 @@ import { CalendarTaskComponent } from './components/calendar-task/calendar-task.
   entryComponents: [],
   imports: [CommonModule, FormsModule, ReactiveFormsModule, IonicModule],
   exports: [
+    MenuComponent,
     TaskListComponent,
     ProjectEditModalComponent,
     TaskEditModalComponent,

@@ -88,6 +88,18 @@ ion-title {
   margin-right: $unit * 4;
 }
 
+.ml-2 {
+  margin-left: $unit * 2;
+}
+
+.ml-4 {
+  margin-left: $unit * 4;
+}
+
+.ml-7 {
+  margin-left: $unit * 7;
+}
+
 .z-index-2 {
   z-index: 2;
 }
@@ -99,4 +111,8 @@ ion-title {
 .flex-spaceBetween {
   display: flex;
   justify-content: space-between;
+}
+
+.icon-size-1 {
+  font-size: 8px;
 }

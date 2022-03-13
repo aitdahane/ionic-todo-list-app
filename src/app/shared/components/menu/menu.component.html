@@ -1,0 +1,33 @@
+<ion-menu side="start" menuId="menu" class="menu" contentId="main">
+  <ion-content [fullscreen]="true">
+    <ion-list>
+      <ion-item (click)="goToDashboard()">
+        <ion-icon size="small" name="home" class="mr-3"></ion-icon>
+        Home
+      </ion-item>
+  
+      <ion-item (click)="goToCalendar()">
+        <ion-icon size="small" name="calendar" class="mr-3"></ion-icon>
+        Calendar
+      </ion-item>
+  
+      <ion-item lines="none" class="mt-4 font-weight-bold">
+        <ion-icon size="small" name="list" class="mr-3"></ion-icon>
+        Lists
+      </ion-item>
+  
+      <ion-item
+        *ngFor="let project of projects$ | async"
+        class="ml-7 flex flex-spaceBetween"
+        (click)="goToProject(project)">
+        <span>{{ project.title }}</span>
+  
+        <ion-icon
+          *ngIf="selectedProjectId === project.id"
+          slot="end"
+          class="icon-size-1"
+          name="ellipse-sharp"></ion-icon>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>

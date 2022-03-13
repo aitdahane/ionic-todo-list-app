@@ -68,7 +68,6 @@ export class DashboardPage implements OnInit {
   }
 
   public reorderProjects(ev): void {
-    console.log('mo3', 'ev', ev);
     this.projectService
       .reorderProjects({
         fromPosition: ev.detail.from,

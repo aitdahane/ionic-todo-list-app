@@ -1,5 +1,9 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+
     <ion-title>
       {{ date$ | async | dateFormat:'ddd MMM DD' | titlecase }}
     </ion-title>
@@ -23,8 +27,11 @@
     </section>
 
     <section class="calendar-task-list">
-      <div *ngFor="let hour of hours; let i = index" class="calendar-task-slot mr-4">
-        <app-calendar-task *ngFor="let task of tasksByHour[i]"
+      <div
+        *ngFor="let hour of hours; let i = index"
+        class="calendar-task-slot mr-4">
+        <app-calendar-task
+          *ngFor="let task of tasksByHour[i]"
           class="z-index-2 absolute w-100"
           [task]="task"
           [ngStyle]="{

@@ -12,6 +12,7 @@ import { TaskService } from './shared/services/task.service';
 import { ProjectService } from './shared/services/project.service';
 import { StorageService } from './shared/services/storage.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,6 +25,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    SharedModule,
   ],
   providers: [
     StatusBar,
