@@ -34,6 +34,7 @@ export class CalendarPage implements OnInit, OnDestroy {
         takeUntil(this.destroy$.pipe(filter((x) => !!x))),
         share(),
       ).subscribe((tasks) => {
+        console.log('tasks', tasks);
         this.tasksByHour = this.tasksByHour.map(() => []).map((tasksList, index) => {
           const startOfHour = moment().startOf('day').add({ hours: index }).toISOString();
           const endOfHour = moment(startOfHour).endOf('hour').toISOString();

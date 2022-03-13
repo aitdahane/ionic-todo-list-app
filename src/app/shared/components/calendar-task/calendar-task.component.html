@@ -1,3 +1,3 @@
-<div class="">Task</div>
+<div>{{ task?.title }}</div>
 
 <app-checkbox [checked]="task | taskIsDone" (checkedChange)="updateStatus($event)"></app-checkbox>
