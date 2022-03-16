@@ -30,7 +30,6 @@ export class CalendarPage implements OnInit, OnDestroy {
     this.date$
       .pipe(
         switchMap((date) => this.taskService.getByDate(date)),
-        distinctUntilChanged(),
         takeUntil(this.destroy$.pipe(filter((x) => !!x))),
         share(),
       ).subscribe((tasks) => {

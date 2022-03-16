@@ -56,7 +56,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
     ]).pipe(
       filter(([, project]) => !!project),
       switchMap(([, project]) =>
-        this.taskService.getByProjectId({ projectId: project.id })
+        this.taskService.getByProjectId(project.id)
       ),
       map((tasks) => _.sortBy(tasks, 'position')),
       map((tasks) =>
@@ -116,7 +116,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
   }
 
   public async deleteTask(task: Task) {
-    this.taskService.delete({ taskId: task.id });
+    this.taskService.delete(task.id);
     this.refresh$.next(true);
   }
 
@@ -147,7 +147,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
     }
     this.taskService
       .updateStatus({
-        taskId: task.id,
+        id: task.id,
         status: completed ? TaskStatusEnum.DONE : TaskStatusEnum.TO_DO,
       })
       .pipe(take(1))
@@ -158,7 +158,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
 
   public reorderItems(ev): void {
     this.taskService
-      .reorderTasks({
+      .reorder({
         fromPosition: ev.detail.from,
         toPosition: ev.detail.to,
         projectId: this.project.id,

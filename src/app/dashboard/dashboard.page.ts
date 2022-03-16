@@ -47,7 +47,7 @@ export class DashboardPage implements OnInit {
 
   public deleteProject(project: Project): void {
     this.projectService
-      .delete({ projectId: project.id })
+      .delete(project.id)
       .pipe(take(1))
       .subscribe();
   }
@@ -69,7 +69,7 @@ export class DashboardPage implements OnInit {
 
   public reorderProjects(ev): void {
     this.projectService
-      .reorderProjects({
+      .reorder({
         fromPosition: ev.detail.from,
         toPosition: ev.detail.to,
       })

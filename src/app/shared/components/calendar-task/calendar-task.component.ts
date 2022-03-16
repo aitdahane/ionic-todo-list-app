@@ -17,7 +17,7 @@ export class CalendarTaskComponent {
       return;
     }
     this.taskService.updateStatus({
-      taskId: this.task.id,
+      id: this.task.id,
       status: completed ? TaskStatusEnum.DONE : TaskStatusEnum.TO_DO,
     });
   }

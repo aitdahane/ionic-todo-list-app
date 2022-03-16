@@ -26,13 +26,16 @@ export const computeTopPosition = (task: Task): number => {
   if (!startDate) {
     return 0;
   }
-  return moment(startDate).minutes() / 60 * 100; 
-}
+  return (moment(startDate).minutes() / 60) * 100;
+};
 
 export const computeHeightSize = (task: Task): number => {
   const { startDate, endDate } = task;
   if (!startDate) {
     return 0;
   }
-  return moment(endDate).diff(startDate, 'minutes') / 60 * 100; 
-}
+  return (moment(endDate).diff(startDate, 'minutes') / 60) * 100;
+};
+
+export const filterByProjectId = (tasks: Task[], projectId: number): Task[] =>
+  tasks?.filter((task) => task.projectId === projectId);

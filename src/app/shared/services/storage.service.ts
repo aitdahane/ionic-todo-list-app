@@ -1,117 +1,98 @@
 import { Injectable } from '@angular/core';
 import { Plugins } from '@capacitor/core';
+import { from, Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+import { StorageKey } from 'src/app/shared/models/storage.model';
+import { findById } from '../utils/collection.utils';
 
 const { Storage } = Plugins;
 
 @Injectable()
 export class StorageService {
-  constructor() {
-    this.getObject('projects').then((x) => {
-      if (!x) {
-        return this.setObject('projects', []);
-      }
-    });
-
-    this.getObject('tasks').then((x) => {
-      if (!x) {
-        return this.setObject('tasks', []);
-      }
-    });
+  public setArray<T = any>(key: StorageKey, value: T[]): Observable<void> {
+    return from(Storage.set({ key, value: JSON.stringify(value) }));
   }
 
-  public setString(key: string, value: string): Promise<any> {
-    return Storage.set({ key, value });
+  public getArray<T = any>(key: StorageKey): Observable<T[]> {
+    return from(
+      Storage.get({ key })
+        .then(({ value }) => JSON.parse(value))
+        .then((items) =>
+          items?.length ? items.sort((itemX, itemY) => itemX.id - itemY.id) : []
+        )
+    );
   }
 
-  public getString(key: string): Promise<any> {
-    return Storage.get({ key });
-  }
-
-  public setObject(key: string, value: any): Promise<any> {
-    return Storage.set({ key, value: JSON.stringify(value) });
-  }
-
-  public getObject(key: string): Promise<any> {
-    return Storage.get({ key })
-      .then(({ value }) => {
-        return JSON.parse(value);
-      })
-      .then((results) => {
-        if (!results) {
-          return [];
-        }
-        return results.sort((x, y) => x.id - y.id);
-      });
-  }
-
-  public bulkUpdateWere(
-    key: string,
-    items: any[],
+  public updateWere<T = any>(
+    key: StorageKey,
+    items: T[],
     filterFn: Function = () => true
-  ): Promise<any> {
-    return Storage.get({ key })
-      .then(({ value }) => JSON.parse(value))
-      .then((_items) => _items || [])
-      .then((_items) => {
+  ): Observable<any> {
+    return this.getArray(key).pipe(
+      switchMap((_items) => {
         const newItems = [..._items.filter((x) => !filterFn(x)), ...items];
-        return Storage.set({ key, value: JSON.stringify(newItems) });
-      });
-  }
-
-  public append(key: string, item: any): Promise<any> {
-    let id;
-    return Storage.get({ key })
-      .then(({ value }) => JSON.parse(value))
-      .then((items) => items || [])
-      .then((items) => {
-        const ids = items.map((x) => x.id).sort((x, y) => y - x);
-        id = (ids[0] || 0) + 1;
-        const newItems = [...items, { ...item, id }];
-        return Storage.set({ key, value: JSON.stringify(newItems) });
+        return this.setArray(key, newItems);
       })
-      .then(() => id);
+    );
   }
 
-  public update(key: string, item: any): Promise<any> {
+  public create<T = any>(key: StorageKey, item: Omit<T, 'id'>): Observable<T> {
+    let newItemId: number;
+    return this.getArray(key).pipe(
+      map((items) => {
+        const ids = items.map((x) => x.id).sort((x, y) => y - x);
+        newItemId = (ids[0] || 0) + 1;
+        const newItems = [...items, { ...item, id: newItemId }];
+        return this.setArray(key, newItems);
+      }),
+      switchMap(() => this.getArray(key)),
+      map((items) => findById(items, newItemId))
+    );
+  }
+
+  public update<T extends { id: number }>(
+    key: StorageKey,
+    item: Partial<T>
+  ): Observable<T> {
     const { id, ...itemData } = item;
-    return Storage.get({ key })
-      .then(({ value }) => JSON.parse(value))
-      .then((items) => {
-        const itemToUpdate = items.find((x) => x.id == id);
+    return this.getArray(key).pipe(
+      switchMap((_items) => {
+        const itemToUpdate = findById(_items, id);
         const newItems = [
-          ...items.filter((x) => x.id !== id),
+          ..._items.filter((x) => x.id !== id),
           { ...itemToUpdate, ...itemData, id },
         ];
-        return Storage.set({ key, value: JSON.stringify(newItems) });
-      })
-      .then(() => id);
+        return this.setArray(key, newItems);
+      }),
+      switchMap(() => this.getArray(key)),
+      map((items) => findById(items, id))
+    );
   }
 
-  public removeItem(key: string): Promise<any> {
-    return Storage.remove({ key });
+  public removeItem(key: StorageKey): Observable<void> {
+    return from(Storage.remove({ key }));
   }
 
-  public delete(key: string, item: any): Promise<any> {
+  public delete(key: StorageKey, item: any): Observable<number> {
     const { id } = item;
-    return Storage.get({ key })
-      .then(({ value }) => JSON.parse(value))
-      .then((items) => {
+    return this.getArray(key).pipe(
+      switchMap((items) => {
         const newItems = items.filter((x) => x.id !== id);
-        return Storage.set({ key, value: JSON.stringify(newItems) });
-      })
-      .then(() => id);
+        return this.setArray(key, newItems);
+      }),
+      map(() => id),
+    );
   }
 
-  public deleteBy(key: string, deleteByFn: Function): Promise<any> {
-    return Storage.get({ key })
-      .then(({ value }) => JSON.parse(value))
-      .then((items) => {
-        const newItems = items.filter((x) => !deleteByFn(x));
-        return Storage.set({ key, value: JSON.stringify(newItems) });
-      });
-  }
-
-  public clear(): Promise<any> {
-    return Storage.clear();
+  public deleteWhere<T = any>(
+    key: StorageKey,
+    filterFn: (T) => boolean
+  ): Observable<void> {
+    return this.getArray(key).pipe(
+      switchMap((items) => {
+        const newItems = items.filter((item) => !filterFn(item));
+        return this.setArray(key, newItems);
+      }),
+    );
   }
 }

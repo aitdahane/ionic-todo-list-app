@@ -1,122 +1,66 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, from, of } from 'rxjs';
-import { Task, TaskStatusEnum } from '../models/task.model';
-import { map, tap, switchMap } from 'rxjs/operators';
-import { StorageService } from './storage.service';
-import { reorderItems, sortByPosition } from '../utils/collection.utils';
 import * as moment from 'moment';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+import { Task, TaskCreateParams, TaskReorderParams, TaskStatusEnum, TaskUpdateParams, TaskUpdateStatusParams } from 'src/app/shared/models/task.model';
+import { StorageService } from 'src/app/shared/services/storage.service';
+import {
+  reorderItems,
+  sortByPosition,
+} from 'src/app/shared/utils/collection.utils';
+import { StorageKey } from 'src/app/shared/models/storage.model';
+import { filterByProjectId } from 'src/app/shared/utils/task.utils';
 
 @Injectable()
 export class TaskService {
-  public tasks$: BehaviorSubject<Task[]> = new BehaviorSubject([]);
-
   constructor(private storageService: StorageService) {}
 
-  public create(params: {
-    title: string;
-    note?: string;
-    projectId: number;
-    startDate?: string;
-    endDate?: string;
-  }): Observable<Task> {
-    const { title, note, projectId, startDate, endDate } = params;
-    const data = {
-      title,
-      note,
-      projectId,
+  public getAll(): Observable<Task[]> {
+    return this.storageService
+      .getArray(StorageKey.TASK)
+      .pipe(map(sortByPosition));
+  }
+
+  public getByProjectId(projectId: number): Observable<Task[]> {
+    return this.getAll().pipe(
+      map((tasks: Task[]) => filterByProjectId(tasks, projectId)),
+      map(sortByPosition)
+    );
+  }
+
+  public getByDate(date: string): Observable<Task[]> {
+    const startOfDay = moment(date).startOf('day').toISOString();
+    const endOfDay = moment(date).endOf('day').toISOString();
+    return this.getAll().pipe(
+      map((tasks) =>
+        tasks.filter(
+          ({ startDate }) =>
+            !!startDate &&
+            moment(startDate).isBetween(startOfDay, endOfDay, 'minutes', '[)')
+        )
+      )
+    );
+  }
+
+  public create(params: TaskCreateParams): Observable<Task> {
+    return this.storageService.create(StorageKey.TASK, {
+      ...params,
       status: TaskStatusEnum.TO_DO,
-      startDate,
-      endDate,
-    };
-    let id;
-    return from(this.getByProjectId({ projectId })).pipe(
-      switchMap((tasks) =>
-        this.storageService.append('tasks', {
-          ...data,
-          position: tasks ? tasks.length : 0,
-          startDate,
-          endDate,
-        })
-      ),
-      tap((x) => {
-        id = x;
-      }),
-      switchMap(() => this.storageService.getObject('tasks')),
-      map((tasks) => {
-        this.tasks$.next(tasks);
-        return tasks.find((x) => x.id === id);
-      })
-    );
+      position: Infinity,
+    });
   }
 
-  public updateStatus(params: {
-    taskId: number;
-    status: TaskStatusEnum;
-  }): Observable<Task> {
-    const { taskId, status } = params;
-    return from(
-      this.storageService.update('tasks', { id: taskId, status })
-    ).pipe(
-      switchMap(() => this.storageService.getObject('tasks')),
-      map((tasks) => {
-        this.tasks$.next(tasks);
-        return tasks.find((x) => x.id === taskId);
-      })
-    );
+  public updateStatus(params: TaskUpdateStatusParams): Observable<Task> {
+    return this.storageService.update<Task>(StorageKey.TASK, params);
   }
 
-  public update(params: {
-    id: number;
-    title: string;
-    note?: string;
-    startDate?: string;
-    endDate?: string;
-  }): Observable<Task> {
-    const { id, title, note, startDate, endDate } = params;
-    return from(
-      this.storageService.update('tasks', {
-        id,
-        title,
-        note,
-        startDate,
-        endDate,
-      })
-    ).pipe(
-      switchMap(() => this.storageService.getObject('tasks')),
-      map((tasks) => {
-        this.tasks$.next(tasks);
-        return tasks.find((x) => x.id === id);
-      })
-    );
+  public update(params: TaskUpdateParams): Observable<Task> {
+    return this.storageService.update<Task>(StorageKey.TASK, params);
   }
 
-  public delete(params: { taskId: number }): Observable<number> {
-    const { taskId } = params;
-    return from(this.storageService.delete('tasks', { id: taskId })).pipe(
-      switchMap(() => this.storageService.getObject('tasks')),
-      map((tasks) => {
-        this.tasks$.next(tasks);
-        return taskId;
-      })
-    );
-  }
-
-  public getByProjectId(params: { projectId: number }): Observable<Task[]> {
-    return from(this.storageService.getObject('tasks')).pipe(
-      map((tasks: Task[]) =>
-        tasks.filter((x) => x.projectId === params.projectId)
-      ),
-      map((tasks: Task[]) => sortByPosition(tasks))
-    );
-  }
-
-  public reorderTasks(params: {
-    projectId: number;
-    fromPosition?: number;
-    toPosition?: number;
-  }): Observable<Task[]> {
+  public reorder(params: TaskReorderParams): Observable<Task[]> {
     const { projectId, fromPosition = 0, toPosition = 0 } = params;
-    return this.getByProjectId({ projectId }).pipe(
+    return this.getByProjectId(projectId).pipe(
       map((tasks: Task[]) =>
         tasks
           .map((task, index) => ({ ...task, position: task.position ?? index }))
@@ -130,34 +74,12 @@ export class TaskService {
         }
         return newTasks;
       }),
-      switchMap((tasks) =>
-        from(
-          this.storageService.bulkUpdateWere(
-            'tasks',
-            tasks,
-            (task) => task.projectId === projectId
-          )
-        )
-      ),
-      switchMap(() => this.getByProjectId({ projectId }))
+      switchMap((tasks) => this.storageService.updateWere(StorageKey.TASK, tasks, (task) => task.projectId === projectId)),
+      switchMap(() => this.getByProjectId(projectId))
     );
   }
 
-  public getByDate(date: string): Observable<Task[]> {
-    return from(this.storageService.getObject('tasks')).pipe(
-      map((tasks) =>
-        tasks.filter(({ startDate }) => {
-          if (!startDate) {
-            return false;
-          }
-          return moment(startDate).isBetween(
-            moment(date).startOf('day').toISOString(),
-            moment(date).endOf('day').toISOString(),
-            'minutes',
-            '[)'
-          );
-        })
-      )
-    );
+  public delete(id: number): Observable<number> {
+    return this.storageService.delete(StorageKey.TASK, { id });
   }
 }

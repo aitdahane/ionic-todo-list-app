@@ -102,7 +102,7 @@ export class TaskEditModalComponent implements OnInit {
   public updateStatus(completed: true, close?: boolean): void {
     if (!this.task) return;
     this.taskService
-      .updateStatus({ taskId: this.task.id, status: completed ? TaskStatusEnum.DONE : TaskStatusEnum.TO_DO })
+      .updateStatus({ id: this.task.id, status: completed ? TaskStatusEnum.DONE : TaskStatusEnum.TO_DO })
       .pipe(take(1))
       .subscribe(() => {
         if (close) {
@@ -114,7 +114,7 @@ export class TaskEditModalComponent implements OnInit {
   public deleteTask(): void {
     if (!this.task) return;
     this.taskService
-      .delete({ taskId: this.task.id })
+      .delete(this.task.id)
       .pipe(take(1))
       .subscribe(() => {
         this.modalController.dismiss();

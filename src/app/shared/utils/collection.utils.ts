@@ -21,3 +21,10 @@ export const sortByPosition = <T extends { position?: number }>(
 ): T[] => {
   return items?.sort((a, b) => a?.position - b?.position);
 };
+
+export const findById = <T extends { id: number }>(
+  items: T[],
+  id: number,
+): T => {
+  return items?.find((item) => id === item.id);
+}

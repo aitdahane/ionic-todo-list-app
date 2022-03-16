@@ -1,118 +1,72 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, of, Observable, from } from 'rxjs';
-import { Project } from '../models/project.model';
+import { BehaviorSubject, Observable, from } from 'rxjs';
+import { map, tap, take, switchMap } from 'rxjs/operators';
+import { Project, ProjectCreateParams, ProjectReorderParams, ProjectUpdateParams } from 'src/app/shared/models/project.model';
 import { StorageService } from 'src/app/shared/services/storage.service';
-import { switchMap, map, tap } from 'rxjs/operators';
-import { Task, TaskStatusEnum } from '../models/task.model';
-import { reorderItems } from '../utils/collection.utils';
+import {
+  reorderItems,
+  sortByPosition,
+} from 'src/app/shared/utils/collection.utils';
+import { StorageKey } from 'src/app/shared//models/storage.model';
 
 @Injectable()
 export class ProjectService {
-  public projects$: BehaviorSubject<Project[]> = new BehaviorSubject([]);
+  private _projects$: BehaviorSubject<Project[]> = new BehaviorSubject([]);
 
-  constructor(private storageService: StorageService) {
-    this.storageService
-      .getObject('projects')
-      .then((projects) => this.projects$.next(projects));
+  public get projects$(): Observable<Project[]> {
+    return this._projects$.asObservable();
   }
 
-  public refresh(): void {
-    this.storageService
-      .getObject('projects')
-      .then((projects) => this.projects$.next(projects));
+  constructor(private storageService: StorageService) {
+    this.reset();
+  }
+
+  private reset(): void {
+    this.getAll()
+      .pipe(take(1))
+      .subscribe((projects) => this._projects$.next(projects));
   }
 
   public getAll(): Observable<Project[]> {
-    return from(this.storageService.getObject('projects')).pipe(
-      map((projects) => projects.sort((x, y) => x?.position - y?.position))
-    );
+    return this.storageService
+      .getArray(StorageKey.PROJECT)
+      .pipe(map(sortByPosition));
   }
 
-  public create(params: {
-    title: string;
-    iconName: string;
-    imageName: string;
-  }): Observable<Project> {
-    const { title, iconName, imageName } = params;
-    let id;
-    return from(
-      this.storageService.append('projects', { title, iconName, imageName })
-    ).pipe(
-      tap((x) => {
-        id = x;
-      }),
-      switchMap(() => this.storageService.getObject('projects')),
-      map((projects) => {
-        this.projects$.next(projects);
-        return projects.find((x) => x.id === id);
+  public create(params: ProjectCreateParams): Observable<Project> {
+    return this.storageService.create(StorageKey.PROJECT, params).pipe(
+      map((project) => {
+        this.reset();
+        return project;
       })
     );
   }
 
-  public update(params: {
-    id: number;
-    title: string;
-    iconName: string;
-    imageName: string;
-  }): Observable<Project> {
-    const { id, title, iconName, imageName } = params;
-    return from(
-      this.storageService.update('projects', { id, title, iconName, imageName })
-    ).pipe(
-      switchMap(() => this.storageService.getObject('projects')),
-      map((projects) => {
-        this.projects$.next(projects);
-        return projects.find((x) => x.id === id);
+  public update(params: ProjectUpdateParams): Observable<Project> {
+    return this.storageService.update<Project>(StorageKey.PROJECT, params).pipe(
+      map((project) => {
+        this.reset();
+        return project;
       })
     );
   }
 
-  public delete(params: { projectId: number }): Observable<any> {
-    const { projectId } = params;
-    return from(
-      this.storageService
-        .delete('projects', { id: projectId })
-        .then(() =>
-          this.storageService
-            .deleteBy('tasks', (task) => task.projectId === projectId)
-            .then(() => this.refresh())
-        )
-    );
+  public delete(id: number): Observable<any> {
+    return this.storageService
+      .delete(StorageKey.PROJECT, { id })
+      .pipe(
+        switchMap(() =>
+          this.storageService.deleteWhere(
+            StorageKey.TASK,
+            (task) => task.projectId === id
+          )
+        ),
+        tap(() => this.reset())
+      );
   }
 
-  public addTask(params: {
-    title: string;
-    note?: string;
-    projectId: number;
-  }): Observable<Task> {
-    const { title, note, projectId } = params;
-    const data = { title, note, projectId, status: TaskStatusEnum.TO_DO };
-    let id;
-    return this.getProjectById(projectId).pipe(
-      switchMap((project) => {
-        const { tasks } = project;
-        const ids = tasks.map((x) => x.id).sort((x, y) => y - x);
-        id = (ids[0] || 0) + 1;
-        const newTasks = [...tasks, { ...data, id }];
-        return this.storageService.update('projects', {
-          ...project,
-          tasks: newTasks,
-        });
-      })
-    );
-  }
-
-  public getProjectById(projectId: number): Observable<Project> {
-    return from(this.storageService.getObject('projects')).pipe(
-      map((projects) => projects.find((x) => x.id === projectId))
-    );
-  }
-
-  public reorderProjects(orderDetails: {
-    fromPosition?: number;
-    toPosition?: number;
-  }): Observable<Project[]> {
-    const projects = this.projects$
+  public reorder(params: ProjectReorderParams): Observable<Project[]> {
+    const projects = this._projects$
       .getValue()
       .map((project, index) => ({
         ...project,
@@ -120,7 +74,7 @@ export class ProjectService {
       }))
       .sort((x, y) => x.position - y.position)
       .map((project, index) => ({ ...project, position: index }));
-    const { fromPosition, toPosition } = orderDetails;
+    const { fromPosition, toPosition } = params;
     const orderedProjects = reorderItems<Project>(
       projects,
       fromPosition,
@@ -129,9 +83,8 @@ export class ProjectService {
     for (let i = 0; i < orderedProjects.length; i++) {
       orderedProjects[i].position = i;
     }
-    console.log('mo3', 'orderedProjects', orderedProjects);
-    return from(
-      this.storageService.bulkUpdateWere('projects', orderedProjects)
-    ).pipe(tap(() => this.refresh()));
+    return this.storageService
+      .updateWere(StorageKey.PROJECT, orderedProjects)
+      .pipe(tap(() => this.reset()));
   }
 }

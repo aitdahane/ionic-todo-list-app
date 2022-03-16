@@ -101,7 +101,7 @@ export class ProjectPage implements OnInit, OnDestroy {
 
   public deleteProject(): void {
     this.projectService
-      .delete({ projectId: this.selectedProject$.getValue().id })
+      .delete(this.selectedProject$.getValue().id)
       .pipe(take(1))
       .subscribe(() => this.goToDashboard());
   }
