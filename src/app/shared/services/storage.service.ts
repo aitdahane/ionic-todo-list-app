@@ -1,25 +1,23 @@
 import { Injectable } from '@angular/core';
-import { Plugins } from '@capacitor/core';
+import { Storage } from '@ionic/storage';
 import { from, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { StorageKey } from 'src/app/shared/models/storage.model';
 import { findById } from '../utils/collection.utils';
 
-const { Storage } = Plugins;
-
 @Injectable()
 export class StorageService {
-  public setArray<T = any>(key: StorageKey, value: T[]): Observable<void> {
-    return from(Storage.set({ key, value: JSON.stringify(value) }));
+  constructor(private storage: Storage) {}
+
+  public setArray<T = any>(key: StorageKey, value: T[]): Observable<any> {
+    return from(this.storage.set(key, value));
   }
 
   public getArray<T = any>(key: StorageKey): Observable<T[]> {
-    return from(
-      Storage.get({ key })
-        .then(({ value }) => JSON.parse(value))
-        .then((items) =>
-          items?.length ? items.sort((itemX, itemY) => itemX.id - itemY.id) : []
-        )
+    return from(this.storage.get(key).then((value) => value ?? [])).pipe(
+      map((items: (T & { id: number })[]) =>
+        items.sort((itemX, itemY) => itemX?.id - itemY?.id)
+      )
     );
   }
 
@@ -70,7 +68,7 @@ export class StorageService {
   }
 
   public removeItem(key: StorageKey): Observable<void> {
-    return from(Storage.remove({ key }));
+    return from(this.storage.remove(key));
   }
 
   public delete(key: StorageKey, item: any): Observable<number> {
@@ -80,7 +78,7 @@ export class StorageService {
         const newItems = items.filter((x) => x.id !== id);
         return this.setArray(key, newItems);
       }),
-      map(() => id),
+      map(() => id)
     );
   }
 
@@ -92,7 +90,7 @@ export class StorageService {
       switchMap((items) => {
         const newItems = items.filter((item) => !filterFn(item));
         return this.setArray(key, newItems);
-      }),
+      })
     );
   }
 }

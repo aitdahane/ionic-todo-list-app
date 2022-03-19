@@ -37,7 +37,8 @@
           [ngStyle]="{
             'top': (task | taskTopPosition) + '%',
             'height': (task | taskHeightSize) + '%'
-          }"></app-calendar-task>
+          }"
+          (click)="editTask(task)"></app-calendar-task>
       </div>
     </section>
   </main>

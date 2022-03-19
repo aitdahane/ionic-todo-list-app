@@ -1,13 +1,13 @@
 {
-  "appId": "com.aitdahane.lists",
-  "appName": "Lists",
-  "bundledWebRuntime": false,
-  "npmClient": "npm",
-  "webDir": "www",
-  "plugins": {
-    "SplashScreen": {
-      "launchShowDuration": 500
-    }
-  },
-  "cordova": {}
+	"appId": "com.aitdahane.lists",
+	"appName": "Lists",
+	"bundledWebRuntime": false,
+	"npmClient": "npm",
+	"webDir": "www",
+	"plugins": {
+		"SplashScreen": {
+			"launchShowDuration": 500
+		}
+	},
+	"cordova": {}
 }

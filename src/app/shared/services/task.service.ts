@@ -1,8 +1,15 @@
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-import { Task, TaskCreateParams, TaskReorderParams, TaskStatusEnum, TaskUpdateParams, TaskUpdateStatusParams } from 'src/app/shared/models/task.model';
+import { map, switchMap, take, tap } from 'rxjs/operators';
+import {
+  Task,
+  TaskCreateParams,
+  TaskReorderParams,
+  TaskStatusEnum,
+  TaskUpdateParams,
+  TaskUpdateStatusParams,
+} from 'src/app/shared/models/task.model';
 import { StorageService } from 'src/app/shared/services/storage.service';
 import {
   reorderItems,
@@ -13,7 +20,21 @@ import { filterByProjectId } from 'src/app/shared/utils/task.utils';
 
 @Injectable()
 export class TaskService {
-  constructor(private storageService: StorageService) {}
+  private _tasks$: BehaviorSubject<Task[]> = new BehaviorSubject([]);
+
+  public get tasks$(): Observable<Task[]> {
+    return this._tasks$;
+  }
+
+  constructor(private storageService: StorageService) {
+    this.reset();
+  }
+
+  private reset(): void {
+    this.getAll()
+      .pipe(take(1))
+      .subscribe((tasks) => this._tasks$.next(tasks));
+  }
 
   public getAll(): Observable<Task[]> {
     return this.storageService
@@ -24,7 +45,7 @@ export class TaskService {
   public getByProjectId(projectId: number): Observable<Task[]> {
     return this.getAll().pipe(
       map((tasks: Task[]) => filterByProjectId(tasks, projectId)),
-      map(sortByPosition)
+      map(sortByPosition),
     );
   }
 
@@ -38,24 +59,29 @@ export class TaskService {
             !!startDate &&
             moment(startDate).isBetween(startOfDay, endOfDay, 'minutes', '[)')
         )
-      )
+      ),
     );
   }
 
   public create(params: TaskCreateParams): Observable<Task> {
-    return this.storageService.create(StorageKey.TASK, {
-      ...params,
-      status: TaskStatusEnum.TO_DO,
-      position: Infinity,
-    });
+    return this.storageService
+      .create(StorageKey.TASK, {
+        ...params,
+        status: TaskStatusEnum.TO_DO,
+        position: Infinity,
+      })
   }
 
   public updateStatus(params: TaskUpdateStatusParams): Observable<Task> {
-    return this.storageService.update<Task>(StorageKey.TASK, params);
+    return this.storageService
+      .update<Task>(StorageKey.TASK, params)
+      .pipe(tap(() => this.reset()));
   }
 
   public update(params: TaskUpdateParams): Observable<Task> {
-    return this.storageService.update<Task>(StorageKey.TASK, params);
+    return this.storageService
+      .update<Task>(StorageKey.TASK, params)
+      .pipe(tap(() => this.reset()));
   }
 
   public reorder(params: TaskReorderParams): Observable<Task[]> {
@@ -74,12 +100,21 @@ export class TaskService {
         }
         return newTasks;
       }),
-      switchMap((tasks) => this.storageService.updateWere(StorageKey.TASK, tasks, (task) => task.projectId === projectId)),
-      switchMap(() => this.getByProjectId(projectId))
+      switchMap((tasks) =>
+        this.storageService.updateWere(
+          StorageKey.TASK,
+          tasks,
+          (task) => task.projectId === projectId
+        )
+      ),
+      switchMap(() => this.getByProjectId(projectId)),
+      tap(() => this.reset())
     );
   }
 
   public delete(id: number): Observable<number> {
-    return this.storageService.delete(StorageKey.TASK, { id });
+    return this.storageService
+      .delete(StorageKey.TASK, { id })
+      .pipe(tap(() => this.reset()));
   }
 }
